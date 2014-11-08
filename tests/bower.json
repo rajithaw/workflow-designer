@@ -11,6 +11,7 @@
   ],
   "devDependencies": {
     "mocha": "~2.0.1",
-    "chai": "~1.9.2"
+    "chai": "~1.9.2",
+    "chai-shallow-deep-equal": "https://github.com/michelsalib/chai-shallow-deep-equal.git#~1.0.0"
   }
 }

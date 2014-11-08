@@ -2,50 +2,81 @@
  * Created by Rajitha on 11/8/2014.
  */
 
-// getLevels() returns the number of levels
-// *getLevel(level) returns an array of workflow items in the provided level
-// getItem(level, index) returns the workflow item at the provided level and index
-
 function WorkflowItemCollection(workflowItemsJson) {
-    var workflowItemsCollection = [];
+    var result = [];
     var workflowItems = JSON.parse(workflowItemsJson);
 
-    workflowItems.sort(workflowItemsSequenceComparer);
+    if(workflowItems.length > 0) {
+        var convertWorkflowItemsFromJson = function () {
+            var workflowItem,
+                previousSequence = 0,
+                level = 0,
+                index = 0;
 
-    var convertWorkflowItemsFromJson = function() {
-        var workflowItem,
-            previousSequence = 0,
-            level = 0,
-            index = 0;
+            previousSequence = workflowItems[0].sequence;
 
-        previousSequence = workflowItems[0].sequence;
+            for (var i = 0; i < workflowItems.length; i++) {
+                workflowItem = workflowItems[i];
 
-        for (var i = 0; i < workflowItems.length; i++) {
-            workflowItem = workflowItems[i];
+                if (workflowItem.sequence != previousSequence) {
+                    level++;
+                    index = 0;
+                }
 
-            if(workflowItem.sequence == previousSequence) {
-                workflowItemsCollection[level][index] = workflowItems[i];
+                if (!result[level]) {
+                    result[level] = [];
+                }
+
+                workflowItem.level = level;
+                previousSequence = workflowItem.sequence;
+                result[level][index] = workflowItem;
                 index++;
             }
-            else {
-                level++;
-                index = 0;
+        };
+
+        var workflowItemsSequenceIdComparer = function (item1, item2) {
+            if (item1.sequence < item2.sequence) {
+                return -1;
             }
 
-            previousSequence = workflowItem.sequence;
+            if (item1.sequence > item2.sequence) {
+                return 1;
+            }
+
+            if (item1.id < item2.id) {
+                return -1;
+            }
+
+            if (item1.id > item2.id) {
+                return 1;
+            }
+
+            return 0;
+        };
+
+        workflowItems.sort(workflowItemsSequenceIdComparer);
+        convertWorkflowItemsFromJson();
+    }
+
+    result.toJson = function() {
+        var items = [];
+
+        for(var i = 0; i < result.length; i++) {
+            for(var j = 0; j < result[i].length; j++) {
+                var item = result[i][j];
+
+                items.push({
+                    id: item.id,
+                    name: item.name,
+                    description: item.description,
+                    sequence: item.sequence
+                });
+            }
         }
+
+        return JSON.stringify(items);
     };
 
-    var workflowItemsSequenceComparer = function(item1, item2) {
-        if (item1.sequence < item2.sequence) {
-            return -1;
-        }
-
-        if (item1.sequence > item2.sequence) {
-            return 1;
-        }
-
-        return 0;
-    };
+    return result;
 }
 
