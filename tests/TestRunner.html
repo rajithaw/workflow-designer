@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <title>Mocha Tests</title>
+    <link rel="stylesheet" href="lib/mocha/mocha.css" />
+</head>
+<body>
+    <div id="mocha"></div>
+    <script src="lib/mocha/mocha.js"></script>
+    <script src="lib/chai/chai.js"></script>
+    <script>mocha.setup('bdd')</script>
+    <script src="../js/WorkflowItemCollection.js"></script>
+    <script src="js/WorkflowItemCollectionTests.js"></script>
+    <script>
+        var assert = chai.assert;
+
+        mocha.checkLeaks();
+        mocha.run();
+    </script>
+</body>
+
+</html>
