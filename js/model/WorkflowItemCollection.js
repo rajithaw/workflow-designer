@@ -33,6 +33,9 @@ function WorkflowItemCollection(itemsJson) {
 
     if(itemsJson.length > 0) {
         var convertWorkflowItemsFromJson = function () {
+            const ITEM_GAP_X = 10;
+            const ITEM_GAP_Y = 10;
+
             var workflowItem,
                 intermediateItem,
                 previousSequence,
@@ -63,7 +66,9 @@ function WorkflowItemCollection(itemsJson) {
                             name: "Intermediate",
                             description: "Intermediate",
                             sequence: -1,
-                            level: level
+                            level: level,
+                            x: previousLevel[0].x + (ITEM_GAP_X / 2),
+                            y: (previousLevel.length * ITEM_GAP_Y) / 2
                         };
 
                         workflowItemCollection[level][index] = intermediateItem;
@@ -74,8 +79,12 @@ function WorkflowItemCollection(itemsJson) {
                     }
                 }
 
-                workflowItem.level = level;
                 previousSequence = workflowItem.sequence;
+
+                workflowItem.level = level;
+                workflowItem.x = previousLevel == null ? ITEM_GAP_X : previousLevel[0].x + ITEM_GAP_X;
+                workflowItem.y = (index + 1) * ITEM_GAP_Y;
+
                 workflowItemCollection[level][index] = workflowItem;
                 index++;
 

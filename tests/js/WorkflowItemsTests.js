@@ -379,4 +379,105 @@ describe('workflow item collection', function(){
             expect(itemsArray).to.have.length(0);
         });
     });
+
+    describe('calculating the position of the workflow items', function(){
+        it('should calculate the positions correctly for serial workflow items', function(){
+            // Create workflow item collection
+            var workflowItemsJson = JSON.stringify(sampleWorkflow1);
+            var workflowItems = new WorkflowItemCollection(workflowItemsJson);
+
+            // Assert
+            expect(workflowItems[0][0]).to.shallowDeepEqual({x:10, y:10});
+            expect(workflowItems[1][0]).to.shallowDeepEqual({x:20, y:10});
+            expect(workflowItems[2][0]).to.shallowDeepEqual({x:30, y:10});
+            expect(workflowItems[3][0]).to.shallowDeepEqual({x:40, y:10});
+        });
+
+        it('should calculate the positions correctly for simple parallel workflow items', function(){
+            // Create workflow item collection
+            var workflowItemsJson = JSON.stringify(sampleWorkflow2);
+            var workflowItems = new WorkflowItemCollection(workflowItemsJson);
+
+            // Assert
+            expect(workflowItems[0][0]).to.shallowDeepEqual({x:10, y:10});
+            expect(workflowItems[1][0]).to.shallowDeepEqual({x:20, y:10});
+            expect(workflowItems[1][1]).to.shallowDeepEqual({x:20, y:20});
+            expect(workflowItems[1][2]).to.shallowDeepEqual({x:20, y:30});
+            expect(workflowItems[2][0]).to.shallowDeepEqual({x:30, y:10});
+            expect(workflowItems[3][0]).to.shallowDeepEqual({x:40, y:10});
+            expect(workflowItems[3][1]).to.shallowDeepEqual({x:40, y:20});
+        });
+
+        it('should calculate the positions correctly for starting parallel workflow items', function(){
+            // Create workflow item collection
+            var workflowItemsJson = JSON.stringify(sampleWorkflow3);
+            var workflowItems = new WorkflowItemCollection(workflowItemsJson);
+
+            // Assert
+            expect(workflowItems[0][0]).to.shallowDeepEqual({x:10, y:10});
+            expect(workflowItems[0][1]).to.shallowDeepEqual({x:10, y:20});
+            expect(workflowItems[1][0]).to.shallowDeepEqual({x:20, y:10});
+            expect(workflowItems[2][0]).to.shallowDeepEqual({x:30, y:10});
+            expect(workflowItems[2][1]).to.shallowDeepEqual({x:30, y:20});
+            expect(workflowItems[2][2]).to.shallowDeepEqual({x:30, y:30});
+            expect(workflowItems[3][0]).to.shallowDeepEqual({x:40, y:10});
+        });
+
+        it('should calculate the positions correctly for adjacent parallel workflow items', function(){
+            // Create workflow item collection
+            var workflowItemsJson = JSON.stringify(sampleWorkflow4);
+            var workflowItems = new WorkflowItemCollection(workflowItemsJson);
+
+            // Assert
+            expect(workflowItems[0][0]).to.shallowDeepEqual({x:10, y:10});
+            expect(workflowItems[0][1]).to.shallowDeepEqual({x:10, y:20});
+            expect(workflowItems[1][0]).to.shallowDeepEqual({x:15, y:10});
+            expect(workflowItems[2][0]).to.shallowDeepEqual({x:20, y:10});
+            expect(workflowItems[2][1]).to.shallowDeepEqual({x:20, y:20});
+            expect(workflowItems[2][2]).to.shallowDeepEqual({x:20, y:30});
+            expect(workflowItems[3][0]).to.shallowDeepEqual({x:30, y:10});
+        });
+
+        it('should calculate the positions correctly for complex parallel workflow items', function(){
+            // Create workflow item collection
+            var workflowItemsJson = JSON.stringify(sampleWorkflow5);
+            var workflowItems = new WorkflowItemCollection(workflowItemsJson);
+
+            // Assert
+            expect(workflowItems[0][0]).to.shallowDeepEqual({x:10, y:10});
+            expect(workflowItems[0][1]).to.shallowDeepEqual({x:10, y:20});
+            expect(workflowItems[1][0]).to.shallowDeepEqual({x:15, y:10});
+            expect(workflowItems[2][0]).to.shallowDeepEqual({x:20, y:10});
+            expect(workflowItems[2][1]).to.shallowDeepEqual({x:20, y:20});
+            expect(workflowItems[3][0]).to.shallowDeepEqual({x:25, y:10});
+            expect(workflowItems[4][0]).to.shallowDeepEqual({x:30, y:10});
+            expect(workflowItems[4][1]).to.shallowDeepEqual({x:30, y:20});
+            expect(workflowItems[4][2]).to.shallowDeepEqual({x:30, y:30});
+            expect(workflowItems[5][0]).to.shallowDeepEqual({x:35, y:15});
+            expect(workflowItems[6][0]).to.shallowDeepEqual({x:40, y:10});
+            expect(workflowItems[6][1]).to.shallowDeepEqual({x:40, y:20});
+            expect(workflowItems[6][2]).to.shallowDeepEqual({x:40, y:30});
+        });
+
+        it('should calculate the positions correctly for complex parallel workflow items with unsorted and non continuous sequence', function(){
+            // Create workflow item collection
+            var workflowItemsJson = JSON.stringify(sampleWorkflow6);
+            var workflowItems = new WorkflowItemCollection(workflowItemsJson);
+
+            // Assert
+            expect(workflowItems[0][0]).to.shallowDeepEqual({x:10, y:10});
+            expect(workflowItems[0][1]).to.shallowDeepEqual({x:10, y:20});
+            expect(workflowItems[1][0]).to.shallowDeepEqual({x:15, y:10});
+            expect(workflowItems[2][0]).to.shallowDeepEqual({x:20, y:10});
+            expect(workflowItems[2][1]).to.shallowDeepEqual({x:20, y:20});
+            expect(workflowItems[2][2]).to.shallowDeepEqual({x:20, y:30});
+            expect(workflowItems[3][0]).to.shallowDeepEqual({x:25, y:15});
+            expect(workflowItems[4][0]).to.shallowDeepEqual({x:30, y:10});
+            expect(workflowItems[4][1]).to.shallowDeepEqual({x:30, y:20});
+            expect(workflowItems[5][0]).to.shallowDeepEqual({x:35, y:10});
+            expect(workflowItems[6][0]).to.shallowDeepEqual({x:40, y:10});
+            expect(workflowItems[6][1]).to.shallowDeepEqual({x:40, y:20});
+            expect(workflowItems[6][2]).to.shallowDeepEqual({x:40, y:30});
+        });
+    });
 });
