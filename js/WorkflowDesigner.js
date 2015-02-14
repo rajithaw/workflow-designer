@@ -7,25 +7,13 @@ function WorkflowDesigner(width, height, container, items){
         });
 
     var render = function() {
-        var item;
-
-        for(var i = 0; i < itemsCollection.length; i++)
-        {
-            for(var j = 0; j < itemsCollection[i].length; j++)
-            {
-                item = itemsCollection[i][j];
-
-                svg.append("rect")
-                    .attr({
-                        x: (item.x * 100) + 20,
-                        y: (item.y * 100) + 20,
-                        rx: 5,
-                        ry: 5,
-                        width: 10,
-                        height: 10
-                    })
-            }
-        }
+        svg.selectAll("circle")
+            .data(itemsCollection.toArray())
+            .enter().append("circle")
+            .attr("r", 10)
+            .attr("cx", function(d) { return (d.x * 100) + 20; })
+            .attr("cy", function(d) { return (d.y * 100) + 20; })
+            .exit().remove();
     };
 
     return {
