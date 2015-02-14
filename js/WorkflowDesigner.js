@@ -38,10 +38,10 @@ function WorkflowDesigner(width, height, container, items){
         connectors.enter().append("line");
         connectors.exit().remove();
 
-        connectors.attr("x1", function(d) { return (d.n1.x * magnitude) + offset; })
-            .attr("y1", function(d) { return (d.n1.y * magnitude) + offset; })
-            .attr("x2", function(d) { return (d.n2.x * magnitude) + offset; })
-            .attr("y2", function(d) { return (d.n2.y * magnitude) + offset; })
+        connectors.attr("x1", function(d) { return (d.workflowItem1.x * magnitude) + offset; })
+            .attr("y1", function(d) { return (d.workflowItem1.y * magnitude) + offset; })
+            .attr("x2", function(d) { return (d.workflowItem2.x * magnitude) + offset; })
+            .attr("y2", function(d) { return (d.workflowItem2.y * magnitude) + offset; })
             .attr("stroke", "black");
     };
 
