@@ -387,10 +387,10 @@ describe('workflow item collection', function(){
             var workflowItems = new WorkflowItemCollection(workflowItemsJson);
 
             // Assert
-            expect(workflowItems[0][0]).to.shallowDeepEqual({x:10, y:10});
-            expect(workflowItems[1][0]).to.shallowDeepEqual({x:20, y:10});
-            expect(workflowItems[2][0]).to.shallowDeepEqual({x:30, y:10});
-            expect(workflowItems[3][0]).to.shallowDeepEqual({x:40, y:10});
+            expect(workflowItems[0][0]).to.shallowDeepEqual({x:0, y:0});
+            expect(workflowItems[1][0]).to.shallowDeepEqual({x:2, y:0});
+            expect(workflowItems[2][0]).to.shallowDeepEqual({x:4, y:0});
+            expect(workflowItems[3][0]).to.shallowDeepEqual({x:6, y:0});
         });
 
         it('should calculate the positions correctly for simple parallel workflow items', function(){
@@ -399,13 +399,13 @@ describe('workflow item collection', function(){
             var workflowItems = new WorkflowItemCollection(workflowItemsJson);
 
             // Assert
-            expect(workflowItems[0][0]).to.shallowDeepEqual({x:10, y:10});
-            expect(workflowItems[1][0]).to.shallowDeepEqual({x:20, y:10});
-            expect(workflowItems[1][1]).to.shallowDeepEqual({x:20, y:20});
-            expect(workflowItems[1][2]).to.shallowDeepEqual({x:20, y:30});
-            expect(workflowItems[2][0]).to.shallowDeepEqual({x:30, y:10});
-            expect(workflowItems[3][0]).to.shallowDeepEqual({x:40, y:10});
-            expect(workflowItems[3][1]).to.shallowDeepEqual({x:40, y:20});
+            expect(workflowItems[0][0]).to.shallowDeepEqual({x:0, y:0});
+            expect(workflowItems[1][0]).to.shallowDeepEqual({x:2, y:0});
+            expect(workflowItems[1][1]).to.shallowDeepEqual({x:2, y:2});
+            expect(workflowItems[1][2]).to.shallowDeepEqual({x:2, y:4});
+            expect(workflowItems[2][0]).to.shallowDeepEqual({x:4, y:0});
+            expect(workflowItems[3][0]).to.shallowDeepEqual({x:6, y:0});
+            expect(workflowItems[3][1]).to.shallowDeepEqual({x:6, y:2});
         });
 
         it('should calculate the positions correctly for starting parallel workflow items', function(){
@@ -414,13 +414,13 @@ describe('workflow item collection', function(){
             var workflowItems = new WorkflowItemCollection(workflowItemsJson);
 
             // Assert
-            expect(workflowItems[0][0]).to.shallowDeepEqual({x:10, y:10});
-            expect(workflowItems[0][1]).to.shallowDeepEqual({x:10, y:20});
-            expect(workflowItems[1][0]).to.shallowDeepEqual({x:20, y:10});
-            expect(workflowItems[2][0]).to.shallowDeepEqual({x:30, y:10});
-            expect(workflowItems[2][1]).to.shallowDeepEqual({x:30, y:20});
-            expect(workflowItems[2][2]).to.shallowDeepEqual({x:30, y:30});
-            expect(workflowItems[3][0]).to.shallowDeepEqual({x:40, y:10});
+            expect(workflowItems[0][0]).to.shallowDeepEqual({x:0, y:0});
+            expect(workflowItems[0][1]).to.shallowDeepEqual({x:0, y:2});
+            expect(workflowItems[1][0]).to.shallowDeepEqual({x:2, y:0});
+            expect(workflowItems[2][0]).to.shallowDeepEqual({x:4, y:0});
+            expect(workflowItems[2][1]).to.shallowDeepEqual({x:4, y:2});
+            expect(workflowItems[2][2]).to.shallowDeepEqual({x:4, y:4});
+            expect(workflowItems[3][0]).to.shallowDeepEqual({x:6, y:0});
         });
 
         it('should calculate the positions correctly for adjacent parallel workflow items', function(){
@@ -429,13 +429,13 @@ describe('workflow item collection', function(){
             var workflowItems = new WorkflowItemCollection(workflowItemsJson);
 
             // Assert
-            expect(workflowItems[0][0]).to.shallowDeepEqual({x:10, y:10});
-            expect(workflowItems[0][1]).to.shallowDeepEqual({x:10, y:20});
-            expect(workflowItems[1][0]).to.shallowDeepEqual({x:15, y:10});
-            expect(workflowItems[2][0]).to.shallowDeepEqual({x:20, y:10});
-            expect(workflowItems[2][1]).to.shallowDeepEqual({x:20, y:20});
-            expect(workflowItems[2][2]).to.shallowDeepEqual({x:20, y:30});
-            expect(workflowItems[3][0]).to.shallowDeepEqual({x:30, y:10});
+            expect(workflowItems[0][0]).to.shallowDeepEqual({x:0, y:0});
+            expect(workflowItems[0][1]).to.shallowDeepEqual({x:0, y:2});
+            expect(workflowItems[1][0]).to.shallowDeepEqual({x:1, y:1});
+            expect(workflowItems[2][0]).to.shallowDeepEqual({x:2, y:0});
+            expect(workflowItems[2][1]).to.shallowDeepEqual({x:2, y:2});
+            expect(workflowItems[2][2]).to.shallowDeepEqual({x:2, y:4});
+            expect(workflowItems[3][0]).to.shallowDeepEqual({x:4, y:0});
         });
 
         it('should calculate the positions correctly for complex parallel workflow items', function(){
@@ -444,19 +444,19 @@ describe('workflow item collection', function(){
             var workflowItems = new WorkflowItemCollection(workflowItemsJson);
 
             // Assert
-            expect(workflowItems[0][0]).to.shallowDeepEqual({x:10, y:10});
-            expect(workflowItems[0][1]).to.shallowDeepEqual({x:10, y:20});
-            expect(workflowItems[1][0]).to.shallowDeepEqual({x:15, y:10});
-            expect(workflowItems[2][0]).to.shallowDeepEqual({x:20, y:10});
-            expect(workflowItems[2][1]).to.shallowDeepEqual({x:20, y:20});
-            expect(workflowItems[3][0]).to.shallowDeepEqual({x:25, y:10});
-            expect(workflowItems[4][0]).to.shallowDeepEqual({x:30, y:10});
-            expect(workflowItems[4][1]).to.shallowDeepEqual({x:30, y:20});
-            expect(workflowItems[4][2]).to.shallowDeepEqual({x:30, y:30});
-            expect(workflowItems[5][0]).to.shallowDeepEqual({x:35, y:15});
-            expect(workflowItems[6][0]).to.shallowDeepEqual({x:40, y:10});
-            expect(workflowItems[6][1]).to.shallowDeepEqual({x:40, y:20});
-            expect(workflowItems[6][2]).to.shallowDeepEqual({x:40, y:30});
+            expect(workflowItems[0][0]).to.shallowDeepEqual({x:0, y:0});
+            expect(workflowItems[0][1]).to.shallowDeepEqual({x:0, y:2});
+            expect(workflowItems[1][0]).to.shallowDeepEqual({x:1, y:1});
+            expect(workflowItems[2][0]).to.shallowDeepEqual({x:2, y:0});
+            expect(workflowItems[2][1]).to.shallowDeepEqual({x:2, y:2});
+            expect(workflowItems[3][0]).to.shallowDeepEqual({x:3, y:1});
+            expect(workflowItems[4][0]).to.shallowDeepEqual({x:4, y:0});
+            expect(workflowItems[4][1]).to.shallowDeepEqual({x:4, y:2});
+            expect(workflowItems[4][2]).to.shallowDeepEqual({x:4, y:4});
+            expect(workflowItems[5][0]).to.shallowDeepEqual({x:5, y:2});
+            expect(workflowItems[6][0]).to.shallowDeepEqual({x:6, y:0});
+            expect(workflowItems[6][1]).to.shallowDeepEqual({x:6, y:2});
+            expect(workflowItems[6][2]).to.shallowDeepEqual({x:6, y:4});
         });
 
         it('should calculate the positions correctly for complex parallel workflow items with unsorted and non continuous sequence', function(){
@@ -465,19 +465,19 @@ describe('workflow item collection', function(){
             var workflowItems = new WorkflowItemCollection(workflowItemsJson);
 
             // Assert
-            expect(workflowItems[0][0]).to.shallowDeepEqual({x:10, y:10});
-            expect(workflowItems[0][1]).to.shallowDeepEqual({x:10, y:20});
-            expect(workflowItems[1][0]).to.shallowDeepEqual({x:15, y:10});
-            expect(workflowItems[2][0]).to.shallowDeepEqual({x:20, y:10});
-            expect(workflowItems[2][1]).to.shallowDeepEqual({x:20, y:20});
-            expect(workflowItems[2][2]).to.shallowDeepEqual({x:20, y:30});
-            expect(workflowItems[3][0]).to.shallowDeepEqual({x:25, y:15});
-            expect(workflowItems[4][0]).to.shallowDeepEqual({x:30, y:10});
-            expect(workflowItems[4][1]).to.shallowDeepEqual({x:30, y:20});
-            expect(workflowItems[5][0]).to.shallowDeepEqual({x:35, y:10});
-            expect(workflowItems[6][0]).to.shallowDeepEqual({x:40, y:10});
-            expect(workflowItems[6][1]).to.shallowDeepEqual({x:40, y:20});
-            expect(workflowItems[6][2]).to.shallowDeepEqual({x:40, y:30});
+            expect(workflowItems[0][0]).to.shallowDeepEqual({x:0, y:0});
+            expect(workflowItems[0][1]).to.shallowDeepEqual({x:0, y:2});
+            expect(workflowItems[1][0]).to.shallowDeepEqual({x:1, y:1});
+            expect(workflowItems[2][0]).to.shallowDeepEqual({x:2, y:0});
+            expect(workflowItems[2][1]).to.shallowDeepEqual({x:2, y:2});
+            expect(workflowItems[2][2]).to.shallowDeepEqual({x:2, y:4});
+            expect(workflowItems[3][0]).to.shallowDeepEqual({x:3, y:1});
+            expect(workflowItems[4][0]).to.shallowDeepEqual({x:4, y:0});
+            expect(workflowItems[4][1]).to.shallowDeepEqual({x:4, y:2});
+            expect(workflowItems[5][0]).to.shallowDeepEqual({x:5, y:1});
+            expect(workflowItems[6][0]).to.shallowDeepEqual({x:6, y:0});
+            expect(workflowItems[6][1]).to.shallowDeepEqual({x:6, y:2});
+            expect(workflowItems[6][2]).to.shallowDeepEqual({x:6, y:4});
         });
     });
 });

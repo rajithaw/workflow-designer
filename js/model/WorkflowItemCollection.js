@@ -33,8 +33,8 @@ function WorkflowItemCollection(itemsJson) {
 
     if(itemsJson.length > 0) {
         var convertWorkflowItemsFromJson = function () {
-            const ITEM_GAP_X = 10;
-            const ITEM_GAP_Y = 10;
+            const ITEM_GAP_X = 2;
+            const ITEM_GAP_Y = 2;
 
             var workflowItem,
                 intermediateItem,
@@ -47,7 +47,7 @@ function WorkflowItemCollection(itemsJson) {
             workflowItemCollection[0] = [];
             previousSequence = itemsJson[0].sequence;
 
-            for (var i = 0; i < itemsJson.length; i++) {
+            for (var i = 0, itemsLength = itemsJson.length; i < itemsLength; i++) {
                 workflowItem = itemsJson[i];
 
                 if (workflowItem.sequence != previousSequence) {
@@ -57,7 +57,7 @@ function WorkflowItemCollection(itemsJson) {
                     index = 0;
 
                     previousLevel = workflowItemCollection[level - 1];
-                    nextSequence = i + 1 < itemsJson.length ? itemsJson[i + 1].sequence : null;
+                    nextSequence = i + 1 < itemsLength ? itemsJson[i + 1].sequence : null;
 
                     if(previousLevel.length > 1 && nextSequence == workflowItem.sequence) {
                         // Add an intermediate item to separate adjacent parallel items
@@ -66,9 +66,9 @@ function WorkflowItemCollection(itemsJson) {
                             name: "Intermediate",
                             description: "Intermediate",
                             sequence: -1,
-                            level: level,
-                            x: previousLevel[0].x + (ITEM_GAP_X / 2),
-                            y: (previousLevel.length * ITEM_GAP_Y) / 2
+                            level: level
+                            //x: previousLevel[0].x + (ITEM_GAP_X / 2),
+                            //y: (previousLevel.length - 1) * ITEM_GAP_Y / 2
                         };
 
                         workflowItemCollection[level][index] = intermediateItem;
@@ -82,14 +82,28 @@ function WorkflowItemCollection(itemsJson) {
                 previousSequence = workflowItem.sequence;
 
                 workflowItem.level = level;
-                workflowItem.x = previousLevel == null ? ITEM_GAP_X : previousLevel[0].x + ITEM_GAP_X;
-                workflowItem.y = (index + 1) * ITEM_GAP_Y;
+                workflowItem.x = previousLevel == null ? 0 : previousLevel[0].x + ITEM_GAP_X;
+                workflowItem.y = index * ITEM_GAP_Y;
 
                 workflowItemCollection[level][index] = workflowItem;
                 index++;
 
                 if(index > maxIndex) {
                     maxIndex = index;
+                }
+            }
+
+            // Adjust intermediate items position
+            for(var i = 0, collectionLength = workflowItemCollection.length; i < collectionLength; i++) {
+                var workflowItem = workflowItemCollection[i][0];
+
+                if(workflowItem.id === -1) {
+                    var previousLevel = workflowItemCollection[i - 1];
+                    var nextLevel = workflowItemCollection[i + 1];
+                    var effectiveLevelLength = Math.min(previousLevel.length, nextLevel.length)
+
+                    workflowItem.x = previousLevel[0].x + (ITEM_GAP_X / 2);
+                    workflowItem.y = (effectiveLevelLength - 1) * ITEM_GAP_Y / 2;
                 }
             }
         };
