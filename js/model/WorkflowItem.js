@@ -11,3 +11,7 @@ function WorkflowItem(id, name, description, sequence, level) {
         level: level
     }
 }
+
+function IntermediateItem(level) {
+    return new WorkflowItem(-1, "Intermediate", "Intermediate", -1, level);
+}

@@ -39,7 +39,6 @@ function WorkflowItemCollection(itemsJson) {
             const ITEM_GAP_Y = 2;
 
             var workflowItem,
-                intermediateItem,
                 previousSequence,
                 nextSequence,
                 previousLevel,
@@ -50,7 +49,8 @@ function WorkflowItemCollection(itemsJson) {
             previousSequence = itemsJson[0].sequence;
 
             for (var i = 0, itemsLength = itemsJson.length; i < itemsLength; i++) {
-                workflowItem = itemsJson[i];
+                var itemJson = itemsJson[i];
+                workflowItem = new WorkflowItem(itemJson.id, itemJson.name, itemJson.description, itemJson.sequence);
 
                 // When the level is changed
                 if (workflowItem.sequence != previousSequence) {
@@ -65,15 +65,7 @@ function WorkflowItemCollection(itemsJson) {
                     // When adjacent parallel items are detected
                     if(previousLevel.length > 1 && nextSequence == workflowItem.sequence) {
                         // Add an intermediate item to separate adjacent parallel items
-                        intermediateItem = {
-                            id: -1,
-                            name: "Intermediate",
-                            description: "Intermediate",
-                            sequence: -1,
-                            level: level
-                        };
-
-                        workflowItemCollection[level][index] = intermediateItem;
+                        workflowItemCollection[level][index] = new IntermediateItem(level);
 
                         level++;
                         intermediateLevels++;
