@@ -14,6 +14,21 @@ function WorkflowDesigner(width, height, container, items){
             itemHeight = 20,
             intermediateSize = 10;
 
+        var diagonal = d3.svg.diagonal()
+            .source(function(d) {
+                return {
+                    "x":(d.source.y * magnitude) + offset,
+                    "y": d.source.id === -1 ? (d.source.x * magnitude) + offset : (d.source.x * magnitude) + offset + (itemWidth / 2)
+                };
+            })
+            .target(function(d) {
+                return {
+                    "x":(d.target.y * magnitude) + offset,
+                    "y": d.target.id === -1 ? (d.target.x * magnitude) + offset : (d.target.x * magnitude) + offset - (itemWidth / 2)
+                };
+            })
+            .projection(function(d) { return [d.y, d.x]; });
+
         // Render the nodes
         var itemNodes = svg.selectAll("rect")
             .data(itemsCollection.toArray());
@@ -48,25 +63,15 @@ function WorkflowDesigner(width, height, container, items){
             });
 
         // Render the connections
-        var connectors = svg.selectAll("line")
+        var connectors = svg.selectAll("path")
             .data(connectorData);
-        connectors.enter().append("line");
+        connectors.enter().append("path");
         connectors.exit().remove();
 
         connectors
-            .attr("x1", function(d) {
-                return d.workflowItem1.id === -1
-                    ? (d.workflowItem1.x * magnitude) + offset
-                    : (d.workflowItem1.x * magnitude) + offset + (itemWidth / 2);
-            })
-            .attr("y1", function(d) { return (d.workflowItem1.y * magnitude) + offset; })
-            .attr("x2", function(d) {
-                return d.workflowItem2.id === -1
-                    ? (d.workflowItem2.x * magnitude) + offset
-                    : (d.workflowItem2.x * magnitude) + offset - (itemWidth / 2);
-            })
-            .attr("y2", function(d) { return (d.workflowItem2.y * magnitude) + offset; })
-            .attr("stroke", "black");
+            .attr("stroke", "black")
+            .attr("fill", "none")
+            .attr("d", diagonal);
     };
 
     return {
