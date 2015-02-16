@@ -8,7 +8,8 @@ function WorkflowItem(id, name, description, sequence, level) {
         name: name,
         description: description,
         sequence: sequence,
-        level: level
+        level: level,
+        selected: false
     }
 }
 

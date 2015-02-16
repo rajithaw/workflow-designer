@@ -6,6 +6,25 @@ function WorkflowDesigner(width, height, container, items){
             height: height
         });
 
+    var onKeyDown = function() {
+        if(d3.event.keyCode === 46) {
+            // Delete pressed
+            deleteSelected();
+        }
+    };
+
+    var deleteSelected = function() {
+        d3.selectAll(".selected").each(function(d) {
+            var itemLevel = itemsCollection[d.level];
+            var itemIndex = itemsCollection[d.level].indexOf(d);
+
+            itemLevel.splice(itemIndex, 1);
+        });
+
+        itemsCollection = itemsCollection.reInitialize();
+        render();
+    };
+
     var render = function() {
         var magnitude = 100,
             offset = 20,
@@ -39,7 +58,6 @@ function WorkflowDesigner(width, height, container, items){
             .attr("height", function(d) { return d.id === -1 ? intermediateSize : itemHeight })
             .attr("rx", function(d) { return 5; })
             .attr("ry", function(d) { return 5; })
-            .attr("fill", function(d) { return d.id === -1 ? "black" : "blue" })
             .attr("x", function(d) {
                 return d.id === -1
                     ? (d.x * magnitude) + offset - (intermediateSize / 2)
@@ -49,7 +67,16 @@ function WorkflowDesigner(width, height, container, items){
                 return d.id === -1
                     ? (d.y * magnitude) + offset - (intermediateSize / 2)
                     : (d.y * magnitude) + offset - (itemHeight / 2);
-            });
+            })
+            .classed("workflow-item", function(d) { return d.id !== -1 })
+            .classed("intermediate-item", function(d) { return d.id === -1 });
+
+        itemNodes.on("click", function(d) {
+            d.selected = !d.selected;
+            d3.select(this).classed("selected", d.selected);
+        });
+
+        d3.select(window).on("keydown", onKeyDown);
 
         // work through all items higher than level 0
         itemNodes.filter(function(d) { return d.level > 0; })
@@ -68,13 +95,12 @@ function WorkflowDesigner(width, height, container, items){
         connectors.enter().append("path");
         connectors.exit().remove();
 
-        connectors
-            .attr("stroke", "black")
-            .attr("fill", "none")
-            .attr("d", diagonal);
+        connectors.attr("d", diagonal)
+            .classed("connector", true);
     };
 
     return {
-        render: render
+        render: render,
+        delete: deleteSelected
     };
 }

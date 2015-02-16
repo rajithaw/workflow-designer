@@ -144,6 +144,13 @@ function WorkflowItemCollection(itemsJson) {
         return JSON.stringify(items);
     };
 
+    // Re initialize the collection after items have been added, removed or updated
+    workflowItemCollection.reInitialize = function() {
+        var itemsJson = this.toJson();
+
+        return new WorkflowItemCollection(itemsJson);
+    };
+
     // Returns the max index among all levels
     workflowItemCollection.getMaxIndex = function() {
         return maxIndex;
