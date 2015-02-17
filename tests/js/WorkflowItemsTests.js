@@ -6,19 +6,18 @@ describe('workflow item collection', function(){
     describe('creating a workflow item collection from json', function(){
         it('should create a workflow item collection from josn representing serial workflow items', function(){
             // Create workflow item collection
-            var workflowItemsJson = JSON.stringify(sampleWorkflow1);
-            var workflowItems = new WorkflowItemCollection(workflowItemsJson);
+            var workflowItems = new WorkflowItemCollection(sampleWorkflow1);
 
             // Assert
             expect(workflowItems).to.have.length(4);
-            expect(workflowItems[0]).to.have.length(1);
-            expect(workflowItems[1]).to.have.length(1);
-            expect(workflowItems[2]).to.have.length(1);
-            expect(workflowItems[3]).to.have.length(1);
-            expect(workflowItems[0][0]).to.shallowDeepEqual({id:11, level:0});
-            expect(workflowItems[1][0]).to.shallowDeepEqual({id:21, level:1});
-            expect(workflowItems[2][0]).to.shallowDeepEqual({id:31, level:2});
-            expect(workflowItems[3][0]).to.shallowDeepEqual({id:41, level:3});
+            expect(workflowItems.level(0)).to.have.length(1);
+            expect(workflowItems.level(1)).to.have.length(1);
+            expect(workflowItems.level(2)).to.have.length(1);
+            expect(workflowItems.level(3)).to.have.length(1);
+            expect(workflowItems.get(0,0)).to.shallowDeepEqual({id:11, level:0});
+            expect(workflowItems.get(1,0)).to.shallowDeepEqual({id:21, level:1});
+            expect(workflowItems.get(2,0)).to.shallowDeepEqual({id:31, level:2});
+            expect(workflowItems.get(3,0)).to.shallowDeepEqual({id:41, level:3});
         });
 
         it('should create a workflow item collection from josn representing simple parallel workflow items', function(){
