@@ -19,8 +19,7 @@
     </div>
 
     <script type="text/javascript">
-        var workflowItemsJson = JSON.stringify(sampleWorkflow6);
-        var workflowItems = new WorkflowItemCollection(workflowItemsJson);
+        var workflowItems = new WorkflowItemCollection(sampleWorkflow6);
 
         var workflowDesigner = new WorkflowDesigner(1024, 768, d3.select("#display"), workflowItems);
         workflowDesigner.render();

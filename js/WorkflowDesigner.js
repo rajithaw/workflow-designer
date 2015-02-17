@@ -15,13 +15,13 @@ function WorkflowDesigner(width, height, container, items){
 
     var deleteSelected = function() {
         d3.selectAll(".selected").each(function(d) {
-            var itemLevel = itemsCollection[d.level];
-            var itemIndex = itemsCollection[d.level].indexOf(d);
+            var itemLevel = itemsCollection.level(d.level);
+            var itemIndex = itemsCollection.level(d.level).indexOf(d);
 
             itemLevel.splice(itemIndex, 1);
         });
 
-        itemsCollection = itemsCollection.reInitialize();
+        itemsCollection.reInitialize();
         render();
     };
 
@@ -33,7 +33,7 @@ function WorkflowDesigner(width, height, container, items){
             itemHeight = 20,
             intermediateSize = 10;
 
-        var diagonal = d3.svg.diagonal()
+        var diagonal = new d3.svg.diagonal()
             .source(function(d) {
                 return {
                     "x":(d.source.y * magnitude) + offset,
@@ -81,7 +81,7 @@ function WorkflowDesigner(width, height, container, items){
         // work through all items higher than level 0
         itemNodes.filter(function(d) { return d.level > 0; })
             .each(function(d) {
-                var previousLevel = itemsCollection[d.level -1];
+                var previousLevel = itemsCollection.level(d.level -1);
 
                 // Construct the connector data using the nodes to be connected
                 for(var i = 0, j = previousLevelLength = previousLevel.length; i < previousLevelLength; i++) {

@@ -7,9 +7,8 @@ function WorkflowItemCollection(itemsJson) {
         workflowItemCollection = [],
         maxIndex = 0,
         properLevels = 0,
-        intermediateLevels = 0;
-
-    itemsJson = JSON.parse(itemsJson);
+        intermediateLevels = 0,
+        itemsJson = itemsJson;
 
     // Comparer for sorting the the workflow items by sequence
     var workflowItemsSequenceIdComparer = function (item1, item2) {
@@ -32,83 +31,93 @@ function WorkflowItemCollection(itemsJson) {
         return 0;
     };
 
-    if(itemsJson.length > 0) {
-        // Converts a json object into a workflow items collection
-        var convertWorkflowItemsFromJson = function () {
-            const ITEM_GAP_X = 2;
-            const ITEM_GAP_Y = 2;
+    // Converts a json object into a workflow items collection
+    var convertWorkflowItemsFromJson = function () {
+        const ITEM_GAP_X = 2;
+        const ITEM_GAP_Y = 2;
 
-            var workflowItem,
-                previousSequence,
-                nextSequence,
-                previousLevel,
-                level = 0,
+        var workflowItem,
+            previousSequence,
+            nextSequence,
+            previousLevel,
+            level = 0,
+            index = 0;
+
+        workflowItemCollection[0] = [];
+        previousSequence = itemsJson[0].sequence;
+
+        for (var i = 0, itemsLength = itemsJson.length; i < itemsLength; i++) {
+            var itemJson = itemsJson[i];
+            workflowItem = new WorkflowItem(itemJson.id, itemJson.name, itemJson.description, itemJson.sequence);
+
+            // When the level is changed
+            if (workflowItem.sequence != previousSequence) {
+                level++;
+                properLevels++;
+                workflowItemCollection[level] = [];
                 index = 0;
 
-            workflowItemCollection[0] = [];
-            previousSequence = itemsJson[0].sequence;
+                previousLevel = workflowItemCollection[level - 1];
+                nextSequence = i + 1 < itemsLength ? itemsJson[i + 1].sequence : null;
 
-            for (var i = 0, itemsLength = itemsJson.length; i < itemsLength; i++) {
-                var itemJson = itemsJson[i];
-                workflowItem = new WorkflowItem(itemJson.id, itemJson.name, itemJson.description, itemJson.sequence);
+                // When adjacent parallel items are detected
+                if(previousLevel.length > 1 && nextSequence == workflowItem.sequence) {
+                    // Add an intermediate item to separate adjacent parallel items
+                    workflowItemCollection[level][index] = new IntermediateItem(level);
 
-                // When the level is changed
-                if (workflowItem.sequence != previousSequence) {
                     level++;
-                    properLevels++;
+                    intermediateLevels++;
                     workflowItemCollection[level] = [];
-                    index = 0;
-
-                    previousLevel = workflowItemCollection[level - 1];
-                    nextSequence = i + 1 < itemsLength ? itemsJson[i + 1].sequence : null;
-
-                    // When adjacent parallel items are detected
-                    if(previousLevel.length > 1 && nextSequence == workflowItem.sequence) {
-                        // Add an intermediate item to separate adjacent parallel items
-                        workflowItemCollection[level][index] = new IntermediateItem(level);
-
-                        level++;
-                        intermediateLevels++;
-                        workflowItemCollection[level] = [];
-                    }
-                }
-
-                previousSequence = workflowItem.sequence;
-
-                // Set workflow item properties and add to the collection
-                workflowItem.level = level;
-                workflowItem.x = previousLevel == null ? 0 : previousLevel[0].x + ITEM_GAP_X;
-                workflowItem.y = index * ITEM_GAP_Y;
-
-                workflowItemCollection[level][index] = workflowItem;
-                index++;
-
-                if(index > maxIndex) {
-                    maxIndex = index;
                 }
             }
 
-            // Adjust intermediate items position
-            for(var i = 0, collectionLength = workflowItemCollection.length; i < collectionLength; i++) {
-                var workflowItem = workflowItemCollection[i][0];
+            previousSequence = workflowItem.sequence;
 
-                if(workflowItem.id === -1) {
-                    var previousLevel = workflowItemCollection[i - 1];
-                    var nextLevel = workflowItemCollection[i + 1];
-                    var effectiveLevelLength = Math.min(previousLevel.length, nextLevel.length)
+            // Set workflow item properties and add to the collection
+            workflowItem.level = level;
+            workflowItem.x = previousLevel == null ? 0 : previousLevel[0].x + ITEM_GAP_X;
+            workflowItem.y = index * ITEM_GAP_Y;
 
-                    workflowItem.x = previousLevel[0].x + (ITEM_GAP_X / 2);
-                    workflowItem.y = (effectiveLevelLength - 1) * ITEM_GAP_Y / 2;
-                }
+            workflowItemCollection[level][index] = workflowItem;
+            index++;
+
+            if(index > maxIndex) {
+                maxIndex = index;
             }
-        };
+        }
 
-        itemsJson.sort(workflowItemsSequenceIdComparer);
-        convertWorkflowItemsFromJson();
-    }
+        // Adjust intermediate items position
+        for(var i = 0, collectionLength = workflowItemCollection.length; i < collectionLength; i++) {
+            var workflowItem = workflowItemCollection[i][0];
+
+            if(workflowItem.id === -1) {
+                var previousLevel = workflowItemCollection[i - 1];
+                var nextLevel = workflowItemCollection[i + 1];
+                var effectiveLevelLength = Math.min(previousLevel.length, nextLevel.length)
+
+                workflowItem.x = previousLevel[0].x + (ITEM_GAP_X / 2);
+                workflowItem.y = (effectiveLevelLength - 1) * ITEM_GAP_Y / 2;
+            }
+        }
+    };
+
+    // Retrieves the workflow item at the provided level and index
+    var getItem = function(level, index) {
+        return workflowItemCollection[level][index];
+    };
+
+    // Sets the workflow item at the provided level and index
+    var setItem = function(level, index, value) {
+        workflowItemCollection[level][index] = value;
+    };
+
+    // Retrieves all items in the provided level
+    var getLevel = function(level) {
+        return workflowItemCollection[level];
+    };
 
     // Converts the workflow item collection into a flat array
-    workflowItemCollection.toArray = function() {
+    var toArray = function() {
         var items = [];
 
         for(var i = 0; i < workflowItemCollection.length; i++) {
@@ -123,7 +132,7 @@ function WorkflowItemCollection(itemsJson) {
     };
 
     // Converts the workflow items collection into a json object
-    workflowItemCollection.toJson = function() {
+    var toJson = function() {
         var items = [];
 
         for(var i = 0; i < workflowItemCollection.length; i++) {
@@ -141,32 +150,56 @@ function WorkflowItemCollection(itemsJson) {
             }
         };
 
-        return JSON.stringify(items);
+        return items;
     };
 
     // Re initialize the collection after items have been added, removed or updated
-    workflowItemCollection.reInitialize = function() {
-        var itemsJson = this.toJson();
+    var reInitialize = function() {
+        itemsJson = this.toJson();
 
-        return new WorkflowItemCollection(itemsJson);
+        workflowItemCollection = [];
+        maxIndex = 0;
+        properLevels = 0;
+        intermediateLevels = 0;
+
+        if(itemsJson.length > 0) {
+            itemsJson.sort(workflowItemsSequenceIdComparer);
+            convertWorkflowItemsFromJson();
+        }
     };
 
     // Returns the max index among all levels
-    workflowItemCollection.getMaxIndex = function() {
+    var getMaxIndex = function() {
         return maxIndex;
     };
 
     // Returns the number of actual level without the intermediate levels
-    workflowItemCollection.getProperLevels = function() {
+    var getProperLevels = function() {
         return properLevels;
     };
 
     // Returns the number of intermediate levels
-    workflowItemCollection.getIntermediateLevels = function() {
+    var getIntermediateLevels = function() {
         return intermediateLevels;
     };
 
+    if(itemsJson.length > 0) {
+        itemsJson.sort(workflowItemsSequenceIdComparer);
+        convertWorkflowItemsFromJson();
+    }
+
     WorkflowItemCollection.prototype.workflowItemsSequenceIdComparer = workflowItemsSequenceIdComparer;
-    return workflowItemCollection;
+
+    return {
+        get: getItem,
+        set: setItem,
+        level: getLevel,
+        maxIndex: getMaxIndex,
+        properLevels: getProperLevels,
+        intermediateLevels: getIntermediateLevels,
+        reInitialize: reInitialize,
+        toArray: toArray,
+        toJson: toJson
+    };
 }
 
