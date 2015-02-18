@@ -6,7 +6,7 @@ function WorkflowItemCollection(itemsJson) {
     var _self = this,
         workflowItemCollection = [],
         maxIndex = 0,
-        properLevels = 0,
+        itemLevels = 0,
         intermediateLevels = 0,
         itemsJson = itemsJson;
 
@@ -53,7 +53,7 @@ function WorkflowItemCollection(itemsJson) {
             // When the level is changed
             if (workflowItem.sequence != previousSequence) {
                 level++;
-                properLevels++;
+                itemLevels++;
                 workflowItemCollection[level] = [];
                 index = 0;
 
@@ -93,7 +93,7 @@ function WorkflowItemCollection(itemsJson) {
             if(workflowItem.id === -1) {
                 var previousLevel = workflowItemCollection[i - 1];
                 var nextLevel = workflowItemCollection[i + 1];
-                var effectiveLevelLength = Math.min(previousLevel.length, nextLevel.length)
+                var effectiveLevelLength = Math.min(previousLevel.length, nextLevel.length);
 
                 workflowItem.x = previousLevel[0].x + (ITEM_GAP_X / 2);
                 workflowItem.y = (effectiveLevelLength - 1) * ITEM_GAP_Y / 2;
@@ -159,10 +159,12 @@ function WorkflowItemCollection(itemsJson) {
 
         workflowItemCollection = [];
         maxIndex = 0;
-        properLevels = 0;
+        itemLevels = 0;
         intermediateLevels = 0;
 
         if(itemsJson.length > 0) {
+            itemLevels++;
+
             itemsJson.sort(workflowItemsSequenceIdComparer);
             convertWorkflowItemsFromJson();
         }
@@ -173,9 +175,9 @@ function WorkflowItemCollection(itemsJson) {
         return maxIndex;
     };
 
-    // Returns the number of actual level without the intermediate levels
-    var getProperLevels = function() {
-        return properLevels;
+    // Returns the number of actual levels without the intermediate levels
+    var getItemLevels = function() {
+        return itemLevels;
     };
 
     // Returns the number of intermediate levels
@@ -183,7 +185,15 @@ function WorkflowItemCollection(itemsJson) {
         return intermediateLevels;
     };
 
+    // Returns the number of levels in the collection
+    var getLevels = function() {
+        return workflowItemCollection.length;
+    };
+
     if(itemsJson.length > 0) {
+        // Collection has at leat one level of items
+        itemLevels++;
+
         itemsJson.sort(workflowItemsSequenceIdComparer);
         convertWorkflowItemsFromJson();
     }
@@ -194,12 +204,12 @@ function WorkflowItemCollection(itemsJson) {
         get: getItem,
         set: setItem,
         level: getLevel,
+        levelCount: getLevels,
         maxIndex: getMaxIndex,
-        properLevels: getProperLevels,
+        itemLevels: getItemLevels,
         intermediateLevels: getIntermediateLevels,
         reInitialize: reInitialize,
         toArray: toArray,
         toJson: toJson
     };
 }
-

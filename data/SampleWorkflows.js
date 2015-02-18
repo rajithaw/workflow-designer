@@ -285,3 +285,13 @@ var sampleWorkflow6 = [
     "sequence": 6
   }
 ];
+
+// Array containing invalid workflow items
+var invalidWorkflow = [
+  {
+      "abc": 11,
+      "xyz": "Item11",
+  },
+  {
+  }
+];
