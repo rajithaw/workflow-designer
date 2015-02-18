@@ -289,9 +289,8 @@ var sampleWorkflow6 = [
 // Array containing invalid workflow items
 var invalidWorkflow = [
   {
-      "abc": 11,
-      "xyz": "Item11",
+      "abc": 100,
+      "xyz": "xyz"
   },
-  {
-  }
+  {}
 ];

@@ -457,4 +457,67 @@ describe('workflow item collection', function(){
             expect(workflowItems.get(6, 2)).to.shallowDeepEqual({x:6, y:4});
         });
     });
+
+    describe("removing items from the workflow collection", function(){
+        it("should re-initialize the collection to a valid state after items are removed", function(){
+            // Create workflow item collection
+            var workflowItems = new WorkflowItemCollection(sampleWorkflow6);
+
+            var itemsToRemove = [workflowItems.get(2, 0), workflowItems.get(2, 2), workflowItems.get(6, 2)]
+            workflowItems.remove(itemsToRemove);
+
+            // Assert
+            expect(workflowItems.get(0, 0)).to.shallowDeepEqual({id:11, level:0, x:0, y:0});
+            expect(workflowItems.get(0, 1)).to.shallowDeepEqual({id:12, level:0, x:0, y:2});
+            expect(workflowItems.get(1, 0)).to.shallowDeepEqual({id:22, level:1, x:2, y:0});
+            expect(workflowItems.get(2, 0)).to.shallowDeepEqual({id:31, level:2, x:4, y:0});
+            expect(workflowItems.get(2, 1)).to.shallowDeepEqual({id:32, level:2, x:4, y:2});
+            expect(workflowItems.get(3, 0)).to.shallowDeepEqual({id:-1, level:3, x:5, y:1});
+            expect(workflowItems.get(4, 0)).to.shallowDeepEqual({id:41, level:4, x:6, y:0});
+            expect(workflowItems.get(4, 1)).to.shallowDeepEqual({id:42, level:4, x:6, y:2});
+        });
+    });
+
+    describe("adding items to the workflow collection", function(){
+        it("should re-initialize the collection to a valid state after items are added", function(){
+            // Create workflow item collection
+            var workflowItems = new WorkflowItemCollection(sampleWorkflow2);
+
+            var itemsToAdd = [{
+                "id": 12,
+                "name": "Item12",
+                "description": "Description12",
+                "sequence": 1
+            },
+            {
+                "id": 32,
+                "name": "Item32",
+                "description": "Description32",
+                "sequence": 3
+            },
+            {
+                "id": 33,
+                "name": "Item33",
+                "description": "Description33",
+                "sequence": 3
+            }]
+
+            workflowItems.add(itemsToAdd);
+
+            // Assert
+            expect(workflowItems.get(0, 0)).to.shallowDeepEqual({id:11, level:0, x:0, y:0});
+            expect(workflowItems.get(0, 1)).to.shallowDeepEqual({id:12, level:0, x:0, y:2});
+            expect(workflowItems.get(1, 0)).to.shallowDeepEqual({id:-1, level:1, x:1, y:1});
+            expect(workflowItems.get(2, 0)).to.shallowDeepEqual({id:21, level:2, x:2, y:0});
+            expect(workflowItems.get(2, 1)).to.shallowDeepEqual({id:22, level:2, x:2, y:2});
+            expect(workflowItems.get(2, 2)).to.shallowDeepEqual({id:23, level:2, x:2, y:4});
+            expect(workflowItems.get(3, 0)).to.shallowDeepEqual({id:-1, level:3, x:3, y:2});
+            expect(workflowItems.get(4, 0)).to.shallowDeepEqual({id:31, level:4, x:4, y:0});
+            expect(workflowItems.get(4, 1)).to.shallowDeepEqual({id:32, level:4, x:4, y:2});
+            expect(workflowItems.get(4, 2)).to.shallowDeepEqual({id:33, level:4, x:4, y:4});
+            expect(workflowItems.get(5, 0)).to.shallowDeepEqual({id:-1, level:5, x:5, y:1});
+            expect(workflowItems.get(6, 0)).to.shallowDeepEqual({id:41, level:6, x:6, y:0});
+            expect(workflowItems.get(6, 1)).to.shallowDeepEqual({id:42, level:6, x:6, y:2});
+        });
+    });
 });
