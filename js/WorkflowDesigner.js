@@ -14,14 +14,16 @@ function WorkflowDesigner(width, height, container, items){
     };
 
     var deleteSelected = function() {
-        d3.selectAll(".selected").each(function(d) {
-            var itemLevel = itemsCollection.level(d.level);
-            var itemIndex = itemsCollection.level(d.level).indexOf(d);
+        //d3.selectAll(".selected").each(function(d) {
+        //    var itemLevel = itemsCollection.level(d.level);
+        //    var itemIndex = itemsCollection.level(d.level).indexOf(d);
+        //
+        //    itemLevel.splice(itemIndex, 1);
+        //});
 
-            itemLevel.splice(itemIndex, 1);
-        });
+        itemsCollection.remove(d3.selectAll(".selected").data())
 
-        itemsCollection.reInitialize();
+        //itemsCollection.reInitialize();
         render();
     };
 

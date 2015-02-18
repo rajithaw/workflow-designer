@@ -155,7 +155,7 @@ function WorkflowItemCollection(itemsJson) {
 
     // Re initialize the collection after items have been added, removed or updated
     var reInitialize = function() {
-        itemsJson = this.toJson();
+        itemsJson = toJson();
 
         workflowItemCollection = [];
         maxIndex = 0;
@@ -190,6 +190,57 @@ function WorkflowItemCollection(itemsJson) {
         return workflowItemCollection.length;
     };
 
+    var remove = function(items) {
+        if(items instanceof Array) {
+            removeItems(items);
+        }
+        else {
+            removeItems([items]);
+        }
+    };
+
+    var removeItems = function(items) {
+        var itemLevel,
+            itemIndex,
+            item;
+
+        for(var i = 0; i < items.length; i++) {
+            item = items[i];
+
+            itemLevel = workflowItemCollection[item.level];
+            itemIndex = workflowItemCollection[item.level].indexOf(item);
+
+            itemLevel.splice(itemIndex, 1);
+        }
+
+        reInitialize();
+    };
+
+    var add = function(items) {
+        if(items instanceof Array) {
+            addItems(items);
+        }
+        else {
+            addItems([items]);
+        }
+    };
+
+    var addItems = function(items) {
+        //var itemLevel,
+        //    item;
+
+        //for(var i = 0; i < items.length; i++) {
+        //    item = items[i];
+        //
+        //    itemLevel = workflowItemCollection[item.level];
+        //    workflowItemCollection[item.level][itemLevel.length] = item;
+        //}
+
+        workflowItemCollection[workflowItemCollection.length] = items;
+
+        reInitialize();
+    };
+
     if(itemsJson.length > 0) {
         // Collection has at leat one level of items
         itemLevels++;
@@ -203,6 +254,8 @@ function WorkflowItemCollection(itemsJson) {
     return {
         get: getItem,
         set: setItem,
+        add: add,
+        remove: remove,
         level: getLevel,
         levelCount: getLevels,
         maxIndex: getMaxIndex,
