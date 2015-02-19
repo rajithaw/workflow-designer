@@ -5,11 +5,7 @@
     <title></title>
     <link rel="stylesheet" type="text/css" href="css/styles.css">
     <script type="text/javascript" src="lib\d3\d3.min.js"></script>
-    <script type="text/javascript" src="data/SampleWorkflows.js"></script>
-    <script type="text/javascript" src="js/model/WorkflowItem.js"></script>
-    <script type="text/javascript" src="js/model/WorkflowItemConnector.js"></script>
-    <script type="text/javascript" src="js/model/WorkflowItemCollection.js"></script>
-    <script type="text/javascript" src="js/WorkflowDesigner.js"></script>
+    <script type="text/javascript" src="lib\requirejs\require.js" data-main="js\main.js"></script>
 </head>
 <body>
     <div>
@@ -19,13 +15,10 @@
     </div>
 
     <script type="text/javascript">
-        var workflowItems = new WorkflowItemCollection(sampleWorkflow6);
-
-        var workflowDesigner = new WorkflowDesigner(1024, 768, d3.select("#display"), workflowItems);
-        workflowDesigner.render();
+        var main = require(["js/main"]);
 
         function deleteSelectedNodes() {
-            workflowDesigner.delete();
+            main.deleteSelectedNodes();
         }
     </script>
 </body>
