@@ -2,9 +2,11 @@
  * Created by Rajitha on 11/8/2014.
  */
 
-describe('workflow item collection', function(){
-    describe('creating a workflow item collection from json', function(){
-        it('should create a workflow item collection from josn representing serial workflow items', function(){
+describe('workflow item collection', function () {
+    "use strict";
+
+    describe('creating a workflow item collection from json', function () {
+        it('should create a workflow item collection from josn representing serial workflow items', function () {
             // Create workflow item collection
             var workflowItems = new WorkflowItemCollection(sampleWorkflow1);
 
@@ -14,13 +16,13 @@ describe('workflow item collection', function(){
             expect(workflowItems.level(1)).to.have.length(1);
             expect(workflowItems.level(2)).to.have.length(1);
             expect(workflowItems.level(3)).to.have.length(1);
-            expect(workflowItems.get(0,0)).to.shallowDeepEqual({id:11, level:0});
-            expect(workflowItems.get(1,0)).to.shallowDeepEqual({id:21, level:1});
-            expect(workflowItems.get(2,0)).to.shallowDeepEqual({id:31, level:2});
-            expect(workflowItems.get(3,0)).to.shallowDeepEqual({id:41, level:3});
+            expect(workflowItems.get(0, 0)).to.shallowDeepEqual({ id: 11, level: 0 });
+            expect(workflowItems.get(1, 0)).to.shallowDeepEqual({ id: 21, level: 1 });
+            expect(workflowItems.get(2, 0)).to.shallowDeepEqual({ id: 31, level: 2 });
+            expect(workflowItems.get(3, 0)).to.shallowDeepEqual({ id: 41, level: 3 });
         });
 
-        it('should create a workflow item collection from josn representing simple parallel workflow items', function(){
+        it('should create a workflow item collection from josn representing simple parallel workflow items', function () {
             // Create workflow item collection
             var workflowItems = new WorkflowItemCollection(sampleWorkflow2);
 
@@ -30,16 +32,16 @@ describe('workflow item collection', function(){
             expect(workflowItems.level(1)).to.have.length(3);
             expect(workflowItems.level(2)).to.have.length(1);
             expect(workflowItems.level(3)).to.have.length(2);
-            expect(workflowItems.get(0, 0)).to.shallowDeepEqual({id:11, level:0});
-            expect(workflowItems.get(1, 0)).to.shallowDeepEqual({id:21, level:1});
-            expect(workflowItems.get(1, 1)).to.shallowDeepEqual({id:22, level:1});
-            expect(workflowItems.get(1, 2)).to.shallowDeepEqual({id:23, level:1});
-            expect(workflowItems.get(2, 0)).to.shallowDeepEqual({id:31, level:2});
-            expect(workflowItems.get(3, 0)).to.shallowDeepEqual({id:41, level:3});
+            expect(workflowItems.get(0, 0)).to.shallowDeepEqual({ id: 11, level: 0 });
+            expect(workflowItems.get(1, 0)).to.shallowDeepEqual({ id: 21, level: 1 });
+            expect(workflowItems.get(1, 1)).to.shallowDeepEqual({ id: 22, level: 1 });
+            expect(workflowItems.get(1, 2)).to.shallowDeepEqual({ id: 23, level: 1 });
+            expect(workflowItems.get(2, 0)).to.shallowDeepEqual({ id: 31, level: 2 });
+            expect(workflowItems.get(3, 0)).to.shallowDeepEqual({ id: 41, level: 3 });
             expect(workflowItems.get(3, 1)).to.shallowDeepEqual({ id: 42, level: 3 });
         });
 
-        it('should create a workflow item collection from josn representing starting parallel workflow items', function(){
+        it('should create a workflow item collection from josn representing starting parallel workflow items', function () {
             // Create workflow item collection
             var workflowItems = new WorkflowItemCollection(sampleWorkflow3);
 
@@ -49,16 +51,16 @@ describe('workflow item collection', function(){
             expect(workflowItems.level(1)).to.have.length(1);
             expect(workflowItems.level(2)).to.have.length(3);
             expect(workflowItems.level(3)).to.have.length(1);
-            expect(workflowItems.get(0, 0)).to.shallowDeepEqual({id:11, level:0});
-            expect(workflowItems.get(0, 1)).to.shallowDeepEqual({id:12, level:0});
-            expect(workflowItems.get(1, 0)).to.shallowDeepEqual({id:21, level:1});
-            expect(workflowItems.get(2, 0)).to.shallowDeepEqual({id:31, level:2});
-            expect(workflowItems.get(2, 1)).to.shallowDeepEqual({id:32, level:2});
-            expect(workflowItems.get(2, 2)).to.shallowDeepEqual({id:33, level:2});
-            expect(workflowItems.get(3, 0)).to.shallowDeepEqual({id:41, level:3});
+            expect(workflowItems.get(0, 0)).to.shallowDeepEqual({ id: 11, level: 0 });
+            expect(workflowItems.get(0, 1)).to.shallowDeepEqual({ id: 12, level: 0 });
+            expect(workflowItems.get(1, 0)).to.shallowDeepEqual({ id: 21, level: 1 });
+            expect(workflowItems.get(2, 0)).to.shallowDeepEqual({ id: 31, level: 2 });
+            expect(workflowItems.get(2, 1)).to.shallowDeepEqual({ id: 32, level: 2 });
+            expect(workflowItems.get(2, 2)).to.shallowDeepEqual({ id: 33, level: 2 });
+            expect(workflowItems.get(3, 0)).to.shallowDeepEqual({ id: 41, level: 3 });
         });
 
-        it('should create a workflow item collection from josn representing adjacent parallel workflow items', function(){
+        it('should create a workflow item collection from josn representing adjacent parallel workflow items', function () {
             // Create workflow item collection
             var workflowItems = new WorkflowItemCollection(sampleWorkflow4);
 
@@ -68,16 +70,16 @@ describe('workflow item collection', function(){
             expect(workflowItems.level(1)).to.have.length(1);
             expect(workflowItems.level(2)).to.have.length(3);
             expect(workflowItems.level(3)).to.have.length(1);
-            expect(workflowItems.get(0, 0)).to.shallowDeepEqual({id:11, level:0});
-            expect(workflowItems.get(0, 1)).to.shallowDeepEqual({id:12, level:0});
-            expect(workflowItems.get(1, 0)).to.shallowDeepEqual({id:-1, level:1});
-            expect(workflowItems.get(2, 0)).to.shallowDeepEqual({id:21, level:2});
-            expect(workflowItems.get(2, 1)).to.shallowDeepEqual({id:22, level:2});
-            expect(workflowItems.get(2, 2)).to.shallowDeepEqual({id:23, level:2});
-            expect(workflowItems.get(3, 0)).to.shallowDeepEqual({id:31, level:3});
+            expect(workflowItems.get(0, 0)).to.shallowDeepEqual({ id: 11, level: 0 });
+            expect(workflowItems.get(0, 1)).to.shallowDeepEqual({ id: 12, level: 0 });
+            expect(workflowItems.get(1, 0)).to.shallowDeepEqual({ id: -1, level: 1 });
+            expect(workflowItems.get(2, 0)).to.shallowDeepEqual({ id: 21, level: 2 });
+            expect(workflowItems.get(2, 1)).to.shallowDeepEqual({ id: 22, level: 2 });
+            expect(workflowItems.get(2, 2)).to.shallowDeepEqual({ id: 23, level: 2 });
+            expect(workflowItems.get(3, 0)).to.shallowDeepEqual({ id: 31, level: 3 });
         });
 
-        it('should create a workflow item collection from josn representing complex parallel workflow items', function(){
+        it('should create a workflow item collection from josn representing complex parallel workflow items', function () {
             // Create workflow item collection
             var workflowItems = new WorkflowItemCollection(sampleWorkflow5);
 
@@ -90,22 +92,22 @@ describe('workflow item collection', function(){
             expect(workflowItems.level(4)).to.have.length(3);
             expect(workflowItems.level(5)).to.have.length(1);
             expect(workflowItems.level(6)).to.have.length(3);
-            expect(workflowItems.get(0, 0)).to.shallowDeepEqual({id:11, level:0});
-            expect(workflowItems.get(0, 1)).to.shallowDeepEqual({id:12, level:0});
-            expect(workflowItems.get(1, 0)).to.shallowDeepEqual({id:-1, level:1});
-            expect(workflowItems.get(2, 0)).to.shallowDeepEqual({id:21, level:2});
-            expect(workflowItems.get(2, 1)).to.shallowDeepEqual({id:22, level:2});
-            expect(workflowItems.get(3, 0)).to.shallowDeepEqual({id:-1, level:3});
-            expect(workflowItems.get(4, 0)).to.shallowDeepEqual({id:31, level:4});
-            expect(workflowItems.get(4, 1)).to.shallowDeepEqual({id:32, level:4});
-            expect(workflowItems.get(4, 2)).to.shallowDeepEqual({id:33, level:4});
-            expect(workflowItems.get(5, 0)).to.shallowDeepEqual({id:-1, level:5});
-            expect(workflowItems.get(6, 0)).to.shallowDeepEqual({id:41, level:6});
-            expect(workflowItems.get(6, 1)).to.shallowDeepEqual({id:42, level:6});
-            expect(workflowItems.get(6, 2)).to.shallowDeepEqual({id:43, level:6});
+            expect(workflowItems.get(0, 0)).to.shallowDeepEqual({ id: 11, level: 0 });
+            expect(workflowItems.get(0, 1)).to.shallowDeepEqual({ id: 12, level: 0 });
+            expect(workflowItems.get(1, 0)).to.shallowDeepEqual({ id: -1, level: 1 });
+            expect(workflowItems.get(2, 0)).to.shallowDeepEqual({ id: 21, level: 2 });
+            expect(workflowItems.get(2, 1)).to.shallowDeepEqual({ id: 22, level: 2 });
+            expect(workflowItems.get(3, 0)).to.shallowDeepEqual({ id: -1, level: 3 });
+            expect(workflowItems.get(4, 0)).to.shallowDeepEqual({ id: 31, level: 4 });
+            expect(workflowItems.get(4, 1)).to.shallowDeepEqual({ id: 32, level: 4 });
+            expect(workflowItems.get(4, 2)).to.shallowDeepEqual({ id: 33, level: 4 });
+            expect(workflowItems.get(5, 0)).to.shallowDeepEqual({ id: -1, level: 5 });
+            expect(workflowItems.get(6, 0)).to.shallowDeepEqual({ id: 41, level: 6 });
+            expect(workflowItems.get(6, 1)).to.shallowDeepEqual({ id: 42, level: 6 });
+            expect(workflowItems.get(6, 2)).to.shallowDeepEqual({ id: 43, level: 6 });
         });
 
-        it('should create a workflow item collection from josn representing complex parallel workflow items with unsorted and non continuous sequence', function(){
+        it('should create a workflow item collection from josn representing complex parallel workflow items with unsorted and non continuous sequence', function () {
             // Create workflow item collection
             var workflowItems = new WorkflowItemCollection(sampleWorkflow6);
 
@@ -118,22 +120,22 @@ describe('workflow item collection', function(){
             expect(workflowItems.level(4)).to.have.length(2);
             expect(workflowItems.level(5)).to.have.length(1);
             expect(workflowItems.level(6)).to.have.length(3);
-            expect(workflowItems.get(0, 0)).to.shallowDeepEqual({id:11, level:0});
-            expect(workflowItems.get(0, 1)).to.shallowDeepEqual({id:12, level:0});
-            expect(workflowItems.get(1, 0)).to.shallowDeepEqual({id:-1, level:1});
-            expect(workflowItems.get(2, 0)).to.shallowDeepEqual({id:21, level:2});
-            expect(workflowItems.get(2, 1)).to.shallowDeepEqual({id:22, level:2});
-            expect(workflowItems.get(2, 2)).to.shallowDeepEqual({id:23, level:2});
-            expect(workflowItems.get(3, 0)).to.shallowDeepEqual({id:-1, level:3});
-            expect(workflowItems.get(4, 0)).to.shallowDeepEqual({id:31, level:4});
-            expect(workflowItems.get(4, 1)).to.shallowDeepEqual({id:32, level:4});
-            expect(workflowItems.get(5, 0)).to.shallowDeepEqual({id:-1, level:5});
-            expect(workflowItems.get(6, 0)).to.shallowDeepEqual({id:41, level:6});
-            expect(workflowItems.get(6, 1)).to.shallowDeepEqual({id:42, level:6});
-            expect(workflowItems.get(6, 2)).to.shallowDeepEqual({id:43, level:6});
+            expect(workflowItems.get(0, 0)).to.shallowDeepEqual({ id: 11, level: 0 });
+            expect(workflowItems.get(0, 1)).to.shallowDeepEqual({ id: 12, level: 0 });
+            expect(workflowItems.get(1, 0)).to.shallowDeepEqual({ id: -1, level: 1 });
+            expect(workflowItems.get(2, 0)).to.shallowDeepEqual({ id: 21, level: 2 });
+            expect(workflowItems.get(2, 1)).to.shallowDeepEqual({ id: 22, level: 2 });
+            expect(workflowItems.get(2, 2)).to.shallowDeepEqual({ id: 23, level: 2 });
+            expect(workflowItems.get(3, 0)).to.shallowDeepEqual({ id: -1, level: 3 });
+            expect(workflowItems.get(4, 0)).to.shallowDeepEqual({ id: 31, level: 4 });
+            expect(workflowItems.get(4, 1)).to.shallowDeepEqual({ id: 32, level: 4 });
+            expect(workflowItems.get(5, 0)).to.shallowDeepEqual({ id: -1, level: 5 });
+            expect(workflowItems.get(6, 0)).to.shallowDeepEqual({ id: 41, level: 6 });
+            expect(workflowItems.get(6, 1)).to.shallowDeepEqual({ id: 42, level: 6 });
+            expect(workflowItems.get(6, 2)).to.shallowDeepEqual({ id: 43, level: 6 });
         });
 
-        it('should create a workflow item collection with empty array', function() {
+        it('should create a workflow item collection with empty array', function () {
             // Create workflow item collection
             var workflowItems = new WorkflowItemCollection([]);
 
@@ -141,13 +143,13 @@ describe('workflow item collection', function(){
             expect(workflowItems.levelCount()).to.be.equal(0);
         });
 
-        it('should throw an error for non array', function() {
+        it('should throw an error for non array', function () {
             expect(function() {
                 var workflowItems = new WorkflowItemCollection("abcd");
             }).to.throw(TypeError);
         });
 
-        it('should throw an error for an invalid items array', function() {
+        it('should throw an error for an invalid items array', function () {
             expect(function() {
                 var workflowItems = new WorkflowItemCollection(invalidWorkflow);
             }).to.throw(SyntaxError);

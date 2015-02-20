@@ -1,4 +1,5 @@
-define(["js/model/WorkflowItemConnector"], function(WorkflowItemConnector) {
+define(["d3", "js/model/WorkflowItemConnector"], function (d3, WorkflowItemConnector) {
+    "use strict";
 
     return function WorkflowDesigner(width, height, container, items) {
         var itemsCollection = items,
@@ -27,7 +28,7 @@ define(["js/model/WorkflowItemConnector"], function(WorkflowItemConnector) {
                 render();
             },
 
-        // Get the diagonal definitions between the nodes
+            // Get the diagonal definitions between the nodes
             getDiagonalDefinition = function () {
                 return new d3.svg.diagonal()
                     .source(function (d) {
@@ -47,18 +48,19 @@ define(["js/model/WorkflowItemConnector"], function(WorkflowItemConnector) {
                     });
             },
 
-        // Render the nodes
+            // Render the nodes
             renderItemNodes = function () {
                 var itemNodes = svg.selectAll("rect")
                     .data(itemsCollection.toArray());
 
                 itemNodes.enter().append("rect");
                 itemNodes.exit().remove();
-                itemNodes.attr("width", function (d) {
-                    return d.id === -1 ? intermediateSize : itemWidth
-                })
+                itemNodes
+                    .attr("width", function (d) {
+                        return d.id === -1 ? intermediateSize : itemWidth;
+                    })
                     .attr("height", function (d) {
-                        return d.id === -1 ? intermediateSize : itemHeight
+                        return d.id === -1 ? intermediateSize : itemHeight;
                     })
                     .attr("rx", function () {
                         return itemNodeRadius;
@@ -77,10 +79,10 @@ define(["js/model/WorkflowItemConnector"], function(WorkflowItemConnector) {
                             : (d.y * magnitude) + offset - (itemHeight / 2);
                     })
                     .classed("workflow-item", function (d) {
-                        return d.id !== -1
+                        return d.id !== -1;
                     })
                     .classed("intermediate-item", function (d) {
-                        return d.id === -1
+                        return d.id === -1;
                     });
 
                 itemNodes.on("click", function (d) {
@@ -91,10 +93,12 @@ define(["js/model/WorkflowItemConnector"], function(WorkflowItemConnector) {
                 return itemNodes;
             },
 
-        // Render the connectors
+            // Render the connectors
             renderItemConnectors = function (itemNodes, diagonal) {
                 var connectorData = [],
-                    connectors;
+                    connectors,
+                    previousLevelLength,
+                    i;
 
                 // work through all items higher than level 0
                 itemNodes.filter(function (d) {
@@ -103,8 +107,8 @@ define(["js/model/WorkflowItemConnector"], function(WorkflowItemConnector) {
                     var previousLevel = itemsCollection.level(d.level - 1);
 
                     // Construct the connector data using the nodes to be connected
-                    for (var i = 0, previousLevelLength = previousLevel.length; i < previousLevelLength; i++) {
-                        connectorData.push(WorkflowItemConnector(previousLevel[i], d));
+                    for (i = 0, previousLevelLength = previousLevel.length; i < previousLevelLength; i++) {
+                        connectorData.push(new WorkflowItemConnector(previousLevel[i], d));
                     }
                 });
 
@@ -131,5 +135,5 @@ define(["js/model/WorkflowItemConnector"], function(WorkflowItemConnector) {
             render: render,
             delete: deleteSelected
         };
-    }
+    };
 });

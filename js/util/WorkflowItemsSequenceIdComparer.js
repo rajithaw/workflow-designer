@@ -2,7 +2,8 @@
  * Created by Rajitha on 2/19/2015.
  */
 
-define([], function() {
+define([], function () {
+    "use strict";
 
     // Comparer for sorting the the workflow items by sequence
     return function (item1, item2) {
