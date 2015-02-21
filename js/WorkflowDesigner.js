@@ -1,4 +1,4 @@
-define(["d3", "js/model/WorkflowItemConnector"], function (d3, WorkflowItemConnector) {
+define(["d3", "model/WorkflowItemConnector"], function (d3, WorkflowItemConnector) {
     "use strict";
 
     return function WorkflowDesigner(width, height, container, items) {

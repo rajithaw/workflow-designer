@@ -1,7 +1,7 @@
 /**
  * Created by Rajitha on 2/19/2015.
  */
-define(["js/model/WorkflowItem"], function (WorkflowItem) {
+define(["model/WorkflowItem"], function (WorkflowItem) {
     "use strict";
 
     return function IntermediateItem(level) {

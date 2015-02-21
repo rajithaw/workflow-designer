@@ -1,7 +1,7 @@
 /**
  * Created by Rajitha on 11/8/2014.
  */
-define(["d3", "js/model/WorkflowItem", "js/model/IntermediateItem", "js/util/WorkflowItemsSequenceIdComparer"], function (d3, WorkflowItem, IntermediateItem, workflowItemsSequenceIdComparer) {
+define(["d3", "model/WorkflowItem", "model/IntermediateItem", "util/WorkflowItemsSequenceIdComparer"], function (d3, WorkflowItem, IntermediateItem, workflowItemsSequenceIdComparer) {
     "use strict";
 
     return function workflowItemCollection(itemsJson) {
@@ -152,7 +152,7 @@ define(["d3", "js/model/WorkflowItem", "js/model/IntermediateItem", "js/util/Wor
                 return items;
             },
 
-            // Re initialize the collection after items have been added, removed or updated
+            // Re-initialize the collection after items have been added, removed or updated
             reInitialize = function () {
                 itemsJson = toJson();
 

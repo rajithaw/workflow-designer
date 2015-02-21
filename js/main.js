@@ -2,13 +2,16 @@
  * Created by Rajitha on 2/19/2015.
  */
 
+var main;
+
 require.config({
     paths: {
-        d3: "lib/d3/d3.min"
+        d3: "../lib/d3/d3.min",
+        data: "../data"
     }
 });
 
-require(["js/WorkflowDesigner", "js/model/WorkflowItemCollection", "data/SampleWorkflows"], function (WorkflowDesigner, WorkflowItemCollection, SampleWorkflows) {
+require(["WorkflowDesigner", "model/WorkflowItemCollection", "data/SampleWorkflows"], function (WorkflowDesigner, WorkflowItemCollection, SampleWorkflows) {
     "use strict";
 
     var workflowItems = new WorkflowItemCollection(SampleWorkflows.sampleWorkflow6),
@@ -20,7 +23,6 @@ require(["js/WorkflowDesigner", "js/model/WorkflowItemCollection", "data/SampleW
         workflowDesigner.delete();
     }
 
-    return {
-        deleteSelectedNodes: deleteSelectedNodes
-    };
+    main = {};
+    main.deleteSelectedNodes = deleteSelectedNodes;
 });

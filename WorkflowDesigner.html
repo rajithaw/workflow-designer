@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title></title>
     <link rel="stylesheet" type="text/css" href="css/styles.css">
-    <script type="text/javascript" src="lib/requirejs/require.js" data-main="main.js"></script>
+    <script type="text/javascript" src="lib/requirejs/require.js" data-main="js/main.js"></script>
 </head>
 <body>
     <div>
@@ -14,10 +14,10 @@
     </div>
 
     <script type="text/javascript">
-        var main = require(["main"]);
-
         function deleteSelectedNodes() {
-            main.deleteSelectedNodes();
+            if (main) {
+                main.deleteSelectedNodes();
+            }
         }
     </script>
 </body>
