@@ -4,9 +4,9 @@ define(["d3", "model/WorkflowItem", "model/WorkflowItemConnector"], function (d3
     return function WorkflowDesigner(width, height, container, items) {
         var itemsCollection = items,
             magnitude = 100,
-            offset = 20,
-            itemWidth = 40,
-            itemHeight = 20,
+            offset = 60,
+            itemWidth = 80,
+            itemHeight = 40,
             intermediateSize = 10,
             itemNodeRadius = 5,
 
@@ -55,12 +55,33 @@ define(["d3", "model/WorkflowItem", "model/WorkflowItemConnector"], function (d3
 
             // Render the nodes
             renderItemNodes = function () {
-                var itemNodes = svg.selectAll("rect")
+                var itemNodes,
+                    nodeText,
+                    itemNodeGroups = svg.selectAll("g")
                     .data(itemsCollection.toArray());
 
-                itemNodes.enter().append("rect");
-                itemNodes.exit().remove();
-                itemNodes
+                itemNodeGroups.enter().append("g");
+                itemNodeGroups.exit().remove();
+                itemNodeGroups
+                    .attr("width", function (d) {
+                        return d.id === -1 ? intermediateSize : itemWidth;
+                    })
+                    .attr("height", function (d) {
+                        return d.id === -1 ? intermediateSize : itemHeight;
+                    })
+                    .attr("transform", function(d) {
+                        return "translate(" + (d.id === -1
+                            ? (d.x * magnitude) + offset - (intermediateSize / 2)
+                            : (d.x * magnitude) + offset - (itemWidth / 2))
+                            + "," + (d.id === -1
+                            ? (d.y * magnitude) + offset - (intermediateSize / 2)
+                            : (d.y * magnitude) + offset - (itemHeight / 2)) + ")";
+                    });
+
+                itemNodeGroups.select("rect").remove();
+                itemNodeGroups.select("text").remove();
+
+                itemNodes = itemNodeGroups.append("rect")
                     .attr("width", function (d) {
                         return d.id === -1 ? intermediateSize : itemWidth;
                     })
@@ -73,16 +94,6 @@ define(["d3", "model/WorkflowItem", "model/WorkflowItemConnector"], function (d3
                     .attr("ry", function () {
                         return itemNodeRadius;
                     })
-                    .attr("x", function (d) {
-                        return d.id === -1
-                            ? (d.x * magnitude) + offset - (intermediateSize / 2)
-                            : (d.x * magnitude) + offset - (itemWidth / 2);
-                    })
-                    .attr("y", function (d) {
-                        return d.id === -1
-                            ? (d.y * magnitude) + offset - (intermediateSize / 2)
-                            : (d.y * magnitude) + offset - (itemHeight / 2);
-                    })
                     .classed("workflow-item", function (d) {
                         return d.id !== -1;
                     })
@@ -90,12 +101,31 @@ define(["d3", "model/WorkflowItem", "model/WorkflowItemConnector"], function (d3
                         return d.id === -1;
                     });
 
+                nodeText = itemNodeGroups.append("text")
+                    .attr("x", function() { return itemWidth / 2 })
+                    .attr("y", function() { return itemHeight / 2 })
+                    .style("fill","yellow")
+                    .style("font-family", "sans-serif")
+                    .style("font-size", 10)
+                    .style("display", function (d) { return d.id === -1 ? "none" : "block" });
+
+                // Append the name text
+                nodeText.append("tspan")
+                    .attr("x", 0)
+                    .text(function (d) { return "Name: " + d.name; });
+
+                // Append the sequence text
+                nodeText.append("tspan")
+                    .attr("x", 0)
+                    .attr("dy", 10)
+                    .text(function (d) { return "Sequence: " + d.sequence; });
+
                 itemNodes.on("click", function (d) {
                     d.selected = !d.selected;
                     d3.select(this).classed("selected", d.selected);
                 });
 
-                return itemNodes;
+                return itemNodeGroups;
             },
 
             // Render the connectors
