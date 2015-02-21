@@ -6,21 +6,7 @@
 </head>
 <body>
     <div id="mocha"></div>
-    <script src="lib/mocha/mocha.js"></script>
-    <script src="lib/chai/chai.js"></script>
-    <script src="lib/chai-shallow-deep-equal/chai-shallow-deep-equal.js"></script>
-    <script>mocha.setup('bdd')</script>
-    <script src="../data/SampleWorkflows.js"></script>
-    <script src="../js/model/WorkflowItem.js"></script>
-    <script src="../js/model/WorkflowItemCollection.js"></script>
-    <script src="js/WorkflowItemsTests.js"></script>
-    <script>
-        var assert = chai.assert;
-        var expect = chai.expect;
-
-        mocha.checkLeaks();
-        mocha.run();
-    </script>
+    <script type="text/javascript" src="../lib/requirejs/require.js" data-main="js/TestRunner.js"></script>
 </body>
 
 </html>

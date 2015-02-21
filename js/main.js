@@ -11,10 +11,10 @@ require.config({
     }
 });
 
-require(["WorkflowDesigner", "model/WorkflowItemCollection", "data/SampleWorkflows"], function (WorkflowDesigner, WorkflowItemCollection, SampleWorkflows) {
+require(["WorkflowDesigner", "model/WorkflowItemCollection", "data/SampleWorkflows"], function (WorkflowDesigner, WorkflowItemCollection, sampleWorkflows) {
     "use strict";
 
-    var workflowItems = new WorkflowItemCollection(SampleWorkflows.sampleWorkflow6),
+    var workflowItems = new WorkflowItemCollection(sampleWorkflows.sampleWorkflow6),
         workflowDesigner = new WorkflowDesigner(1024, 768, d3.select("#display"), workflowItems);
 
     workflowDesigner.render();
