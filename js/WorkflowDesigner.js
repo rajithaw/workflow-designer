@@ -1,4 +1,4 @@
-define(["d3", "model/WorkflowItemConnector"], function (d3, WorkflowItemConnector) {
+define(["d3", "model/WorkflowItem", "model/WorkflowItemConnector"], function (d3, WorkflowItem, WorkflowItemConnector) {
     "use strict";
 
     return function WorkflowDesigner(width, height, container, items) {
@@ -25,6 +25,11 @@ define(["d3", "model/WorkflowItemConnector"], function (d3, WorkflowItemConnecto
 
             deleteSelected = function () {
                 itemsCollection.remove(d3.selectAll(".selected").data());
+                render();
+            },
+
+            insert = function (sequence) {
+                itemsCollection.add(new WorkflowItem(0, "", "", sequence));
                 render();
             },
 
@@ -133,7 +138,8 @@ define(["d3", "model/WorkflowItemConnector"], function (d3, WorkflowItemConnecto
 
         return {
             render: render,
-            delete: deleteSelected
+            delete: deleteSelected,
+            insert: insert
         };
     };
 });

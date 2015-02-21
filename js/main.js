@@ -23,6 +23,11 @@ require(["WorkflowDesigner", "model/WorkflowItemCollection", "data/SampleWorkflo
         workflowDesigner.delete();
     }
 
+    function addNode(sequence) {
+        workflowDesigner.insert(sequence);
+    }
+
     main = {};
     main.deleteSelectedNodes = deleteSelectedNodes;
+    main.addNode = addNode;
 });

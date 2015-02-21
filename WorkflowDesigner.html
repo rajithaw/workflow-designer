@@ -8,15 +8,32 @@
 </head>
 <body>
     <div>
-        <input type="button" value="Delete" onclick="deleteSelectedNodes()" />
+        <table>
+            <tr>
+                <td><input type="button" value="Delete" onclick="onDeleteNodeClicked()" /></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><input type="button" value="Add" onclick="onAddNodeClicked()" /></td>
+                <td>Sequence: <input id="txtSequence" type="text" value="0" maxlength="2" style="width:30px"/></td>
+            </tr>
+        </table>
     </div>
     <div id="display" style="overflow:auto;">
     </div>
 
     <script type="text/javascript">
-        function deleteSelectedNodes() {
+        function onDeleteNodeClicked() {
             if (main) {
                 main.deleteSelectedNodes();
+            }
+        }
+
+        function onAddNodeClicked() {
+            var sequence = parseInt(document.getElementById("txtSequence").value);
+
+            if (main && sequence > 0) {
+                main.addNode(sequence);
             }
         }
     </script>
