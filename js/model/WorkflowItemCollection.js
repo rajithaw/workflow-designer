@@ -1,7 +1,7 @@
 /**
  * Created by Rajitha on 11/8/2014.
  */
-define(["d3", "model/WorkflowItem", "model/IntermediateItem", "util/WorkflowItemsSequenceIdComparer"], function (d3, WorkflowItem, IntermediateItem, workflowItemsSequenceIdComparer) {
+define(["model/WorkflowItem", "model/IntermediateItem", "util/WorkflowItemsSequenceIdComparer"], function (WorkflowItem, IntermediateItem, workflowItemsSequenceIdComparer) {
     "use strict";
 
     return function workflowItemCollection(itemsJson) {
