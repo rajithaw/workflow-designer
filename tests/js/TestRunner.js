@@ -31,7 +31,9 @@ define(["mocha", "chai", "chai-shallow-deep-equal"], function(mocha, chai, chaiS
     mocha.setup('bdd');
 
     require(["js/WorkflowItemsTests.js"], function(require) {
-        mocha.checkLeaks();
-        mocha.run();
+        if (navigator.userAgent.indexOf("PhantomJS") < 0) {
+            mocha.checkLeaks();
+            mocha.run();
+        }
     });
 });

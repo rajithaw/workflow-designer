@@ -2,12 +2,12 @@
   "name": "WorkflowDesigner",
   "version": "0.1.0",
   "description": "",
-  "main": "index.js",
+  "main": "gruntfile.js",
   "directories": {
     "test": "tests"
   },
   "scripts": {
-    "test": "mocha"
+    "test": ""
   },
   "repository": {
     "type": "git",
@@ -25,6 +25,7 @@
   "homepage": "https://github.com/rajithaw/WorkflowDesigner",
   "devDependencies": {
     "grunt": "^0.4.5",
+    "grunt-mocha": "^0.4.11",
     "requirejs": "^2.1.16"
   }
 }
