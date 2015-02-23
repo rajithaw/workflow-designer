@@ -484,7 +484,7 @@ describe('workflow item collection', function () {
             // Create workflow item collection
             var workflowItems = new WorkflowItemCollection(sampleWorkflows.sampleWorkflow6);
 
-            var itemsToRemove = [workflowItems.get(2, 0), workflowItems.get(2, 2), workflowItems.get(6, 2)]
+            var itemsToRemove = [workflowItems.get(2, 0), workflowItems.get(2, 2), workflowItems.get(6, 2)];
             workflowItems.remove(itemsToRemove);
 
             // Assert
