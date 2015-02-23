@@ -4,43 +4,37 @@
 
 module.exports = function (grunt) {
     grunt.initConfig({
-       mocha: {
-           all: {
-               src: ["tests/TestRunner.html"],
-               options: {
-                   run: true,
-                   log: true
-               }
-           }
-       },
-       jshint: {
-           all: ["js/**/*.js", "tests/js/**/*.js"],
-           options: {
-               curly: true
-           }
-       },
-       uglify: {
-           development: {
-               files:[{
-                   expand: true,
-                   cwd: ".",
-                   src: "js/**/*.js",
-                   dest: "dist"
-               }]
-           },
-           options: {
-               mangle: false,
-               compress: {
-                   drop_console: true
-               },
-               beautify: true
-           }
-       }
+        mocha: {
+            all: {
+                src: ["tests/TestRunner.html"],
+                options: {
+                    run: true,
+                    log: true
+                }
+            }
+        },
+        jshint: {
+            all: ["js/**/*.js", "tests/js/**/*.js"],
+            options: {
+                curly: true
+            }
+        },
+        requirejs: {
+            compile: {
+                options: {
+                    mainConfigFile: "js/require-config.js",
+                    optimize: "uglify2",
+                    generateSourceMaps: false,
+                    name: "main",
+                    out: "dist/workflow-designer.min.js"
+                }
+            }
+        }
     });
 
     grunt.loadNpmTasks("grunt-mocha");
     grunt.loadNpmTasks("grunt-contrib-jshint");
-    grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-requirejs');
 
-    grunt.registerTask("default", ["mocha"]);
+    grunt.registerTask("default", ["mocha", "jshint", "requirejs"]);
 };

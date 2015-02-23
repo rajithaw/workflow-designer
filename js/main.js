@@ -4,13 +4,6 @@
 
 var main;
 
-require.config({
-    paths: {
-        d3: "../lib/d3/d3.min",
-        data: "../data"
-    }
-});
-
 require(["WorkflowDesigner", "model/WorkflowItemCollection", "data/SampleWorkflows"], function (WorkflowDesigner, WorkflowItemCollection, sampleWorkflows) {
     "use strict";
 

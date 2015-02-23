@@ -5,19 +5,12 @@
 describe('workflow item collection', function () {
     "use strict";
 
-    console.log("In Describe");
-
     // Load modules with requirejs before tests
     var WorkflowItemCollection,
         sampleWorkflows;
 
     before(function(done) {
-        console.log("In Before");
-        console.log(require);
         require(["model/WorkflowItemCollection", "data/sampleWorkflows"], function(collection, samples) {
-
-            console.log("In Require");
-
             WorkflowItemCollection = collection;
             sampleWorkflows = samples;
             done(); // We can launch the tests!
