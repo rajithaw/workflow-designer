@@ -4,14 +4,14 @@
 define(["model/WorkflowItem", "model/IntermediateItem", "util/WorkflowItemsSequenceIdComparer"], function (WorkflowItem, IntermediateItem, workflowItemsSequenceIdComparer) {
     "use strict";
 
-    return function workflowItemCollection(itemsJson) {
+    return function workflowItemCollection(workflowItemsJson) {
         var itemCollection = [],
             maxIndex = 0,
             itemLevels = 0,
             intermediateLevels = 0,
             itemGapX = 2,
             itemGapY = 2,
-            itemsJson = itemsJson,
+            itemsJson = workflowItemsJson,
 
             // Adjust intermediate item positions
             adjustIntermediateItems = function () {
@@ -80,7 +80,7 @@ define(["model/WorkflowItem", "model/IntermediateItem", "util/WorkflowItemsSeque
 
                     // Set workflow item properties and add to the collection
                     workflowItem.level = level;
-                    workflowItem.x = previousLevel == null ? 0 : previousLevel[0].x + itemGapX;
+                    workflowItem.x = !previousLevel ? 0 : previousLevel[0].x + itemGapX;
                     workflowItem.y = index * itemGapY;
 
                     itemCollection[level][index] = workflowItem;
