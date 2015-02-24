@@ -1,4 +1,7 @@
-﻿
+﻿/**
+ * Created by Rajitha on 2/24/2015.
+ */
+
 define(["d3"], function (d3) {
     "use strict";
 
@@ -28,6 +31,6 @@ define(["d3"], function (d3) {
             classes: {
                 connector: true
             }
-        }
+        };
     };
 });

@@ -1,4 +1,7 @@
-﻿
+﻿/**
+ * Created by Rajitha on 2/24/2015.
+ */
+
 define([], function () {
     "use strict";
 
@@ -25,6 +28,12 @@ define([], function () {
                 },
                 "intermediate-item": function(d) {
                     return d.id === -1;
+                }
+            },
+            events: {
+                "click": function (d) {
+                    d.selected = !d.selected;
+                    d3.select(this).classed("selected", d.selected);
                 }
             }
         };

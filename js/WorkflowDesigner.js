@@ -1,5 +1,13 @@
-define(["d3", "model/WorkflowItem", "model/WorkflowItemConnector", "view/WorkflowItemNode", "view/WorkflowItemNodeGroup", "view/WorkflowNodeConnector"], function (d3, WorkflowItem, WorkflowItemConnector, WorkflowItemNode, WorkflowItemNodeGroup, WorkflowNodeConnector) {
+define(function (require, exports, module) {
     "use strict";
+
+    var d3 = require("d3"),
+        WorkflowItem = require("model/WorkflowItem"),
+        WorkflowItemConnector = require("model/WorkflowItemConnector"),
+        WorkflowItemNode = require("view/WorkflowItemNode"),
+        WorkflowItemNodeGroup = require("view/WorkflowItemNodeGroup"),
+        WorkflowNodeConnector = require("view/WorkflowNodeConnector"),
+        WorkflowNodeText = require("view/WorkflowNodeText");
 
     return function WorkflowDesigner(width, height, container, items) {
         var itemsCollection = items,
@@ -39,10 +47,12 @@ define(["d3", "model/WorkflowItem", "model/WorkflowItemConnector", "view/Workflo
                     nodeText,
                     itemNodeGroups,
                     itemNode,
-                    itemNodeGroup;
+                    itemNodeGroup,
+                    itemNodeText;
 
                 itemNode = new WorkflowItemNode(itemWidth, itemHeight, intermediateSize, itemNodeRadius);
                 itemNodeGroup = new WorkflowItemNodeGroup(itemWidth, itemHeight, intermediateSize, magnitude, offset);
+                itemNodeText = new WorkflowNodeText();
 
                 itemNodeGroups = svg.selectAll(itemNodeGroup.type)
                     .data(itemsCollection.toArray());
@@ -58,29 +68,21 @@ define(["d3", "model/WorkflowItem", "model/WorkflowItemConnector", "view/Workflo
                     .attr(itemNode.attributes)
                     .classed(itemNode.classes);
 
-                nodeText = itemNodeGroups.append("text")
-                    .attr("x", function() { return itemWidth / 2; })
-                    .attr("y", function() { return itemHeight / 2; })
-                    .style("fill","yellow")
-                    .style("font-family", "sans-serif")
-                    .style("font-size", 10)
-                    .style("display", function (d) { return d.id === -1 ? "none" : "block"; });
+                nodeText = itemNodeGroups.append(itemNodeText.type)
+                    .attr(itemNodeText.attributes)
+                    .classed(itemNodeText.classes);
 
                 // Append the name text
-                nodeText.append("tspan")
-                    .attr("x", 0)
-                    .text(function (d) { return "Name: " + d.name; });
+                nodeText.append(itemNodeText.textLine.type)
+                    .attr(itemNodeText.textLine.nameText.attributes)
+                    .text(itemNodeText.textLine.nameText.text);
 
                 // Append the sequence text
-                nodeText.append("tspan")
-                    .attr("x", 0)
-                    .attr("dy", 10)
-                    .text(function (d) { return "Sequence: " + d.sequence; });
+                nodeText.append(itemNodeText.textLine.type)
+                    .attr(itemNodeText.textLine.sequenceText.attributes)
+                    .text(itemNodeText.textLine.sequenceText.text);
 
-                itemNodes.on("click", function (d) {
-                    d.selected = !d.selected;
-                    d3.select(this).classed("selected", d.selected);
-                });
+                itemNodes.on(itemNode.events);
 
                 return itemNodeGroups;
             },
@@ -96,16 +98,15 @@ define(["d3", "model/WorkflowItem", "model/WorkflowItemConnector", "view/Workflo
                 itemNodeConnector = new WorkflowNodeConnector(itemWidth, magnitude, offset);
 
                 // work through all items higher than level 0
-                itemNodes.filter(function (d) {
-                    return d.level > 0;
-                }).each(function (d) {
-                    var previousLevel = itemsCollection.level(d.level - 1);
+                itemNodes.filter(function (d) { return d.level > 0; })
+                    .each(function (d) {
+                        var previousLevel = itemsCollection.level(d.level - 1);
 
-                    // Construct the connector data using the nodes to be connected
-                    for (i = 0, previousLevelLength = previousLevel.length; i < previousLevelLength; i++) {
-                        connectorData.push(new WorkflowItemConnector(previousLevel[i], d));
-                    }
-                });
+                        // Construct the connector data using the nodes to be connected
+                        for (i = 0, previousLevelLength = previousLevel.length; i < previousLevelLength; i++) {
+                            connectorData.push(new WorkflowItemConnector(previousLevel[i], d));
+                        }
+                    });
 
                 // Render the connections
                 connectors = svg.selectAll(itemNodeConnector.type)
@@ -118,7 +119,7 @@ define(["d3", "model/WorkflowItem", "model/WorkflowItemConnector", "view/Workflo
             },
 
             render = function () {
-                var    itemNodes = renderItemNodes();
+                var itemNodes = renderItemNodes();
 
                 renderItemConnectors(itemNodes);
             };

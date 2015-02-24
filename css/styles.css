@@ -16,3 +16,12 @@
     strile-width: 3px;
 }
 
+.workflow-item-text {
+    fill: yellow;
+    font-family: sans-serif;
+    font-size: 10px;
+}
+
+.workflow-item-text-hidden {
+    display: none;
+}
