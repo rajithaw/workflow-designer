@@ -1,4 +1,4 @@
-define(["d3", "model/WorkflowItem", "model/WorkflowItemConnector"], function (d3, WorkflowItem, WorkflowItemConnector) {
+define(["d3", "model/WorkflowItem", "model/WorkflowItemConnector", "view/WorkflowItemNode", "view/WorkflowItemNodeGroup", "view/WorkflowNodeConnector"], function (d3, WorkflowItem, WorkflowItemConnector, WorkflowItemNode, WorkflowItemNodeGroup, WorkflowNodeConnector) {
     "use strict";
 
     return function WorkflowDesigner(width, height, container, items) {
@@ -33,73 +33,30 @@ define(["d3", "model/WorkflowItem", "model/WorkflowItemConnector"], function (d3
                 render();
             },
 
-            // Get the diagonal definitions between the nodes
-            getDiagonalDefinition = function () {
-                return new d3.svg.diagonal()
-                    .source(function (d) {
-                        return {
-                            "x": (d.source.y * magnitude) + offset,
-                            "y": d.source.id === -1 ? (d.source.x * magnitude) + offset : (d.source.x * magnitude) + offset + (itemWidth / 2)
-                        };
-                    })
-                    .target(function (d) {
-                        return {
-                            "x": (d.target.y * magnitude) + offset,
-                            "y": d.target.id === -1 ? (d.target.x * magnitude) + offset : (d.target.x * magnitude) + offset - (itemWidth / 2)
-                        };
-                    })
-                    .projection(function (d) {
-                        return [d.y, d.x];
-                    });
-            },
-
             // Render the nodes
             renderItemNodes = function () {
                 var itemNodes,
                     nodeText,
-                    itemNodeGroups = svg.selectAll("g")
+                    itemNodeGroups,
+                    itemNode,
+                    itemNodeGroup;
+
+                itemNode = new WorkflowItemNode(itemWidth, itemHeight, intermediateSize, itemNodeRadius);
+                itemNodeGroup = new WorkflowItemNodeGroup(itemWidth, itemHeight, intermediateSize, magnitude, offset);
+
+                itemNodeGroups = svg.selectAll(itemNodeGroup.type)
                     .data(itemsCollection.toArray());
 
-                itemNodeGroups.enter().append("g");
+                itemNodeGroups.enter().append(itemNodeGroup.type);
                 itemNodeGroups.exit().remove();
-                itemNodeGroups
-                    .attr("width", function (d) {
-                        return d.id === -1 ? intermediateSize : itemWidth;
-                    })
-                    .attr("height", function (d) {
-                        return d.id === -1 ? intermediateSize : itemHeight;
-                    })
-                    .attr("transform", function(d) {
-                        return "translate(" + (d.id === -1 ?
-                            (d.x * magnitude) + offset - (intermediateSize / 2) :
-                            (d.x * magnitude) + offset - (itemWidth / 2)) +
-                            "," + (d.id === -1 ?
-                            (d.y * magnitude) + offset - (intermediateSize / 2) :
-                            (d.y * magnitude) + offset - (itemHeight / 2)) + ")";
-                    });
+                itemNodeGroups.attr(itemNodeGroup.attributes);
 
-                itemNodeGroups.select("rect").remove();
+                itemNodeGroups.select(itemNode.type).remove();
                 itemNodeGroups.select("text").remove();
 
-                itemNodes = itemNodeGroups.append("rect")
-                    .attr("width", function (d) {
-                        return d.id === -1 ? intermediateSize : itemWidth;
-                    })
-                    .attr("height", function (d) {
-                        return d.id === -1 ? intermediateSize : itemHeight;
-                    })
-                    .attr("rx", function () {
-                        return itemNodeRadius;
-                    })
-                    .attr("ry", function () {
-                        return itemNodeRadius;
-                    })
-                    .classed("workflow-item", function (d) {
-                        return d.id !== -1;
-                    })
-                    .classed("intermediate-item", function (d) {
-                        return d.id === -1;
-                    });
+                itemNodes = itemNodeGroups.append(itemNode.type)
+                    .attr(itemNode.attributes)
+                    .classed(itemNode.classes);
 
                 nodeText = itemNodeGroups.append("text")
                     .attr("x", function() { return itemWidth / 2; })
@@ -129,11 +86,14 @@ define(["d3", "model/WorkflowItem", "model/WorkflowItemConnector"], function (d3
             },
 
             // Render the connectors
-            renderItemConnectors = function (itemNodes, diagonal) {
+            renderItemConnectors = function (itemNodes) {
                 var connectorData = [],
                     connectors,
                     previousLevelLength,
+                    itemNodeConnector,
                     i;
+
+                itemNodeConnector = new WorkflowNodeConnector(itemWidth, magnitude, offset);
 
                 // work through all items higher than level 0
                 itemNodes.filter(function (d) {
@@ -148,20 +108,19 @@ define(["d3", "model/WorkflowItem", "model/WorkflowItemConnector"], function (d3
                 });
 
                 // Render the connections
-                connectors = svg.selectAll("path")
+                connectors = svg.selectAll(itemNodeConnector.type)
                     .data(connectorData);
-                connectors.enter().append("path");
+                connectors.enter().append(itemNodeConnector.type);
                 connectors.exit().remove();
 
-                connectors.attr("d", diagonal)
-                    .classed("connector", true);
+                connectors.attr(itemNodeConnector.attributes)
+                    .classed(itemNodeConnector.classes);
             },
 
             render = function () {
-                var diagonal = getDiagonalDefinition(),
-                    itemNodes = renderItemNodes();
+                var    itemNodes = renderItemNodes();
 
-                renderItemConnectors(itemNodes, diagonal);
+                renderItemConnectors(itemNodes);
             };
 
         d3.select(window).on("keydown", onKeyDown);
