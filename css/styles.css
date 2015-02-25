@@ -25,3 +25,7 @@
 .workflow-item-text-hidden {
     display: none;
 }
+
+.workflow-item-connector-hidden {
+    display: none;
+}

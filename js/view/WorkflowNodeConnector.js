@@ -29,7 +29,8 @@ define(["d3"], function (d3) {
                 "d": diagonal
             },
             classes: {
-                connector: true
+                "connector": true,
+                "workflow-item-connector-hidden": false
             }
         };
     };

@@ -7,7 +7,7 @@ define(function (require, exports, module) {
         WorkflowItemNode = require("view/WorkflowItemNode"),
         WorkflowItemNodeGroup = require("view/WorkflowItemNodeGroup"),
         WorkflowNodeConnector = require("view/WorkflowNodeConnector"),
-        WorkflowNodeText = require("view/WorkflowNodeText");
+        WorkflowItemNodeText = require("view/WorkflowItemNodeText");
 
     return function WorkflowDesigner(width, height, container, items) {
         var itemsCollection = items,
@@ -41,6 +41,26 @@ define(function (require, exports, module) {
                 render();
             },
 
+            // Find the connector elements of the provided workflow item
+            findConnectors = function (itemData) {
+                var previousLevel,
+                    nextLevel;
+
+                if (itemData.level > 0) {
+                    previousLevel = itemsCollection.level(itemData.level - 1);
+                }
+
+                if (itemData.level < itemsCollection.levelCount() - 1) {
+                    nextLevel = itemsCollection.level(itemData.level + 1);
+                }
+
+                return d3.selectAll("path")
+                    .filter(function (d) {
+                        return ((previousLevel && previousLevel.indexOf(d.source) > -1) && (d.target === itemData)) ||
+                            ((nextLevel && nextLevel.indexOf(d.target) > -1) && (d.source === itemData));
+                    });
+            },
+
             // Render the nodes
             renderItemNodes = function () {
                 var itemNodes,
@@ -52,7 +72,7 @@ define(function (require, exports, module) {
 
                 itemNode = new WorkflowItemNode(itemWidth, itemHeight, intermediateSize, itemNodeRadius);
                 itemNodeGroup = new WorkflowItemNodeGroup(itemWidth, itemHeight, intermediateSize, magnitude, offset);
-                itemNodeText = new WorkflowNodeText();
+                itemNodeText = new WorkflowItemNodeText(itemWidth, itemHeight);
 
                 itemNodeGroups = svg.selectAll(itemNodeGroup.type)
                     .data(itemsCollection.toArray());
@@ -61,8 +81,25 @@ define(function (require, exports, module) {
                 itemNodeGroups.exit().remove();
                 itemNodeGroups.attr(itemNodeGroup.attributes);
 
+
                 itemNodeGroups.select(itemNode.type).remove();
                 itemNodeGroups.select("text").remove();
+
+                // Call the drag with the proper execution context
+                itemNodeGroups.call(itemNodeGroup.drag.call(this));
+
+                itemNodeGroup.on("nodedragstart", function(d) {
+                    console.log(d);
+                    var connectors = findConnectors(d);
+
+                    // Hide the connectors
+                    connectors.classed("workflow-item-connector-hidden", true);
+                });
+
+                itemNodeGroup.on("nodedragend", function(d) {
+                    console.log(d);
+                    render();
+                });
 
                 itemNodes = itemNodeGroups.append(itemNode.type)
                     .attr(itemNode.attributes)

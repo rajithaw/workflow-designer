@@ -26,14 +26,14 @@ define([], function () {
                 type: "tspan",
                 nameText: {
                     attributes: {
-                        x: 0
+                        "x": 0
                     },
                     text: function (d) { return "Name: " + d.name; }
                 },
                 sequenceText: {
                     attributes: {
-                        x: 0,
-                        dy: 10
+                        "x": 0,
+                        "dy": 10
                     },
                     text: function (d) { return "Sequence: " + d.sequence; }
                 }
