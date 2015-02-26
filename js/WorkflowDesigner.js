@@ -12,7 +12,8 @@ define(function (require, exports, module) {
     return function WorkflowDesigner(width, height, container, items) {
         var itemsCollection = items,
             magnitude = 100,
-            offset = 60,
+            offsetX = 100,
+            offsetY = 60,
             itemWidth = 80,
             itemHeight = 40,
             intermediateSize = 10,
@@ -61,6 +62,20 @@ define(function (require, exports, module) {
                     });
             },
 
+            renderWorkflowStart = function () {
+                var startPosX = (itemsCollection.get(0, 0).x * magnitude + offsetX) - 80,
+                    startPosY = itemsCollection.get(0, 0).y + offsetY,
+                    startWidth = 30,
+                    startHeight = 15;
+
+                d3.select("svg").append("rect")
+                    .attr("x", startPosX)
+                    .attr("y", startPosY)
+                    .attr("width", startWidth)
+                    .attr("height", startHeight)
+                    .attr("fill", "red");
+            },
+
             // Render the nodes
             renderItemNodes = function () {
                 var itemNodes,
@@ -71,7 +86,7 @@ define(function (require, exports, module) {
                     itemNodeText;
 
                 itemNode = new WorkflowItemNode(itemWidth, itemHeight, intermediateSize, itemNodeRadius);
-                itemNodeGroup = new WorkflowItemNodeGroup(itemWidth, itemHeight, intermediateSize, magnitude, offset);
+                itemNodeGroup = new WorkflowItemNodeGroup(itemWidth, itemHeight, intermediateSize, magnitude, offsetX, offsetY);
                 itemNodeText = new WorkflowItemNodeText(itemWidth, itemHeight);
 
                 itemNodeGroups = svg.selectAll(itemNodeGroup.type)
@@ -132,7 +147,7 @@ define(function (require, exports, module) {
                     itemNodeConnector,
                     i;
 
-                itemNodeConnector = new WorkflowNodeConnector(itemWidth, magnitude, offset);
+                itemNodeConnector = new WorkflowNodeConnector(itemWidth, magnitude, offsetX, offsetY);
 
                 // work through all items higher than level 0
                 itemNodes.filter(function (d) { return d.level > 0; })
@@ -156,6 +171,8 @@ define(function (require, exports, module) {
             },
 
             render = function () {
+                renderWorkflowStart();
+
                 var itemNodes = renderItemNodes();
 
                 renderItemConnectors(itemNodes);

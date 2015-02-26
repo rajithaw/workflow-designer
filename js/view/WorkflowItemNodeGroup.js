@@ -5,7 +5,7 @@
 define([], function () {
     "use strict";
 
-    return function WorkflowItemNodeGroup(width, height, intermediateSize, magnitude, offset) {
+    return function WorkflowItemNodeGroup(width, height, intermediateSize, magnitude, offsetX, offsetY) {
         var dragStarted = false,
             dragStartThreshold = 0,
             dispatch = d3.dispatch(workflowItemNodeGroup, "nodedragstart", "nodedragend"),
@@ -45,11 +45,11 @@ define([], function () {
                     },
                     "transform": function(d) {
                         return "translate(" + (d.id === -1 ?
-                            (d.x * magnitude) + offset - (intermediateSize / 2) :
-                            (d.x * magnitude) + offset - (width / 2)) +
+                            (d.x * magnitude) + offsetX - (intermediateSize / 2) :
+                            (d.x * magnitude) + offsetX - (width / 2)) +
                             "," + (d.id === -1 ?
-                            (d.y * magnitude) + offset - (intermediateSize / 2) :
-                            (d.y * magnitude) + offset - (height / 2)) + ")";
+                            (d.y * magnitude) + offsetY - (intermediateSize / 2) :
+                            (d.y * magnitude) + offsetY - (height / 2)) + ")";
                     }
                 },
                 "drag": function () {

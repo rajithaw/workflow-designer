@@ -5,18 +5,18 @@
 define(["d3"], function (d3) {
     "use strict";
 
-    return function WorkflowNodeConnector(width, magnitude, offset) {
+    return function WorkflowNodeConnector(width, magnitude, offsetX, offsetY) {
         var diagonal = new d3.svg.diagonal()
             .source(function(d) {
                 return {
-                    "x": (d.source.y * magnitude) + offset,
-                    "y": d.source.id === -1 ? (d.source.x * magnitude) + offset : (d.source.x * magnitude) + offset + (width / 2)
+                    "x": (d.source.y * magnitude) + offsetY,
+                    "y": d.source.id === -1 ? (d.source.x * magnitude) + offsetX : (d.source.x * magnitude) + offsetX + (width / 2)
                 };
             })
             .target(function(d) {
                 return {
-                    "x": (d.target.y * magnitude) + offset,
-                    "y": d.target.id === -1 ? (d.target.x * magnitude) + offset : (d.target.x * magnitude) + offset - (width / 2)
+                    "x": (d.target.y * magnitude) + offsetY,
+                    "y": d.target.id === -1 ? (d.target.x * magnitude) + offsetX : (d.target.x * magnitude) + offsetX - (width / 2)
                 };
             })
             .projection(function(d) {
