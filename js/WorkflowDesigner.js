@@ -88,16 +88,16 @@ define(function (require, exports, module) {
                 // Call the drag with the proper execution context
                 itemNodeGroups.call(itemNodeGroup.drag.call(this));
 
+                // Add node drag start event listener
                 itemNodeGroup.on("nodedragstart", function(d) {
-                    console.log(d);
                     var connectors = findConnectors(d);
 
                     // Hide the connectors
                     connectors.classed("workflow-item-connector-hidden", true);
                 });
 
+                // Add node drag end event listener
                 itemNodeGroup.on("nodedragend", function(d) {
-                    console.log(d);
                     render();
                 });
 

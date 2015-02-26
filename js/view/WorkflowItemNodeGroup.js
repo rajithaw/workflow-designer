@@ -6,28 +6,30 @@ define([], function () {
     "use strict";
 
     return function WorkflowItemNodeGroup(width, height, intermediateSize, magnitude, offset) {
-        var dispatch = d3.dispatch(workflowItemNodeGroup, "nodedragstart", "nodedragend"),
+        var dragStarted = false,
+            dragStartThreshold = 0,
+            dispatch = d3.dispatch(workflowItemNodeGroup, "nodedragstart", "nodedragend"),
 
-            dragmove = function() {
-                var nodeGroup = d3.select(this);
+            dragmove = function () {
+                var nodeGroup = d3.select(this),
+                    nodeGroupData = nodeGroup.datum();
 
-                if(nodeGroup.datum().id > 0) {
-                    nodeGroup.attr("transform", "translate(" + d3.event.x + "," + d3.event.y + ")");
-                }
-            },
-
-            dragstart = function() {
-                var nodeGroupData = d3.select(this).datum();
-
-                if(nodeGroupData.id > 0) {
+                // Make sure the drag start event is fired only once for a set of drag moves
+                if((nodeGroupData.id > 0) && (dragStarted === false) &&
+                    (Math.abs(d3.event.dx) > dragStartThreshold || Math.abs(d3.event.dy) > dragStartThreshold)) {
+                    dragStarted = true;
                     dispatch.nodedragstart(nodeGroupData);
                 }
+
+                nodeGroup.attr("transform", "translate(" + d3.event.x + "," + d3.event.y + ")");
             },
 
-            dragend = function() {
+            dragend = function () {
                 var nodeGroupData = d3.select(this).datum();
 
-                if(nodeGroupData.id > 0) {
+                // Make sure the drag end event is fired only if drag start is initiated
+                if((dragStarted === true) && (nodeGroupData.id > 0)) {
+                    dragStarted = false;
                     dispatch.nodedragend(nodeGroupData);
                 }
             },
@@ -58,7 +60,6 @@ define([], function () {
                                 y: d3.transform(d3.select(this).attr("transform")).translate[1]
                             };
                         })
-                        .on("dragstart", dragstart)
                         .on("drag", dragmove)
                         .on("dragend", dragend);
                 }
