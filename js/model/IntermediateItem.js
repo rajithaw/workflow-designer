@@ -5,6 +5,6 @@ define(["model/WorkflowItem"], function (WorkflowItem) {
     "use strict";
 
     return function IntermediateItem(level) {
-        return new WorkflowItem(-1, "Intermediate", "Intermediate", -1, level);
+        return new WorkflowItem("intermediate", "Intermediate", "Intermediate", -1, level);
     };
 });

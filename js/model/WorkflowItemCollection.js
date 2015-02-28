@@ -1,8 +1,14 @@
 /**
  * Created by Rajitha on 11/8/2014.
  */
-define(["model/WorkflowItem", "model/IntermediateItem", "util/WorkflowItemsSequenceIdComparer"], function (WorkflowItem, IntermediateItem, workflowItemsSequenceIdComparer) {
+define(function (require, exports, module) {
     "use strict";
+
+    var WorkflowItem = require("model/WorkflowItem"),
+        StartItem = require("model/StartItem"),
+        EndItem = require("model/EndItem"),
+        IntermediateItem = require("model/IntermediateItem"),
+        workflowItemsSequenceIdComparer = require("util/WorkflowItemsSequenceIdComparer");
 
     return function workflowItemCollection(workflowItemsJson) {
         var itemCollection = [],
@@ -25,7 +31,7 @@ define(["model/WorkflowItem", "model/IntermediateItem", "util/WorkflowItemsSeque
                 for (i = 0, collectionLength = itemCollection.length; i < collectionLength; i++) {
                     workflowItem = itemCollection[i][0];
 
-                    if (workflowItem.id === -1) {
+                    if (workflowItem.id === "intermediate") {
                         previousLevel = itemCollection[i - 1];
                         nextLevel = itemCollection[i + 1];
                         effectiveLevelLength = Math.min(previousLevel.length, nextLevel.length);
@@ -40,6 +46,7 @@ define(["model/WorkflowItem", "model/IntermediateItem", "util/WorkflowItemsSeque
             convertWorkflowItemsFromJson = function () {
                 var itemJson,
                     workflowItem,
+                    endItem,
                     previousSequence,
                     nextSequence,
                     previousLevel,
@@ -48,15 +55,16 @@ define(["model/WorkflowItem", "model/IntermediateItem", "util/WorkflowItemsSeque
                     itemsLength,
                     i;
 
-                itemCollection[0] = [];
-                previousSequence = itemsJson[0].sequence;
+                // Add the start item at level 0
+                itemCollection[0] = [new StartItem()];
+
+                previousSequence = itemCollection[0][0].sequence;
 
                 for (i = 0, itemsLength = itemsJson.length; i < itemsLength; i++) {
                     itemJson = itemsJson[i];
-                    workflowItem = new WorkflowItem(itemJson.id, itemJson.name, itemJson.description, itemJson.sequence);
 
                     // When the level is changed
-                    if (workflowItem.sequence !== previousSequence) {
+                    if (itemJson.sequence !== previousSequence) {
                         level++;
                         itemLevels++;
                         itemCollection[level] = [];
@@ -66,7 +74,7 @@ define(["model/WorkflowItem", "model/IntermediateItem", "util/WorkflowItemsSeque
                         nextSequence = i + 1 < itemsLength ? itemsJson[i + 1].sequence : null;
 
                         // When adjacent parallel items are detected
-                        if (previousLevel.length > 1 && nextSequence === workflowItem.sequence) {
+                        if (previousLevel.length > 1 && nextSequence === itemJson.sequence) {
                             // Add an intermediate item to separate adjacent parallel items
                             itemCollection[level][index] = new IntermediateItem(level);
 
@@ -76,11 +84,11 @@ define(["model/WorkflowItem", "model/IntermediateItem", "util/WorkflowItemsSeque
                         }
                     }
 
-                    previousSequence = workflowItem.sequence;
+                    previousSequence = itemJson.sequence;
 
                     // Set workflow item properties and add to the collection
-                    workflowItem.level = level;
-                    workflowItem.x = !previousLevel ? 0 : previousLevel[0].x + itemGapX;
+                    workflowItem = new WorkflowItem(itemJson.id, itemJson.name, itemJson.description, itemJson.sequence, level);
+                    workflowItem.x = previousLevel[0].x + itemGapX;
                     workflowItem.y = index * itemGapY;
 
                     itemCollection[level][index] = workflowItem;
@@ -90,6 +98,13 @@ define(["model/WorkflowItem", "model/IntermediateItem", "util/WorkflowItemsSeque
                         maxIndex = index;
                     }
                 }
+
+                // Add the end item
+                level++;
+                endItem = new EndItem(level);
+                endItem.x = itemCollection[level - 1][0].x + itemGapX;
+                endItem.y = 0;
+                itemCollection[level] = [endItem];
 
                 adjustIntermediateItems(itemGapX, itemGapY);
             },

@@ -62,20 +62,6 @@ define(function (require, exports, module) {
                     });
             },
 
-            renderWorkflowStart = function () {
-                var startPosX = (itemsCollection.get(0, 0).x * magnitude + offsetX) - 80,
-                    startPosY = itemsCollection.get(0, 0).y + offsetY,
-                    startWidth = 30,
-                    startHeight = 15;
-
-                d3.select("svg").append("rect")
-                    .attr("x", startPosX)
-                    .attr("y", startPosY)
-                    .attr("width", startWidth)
-                    .attr("height", startHeight)
-                    .attr("fill", "red");
-            },
-
             // Render the nodes
             renderItemNodes = function () {
                 var itemNodes,
@@ -85,9 +71,9 @@ define(function (require, exports, module) {
                     itemNodeGroup,
                     itemNodeText;
 
-                itemNode = new WorkflowItemNode(itemWidth, itemHeight, intermediateSize, itemNodeRadius);
-                itemNodeGroup = new WorkflowItemNodeGroup(itemWidth, itemHeight, intermediateSize, magnitude, offsetX, offsetY);
-                itemNodeText = new WorkflowItemNodeText(itemWidth, itemHeight);
+                itemNode = new WorkflowItemNode();
+                itemNodeGroup = new WorkflowItemNodeGroup();
+                itemNodeText = new WorkflowItemNodeText();
 
                 itemNodeGroups = svg.selectAll(itemNodeGroup.type)
                     .data(itemsCollection.toArray());
@@ -122,17 +108,18 @@ define(function (require, exports, module) {
 
                 nodeText = itemNodeGroups.append(itemNodeText.type)
                     .attr(itemNodeText.attributes)
-                    .classed(itemNodeText.classes);
+                    .classed(itemNodeText.classes)
+                    .text(itemNodeText.text);
 
-                // Append the name text
-                nodeText.append(itemNodeText.textLine.type)
-                    .attr(itemNodeText.textLine.nameText.attributes)
-                    .text(itemNodeText.textLine.nameText.text);
-
-                // Append the sequence text
-                nodeText.append(itemNodeText.textLine.type)
-                    .attr(itemNodeText.textLine.sequenceText.attributes)
-                    .text(itemNodeText.textLine.sequenceText.text);
+                //// Append the name text
+                //nodeText.append(itemNodeText.textLine.type)
+                //    .attr(itemNodeText.textLine.nameText.attributes)
+                //    .text(itemNodeText.textLine.nameText.text);
+                //
+                //// Append the sequence text
+                //nodeText.append(itemNodeText.textLine.type)
+                //    .attr(itemNodeText.textLine.sequenceText.attributes)
+                //    .text(itemNodeText.textLine.sequenceText.text);
 
                 itemNodes.on(itemNode.events);
 
@@ -147,7 +134,7 @@ define(function (require, exports, module) {
                     itemNodeConnector,
                     i;
 
-                itemNodeConnector = new WorkflowNodeConnector(itemWidth, magnitude, offsetX, offsetY);
+                itemNodeConnector = new WorkflowNodeConnector();
 
                 // work through all items higher than level 0
                 itemNodes.filter(function (d) { return d.level > 0; })
@@ -171,8 +158,6 @@ define(function (require, exports, module) {
             },
 
             render = function () {
-                renderWorkflowStart();
-
                 var itemNodes = renderItemNodes();
 
                 renderItemConnectors(itemNodes);

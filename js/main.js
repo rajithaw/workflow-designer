@@ -8,7 +8,7 @@ require(["WorkflowDesigner", "model/WorkflowItemCollection", "data/SampleWorkflo
     "use strict";
 
     var workflowItems = new WorkflowItemCollection(sampleWorkflows.sampleWorkflow6),
-        workflowDesigner = new WorkflowDesigner(1024, 768, d3.select("#display"), workflowItems);
+        workflowDesigner = new WorkflowDesigner(1200, 800, d3.select("#display"), workflowItems);
 
     workflowDesigner.render();
 

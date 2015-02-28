@@ -2,21 +2,27 @@
  * Created by Rajitha on 2/24/2015.
  */
 
-define(["d3"], function (d3) {
+define(["d3", "WorkflowDesignerConfig"], function (d3, config) {
     "use strict";
 
-    return function WorkflowNodeConnector(width, magnitude, offsetX, offsetY) {
+    var itemWidth = config.itemNodeWidth,
+        edgeWidth = config.edgeNodeWidth,
+        magnitude = config.magnitude,
+        offsetX = config.offsetX,
+        offsetY = config.offsetY;
+
+    return function WorkflowNodeConnector() {
         var diagonal = new d3.svg.diagonal()
             .source(function(d) {
                 return {
                     "x": (d.source.y * magnitude) + offsetY,
-                    "y": d.source.id === -1 ? (d.source.x * magnitude) + offsetX : (d.source.x * magnitude) + offsetX + (width / 2)
+                    "y": d.source.id === "intermediate" ? (d.source.x * magnitude) + offsetX : (d.source.x * magnitude) + offsetX + (itemWidth / 2)
                 };
             })
             .target(function(d) {
                 return {
                     "x": (d.target.y * magnitude) + offsetY,
-                    "y": d.target.id === -1 ? (d.target.x * magnitude) + offsetX : (d.target.x * magnitude) + offsetX - (width / 2)
+                    "y": d.target.id === "intermediate" ? (d.target.x * magnitude) + offsetX : (d.target.x * magnitude) + offsetX - (itemWidth / 2)
                 };
             })
             .projection(function(d) {

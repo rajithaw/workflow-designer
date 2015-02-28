@@ -2,25 +2,47 @@
  * Created by Rajitha on 2/24/2015.
  */
 
-define([], function () {
+define(["WorkflowDesignerConfig"], function (config) {
     "use strict";
 
-    return function WorkflowItemNodeText(nodeWidth, nodeHeight) {
+    var itemWidth = config.itemNodeWidth,
+        itemHeight = config.itemNodeHeight,
+        edgeWidth = config.edgeNodeWidth,
+        edgeHeight = config.edgeNodeHeight;
+
+    return function WorkflowItemNodeText() {
         return {
             type: "text",
             attributes: {
-                "x": function() {
-                    return nodeWidth / 2;
+                "x": function(d) {
+                    //return (d.id === "start") || (d.id === "end") ? edgeWidth / 2 : itemWidth / 2;
+                    return 0;
                 },
-                "y": function() {
-                    return nodeHeight / 2;
+                "y": function(d) {
+                    return (d.id === "start") || (d.id === "end") ? edgeHeight / 2 : itemHeight / 2;
                 }
             },
             classes: {
                 "workflow-item-text": true,
                 "workflow-item-text-hidden": function (d) {
-                    return d.id === -1;
+                    return d.id === "intermediate";
                 }
+            },
+            text: function(d) {
+                var result;
+
+                switch(d.id) {
+                    case "start":
+                        result = "<foreignObject><p>Start\nxxxx</p></foreignObject>";
+                        break;
+                    case "end":
+                        result = "End";
+                        break;
+                    default:
+                        result = "Name: " + d.name;
+                }
+
+                return result;
             },
             textLine: {
                 type: "tspan",

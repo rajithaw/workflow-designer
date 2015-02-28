@@ -2,10 +2,19 @@
  * Created by Rajitha on 2/24/2015.
  */
 
-define([], function () {
+define(["WorkflowDesignerConfig"], function (config) {
     "use strict";
 
-    return function WorkflowItemNodeGroup(width, height, intermediateSize, magnitude, offsetX, offsetY) {
+    var itemWidth = config.itemNodeWidth,
+        itemHeight = config.itemNodeHeight,
+        intermediateSize = config.intermediateSize,
+        edgeWidth = config.edgeNodeWidth,
+        edgeHeight = config.edgeNodeHeight,
+        magnitude = config.magnitude,
+        offsetX = config.offsetX,
+        offsetY = config.offsetY;
+
+    return function WorkflowItemNodeGroup() {
         var dragStarted = false,
             dragStartThreshold = 0,
             dispatch = d3.dispatch(workflowItemNodeGroup, "nodedragstart", "nodedragend"),
@@ -15,20 +24,24 @@ define([], function () {
                     nodeGroupData = nodeGroup.datum();
 
                 // Make sure the drag start event is fired only once for a set of drag moves
-                if((nodeGroupData.id > 0) && (dragStarted === false) &&
+                if((nodeGroupData.id !== "intermediate") && (nodeGroupData.id !== "start") &&
+                    (nodeGroupData.id !== "end") && (dragStarted === false) &&
                     (Math.abs(d3.event.dx) > dragStartThreshold || Math.abs(d3.event.dy) > dragStartThreshold)) {
                     dragStarted = true;
                     dispatch.nodedragstart(nodeGroupData);
                 }
 
-                nodeGroup.attr("transform", "translate(" + d3.event.x + "," + d3.event.y + ")");
+                if(dragStarted === true) {
+                    nodeGroup.attr("transform", "translate(" + d3.event.x + "," + d3.event.y + ")");
+                }
             },
 
             dragend = function () {
                 var nodeGroupData = d3.select(this).datum();
 
                 // Make sure the drag end event is fired only if drag start is initiated
-                if((dragStarted === true) && (nodeGroupData.id > 0)) {
+                if((dragStarted === true) && (nodeGroupData.id !== "intermediate") &&
+                    (nodeGroupData.id !== "start") && (nodeGroupData.id !== "end")) {
                     dragStarted = false;
                     dispatch.nodedragend(nodeGroupData);
                 }
@@ -38,18 +51,60 @@ define([], function () {
                 type: "g",
                 attributes: {
                     "width": function(d) {
-                        return d.id === -1 ? intermediateSize : width;
+                        var result;
+
+                        switch(d.id) {
+                            case "intermediate":
+                                result = intermediateSize;
+                                break;
+                            case "start":
+                            case "end":
+                                result = edgeWidth;
+                                break;
+                            default:
+                                result = itemWidth;
+                        }
+
+                        return result;
                     },
                     "height": function(d) {
-                        return d.id === -1 ? intermediateSize : height;
+                        var result;
+
+                        switch(d.id) {
+                            case "intermediate":
+                                result = intermediateSize;
+                                break;
+                            case "start":
+                            case "end":
+                                result = edgeHeight;
+                                break;
+                            default:
+                                result = itemHeight;
+                        }
+
+                        return result;
                     },
                     "transform": function(d) {
-                        return "translate(" + (d.id === -1 ?
-                            (d.x * magnitude) + offsetX - (intermediateSize / 2) :
-                            (d.x * magnitude) + offsetX - (width / 2)) +
-                            "," + (d.id === -1 ?
-                            (d.y * magnitude) + offsetY - (intermediateSize / 2) :
-                            (d.y * magnitude) + offsetY - (height / 2)) + ")";
+                        var widthAdjusment,
+                            heightAdjusment;
+
+                        switch(d.id) {
+                            case "intermediate":
+                                widthAdjusment = (intermediateSize / 2);
+                                heightAdjusment = (intermediateSize / 2);
+                                break;
+                            case "start":
+                            case "end":
+                                widthAdjusment = (edgeWidth / 2);
+                                heightAdjusment = (edgeHeight / 2);
+                                break;
+                            default:
+                                widthAdjusment = (itemWidth / 2);
+                                heightAdjusment = (itemHeight / 2);
+                        }
+
+                        return "translate(" + ((d.x * magnitude) + offsetX - widthAdjusment) +
+                            "," + ((d.y * magnitude) + offsetY - heightAdjusment) + ")";
                     }
                 },
                 "drag": function () {
