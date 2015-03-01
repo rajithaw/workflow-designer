@@ -1,41 +1,37 @@
-.workflow-item {
+.wd-item {
     fill: blue;
 }
 
-.intermediate-item {
+.wd-intermediate-item {
     fill: black;
 }
 
-.edge-item {
+.wd-edge-item {
     fill: red;
 }
 
-.connector {
+.wd-connector {
     stroke: black;
     fill: none;
 }
 
-.workflow-item.selected {
+.wd-item.selected {
     stroke: red;
     strile-width: 3px;
 }
 
-.workflow-item-text {
+.wd-item-text {
     fill: yellow;
     font-family: sans-serif;
     font-size: 10px;
 }
 
-.edge-item-text {
+.wd-edge-item-text {
     fill: white;
     font-family: sans-serif;
     font-size: 10px;
 }
 
-.workflow-item-text-hidden {
-    display: none;
-}
-
-.workflow-item-connector-hidden {
+.wd-hidden {
     display: none;
 }

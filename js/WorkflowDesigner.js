@@ -11,13 +11,6 @@ define(function (require, exports, module) {
 
     return function WorkflowDesigner(width, height, container, items) {
         var itemsCollection = items,
-            magnitude = 100,
-            offsetX = 100,
-            offsetY = 60,
-            itemWidth = 80,
-            itemHeight = 40,
-            intermediateSize = 10,
-            itemNodeRadius = 5,
 
             svg = container.append("svg")
                 .attr({
@@ -94,7 +87,7 @@ define(function (require, exports, module) {
                     var connectors = findConnectors(d);
 
                     // Hide the connectors
-                    connectors.classed("workflow-item-connector-hidden", true);
+                    connectors.classed("wd-hidden", true);
                 });
 
                 // Add node drag end event listener
@@ -111,15 +104,8 @@ define(function (require, exports, module) {
                     .classed(itemNodeText.classes)
                     .text(itemNodeText.text);
 
-                //// Append the name text
-                //nodeText.append(itemNodeText.textLine.type)
-                //    .attr(itemNodeText.textLine.nameText.attributes)
-                //    .text(itemNodeText.textLine.nameText.text);
-                //
-                //// Append the sequence text
-                //nodeText.append(itemNodeText.textLine.type)
-                //    .attr(itemNodeText.textLine.sequenceText.attributes)
-                //    .text(itemNodeText.textLine.sequenceText.text);
+                // Append the node text
+                itemNodeText.addText(nodeText);
 
                 itemNodes.on(itemNode.events);
 

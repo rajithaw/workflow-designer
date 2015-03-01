@@ -23,42 +23,40 @@ define(["WorkflowDesignerConfig"], function (config) {
                 }
             },
             classes: {
-                "workflow-item-text": true,
-                "workflow-item-text-hidden": function (d) {
+                "wd-item-text": function(d){
+                    return d.id !== "intermediate" || d.id !== "start" || d.id !== "end";
+                },
+                "wd-edge-item-text": function(d){
+                    return d.id === "start" || d.id === "end";
+                },
+                "wd-hidden": function (d) {
                     return d.id === "intermediate";
                 }
             },
-            text: function(d) {
-                var result;
+            addText: function(nodeText) {
+                nodeText.each(function(d) {
+                    var text = d3.select(this),
+                        mainText = text.append("tspan").attr({
+                            "x": 0
+                        });
 
-                switch(d.id) {
-                    case "start":
-                        result = "<foreignObject><p>Start\nxxxx</p></foreignObject>";
-                        break;
-                    case "end":
-                        result = "End";
-                        break;
-                    default:
-                        result = "Name: " + d.name;
-                }
-
-                return result;
-            },
-            textLine: {
-                type: "tspan",
-                nameText: {
-                    attributes: {
-                        "x": 0
-                    },
-                    text: function (d) { return "Name: " + d.name; }
-                },
-                sequenceText: {
-                    attributes: {
-                        "x": 0,
-                        "dy": 10
-                    },
-                    text: function (d) { return "Sequence: " + d.sequence; }
-                }
+                    switch(d.id) {
+                        case "start":
+                            mainText.text("Start");
+                            break;
+                        case "end":
+                            mainText.text("End");
+                            break;
+                        default:
+                            mainText.text(function (d) { return "Name: " + d.name; });
+                            text.append("tspan").attr({
+                                "x": 0,
+                                "dy": 10
+                            })
+                            .text(function (d) { return "Sequence: " + d.sequence; });
+                            break;
+                    }
+                });
             }
         };
     };

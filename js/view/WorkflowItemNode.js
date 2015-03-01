@@ -88,13 +88,13 @@ define(["WorkflowDesignerConfig"], function (config) {
                 }
             },
             classes: {
-                "workflow-item": function(d) {
+                "wd-item": function(d) {
                     return (d.id !== "start") && (d.id !== "end") && (d.id !== "intermediate");
                 },
-                "intermediate-item": function(d) {
+                "wd-intermediate-item": function(d) {
                     return d.id === "intermediate";
                 },
-                "edge-item": function(d) {
+                "wd-edge-item": function(d) {
                     return (d.id === "start") || (d.id === "end");
                 },
                 "selected": function(d) {

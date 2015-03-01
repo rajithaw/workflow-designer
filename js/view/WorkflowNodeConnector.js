@@ -14,15 +14,59 @@ define(["d3", "WorkflowDesignerConfig"], function (d3, config) {
     return function WorkflowNodeConnector() {
         var diagonal = new d3.svg.diagonal()
             .source(function(d) {
+                var getSourceX = function() {
+                        return (d.source.y * magnitude) + offsetY;
+                    },
+
+                    getSourcey = function() {
+                        var result;
+
+                        switch(d.source.id) {
+                            case "intermediate":
+                                result = (d.source.x * magnitude) + offsetX;
+                                break;
+                            case "start":
+                            case "end":
+                                result = (d.source.x * magnitude) + offsetX + (edgeWidth / 2);
+                                break;
+                            default:
+                                result = (d.source.x * magnitude) + offsetX + (itemWidth / 2);
+                        }
+
+                        return result;
+                    };
+
                 return {
-                    "x": (d.source.y * magnitude) + offsetY,
-                    "y": d.source.id === "intermediate" ? (d.source.x * magnitude) + offsetX : (d.source.x * magnitude) + offsetX + (itemWidth / 2)
+                    "x": getSourceX(),
+                    "y": getSourcey()
                 };
             })
             .target(function(d) {
+                var getTargetX = function() {
+                        return (d.target.y * magnitude) + offsetY;
+                    },
+
+                    getTargetY = function() {
+                        var result;
+
+                        switch(d.target.id) {
+                            case "intermediate":
+                                result = (d.target.x * magnitude) + offsetX;
+                                break;
+                            case "start":
+                            case "end":
+                                result = (d.target.x * magnitude) + offsetX - (edgeWidth / 2);
+                                break;
+                            default:
+                                result = (d.target.x * magnitude) + offsetX - (itemWidth / 2);
+                        }
+
+                        return result;
+                    };
+
                 return {
-                    "x": (d.target.y * magnitude) + offsetY,
-                    "y": d.target.id === "intermediate" ? (d.target.x * magnitude) + offsetX : (d.target.x * magnitude) + offsetX - (itemWidth / 2)
+                    "x": getTargetX(),
+                    "y": getTargetY()
                 };
             })
             .projection(function(d) {
@@ -35,8 +79,8 @@ define(["d3", "WorkflowDesignerConfig"], function (d3, config) {
                 "d": diagonal
             },
             classes: {
-                "connector": true,
-                "workflow-item-connector-hidden": false
+                "wd-connector": true,
+                "wd-hidden": false
             }
         };
     };

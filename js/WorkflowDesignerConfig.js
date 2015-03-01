@@ -7,7 +7,7 @@ define([], function () {
 
     return {
         magnitude: 100,
-        offsetX: 100,
+        offsetX: 60,
         offsetY: 60,
         itemNodeWidth: 80,
         itemNodeHeight: 40,
