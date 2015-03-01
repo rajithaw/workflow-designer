@@ -7,7 +7,9 @@ define(function (require, exports, module) {
         WorkflowItemNode = require("view/WorkflowItemNode"),
         WorkflowItemNodeGroup = require("view/WorkflowItemNodeGroup"),
         WorkflowNodeConnector = require("view/WorkflowNodeConnector"),
-        WorkflowItemNodeText = require("view/WorkflowItemNodeText");
+        WorkflowItemNodeText = require("view/WorkflowItemNodeText"),
+        BackgroundSectionData = require("model/BackgroundSectionData"),
+        BackgroundSection = require("view/BackgroundSection");
 
     return function WorkflowDesigner(width, height, container, items) {
         var itemsCollection = items,
@@ -143,7 +145,29 @@ define(function (require, exports, module) {
                     .classed(itemNodeConnector.classes);
             },
 
+            renderBackground = function() {
+                var levelCount = itemsCollection.levelCount(),
+                    backgroundData = [],
+                    backgroundSections,
+                    backgroundSection = new BackgroundSection(),
+                    i;
+
+                for(i = 0; i < levelCount; i++) {
+                    backgroundData[i] = new BackgroundSectionData(itemsCollection.level(i));
+                }
+
+                backgroundSections = svg.selectAll(backgroundSection.type).data(backgroundData);
+                backgroundSections.enter().append("rect");
+                backgroundSections.exit().remove();
+
+                backgroundSections.attr(backgroundSection.attributes)
+                    .classed(backgroundSection.classes)
+                    .on(backgroundSection.events);
+            },
+
             render = function () {
+                renderBackground();
+
                 var itemNodes = renderItemNodes();
 
                 renderItemConnectors(itemNodes);

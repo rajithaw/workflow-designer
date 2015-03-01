@@ -35,3 +35,11 @@
 .wd-hidden {
     display: none;
 }
+
+.wd-background-section {
+    fill: rgba(0, 255, 0, 0.2);
+}
+
+.transparent {
+    opacity: 0;
+}
