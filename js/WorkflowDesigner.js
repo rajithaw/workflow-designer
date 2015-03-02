@@ -20,6 +20,19 @@ define(function (require, exports, module) {
                     height: height
                 }),
 
+            dispatch = d3.dispatch(svg, "nodedragstart", "nodedragend"),
+
+            onNodeDragStart = function (d) {
+                // Raise global node drag start event
+                dispatch.nodedragstart(d);
+            },
+
+            onNodeDragEnd = function (d) {
+                // Raise global node drag end event
+                dispatch.nodedragend(d);
+            },
+
+            // Global key down event handler
             onKeyDown = function () {
                 if (d3.event.keyCode === 46) {
                     // Delete pressed
@@ -86,14 +99,21 @@ define(function (require, exports, module) {
 
                 // Add node drag start event listener
                 itemNodeGroup.on("nodedragstart", function(d) {
-                    var connectors = findConnectors(d);
+                    var connectors;
 
+                    // Trigger the global node drag start event
+                    onNodeDragStart(d);
+
+                    connectors = findConnectors(d);
                     // Hide the connectors
                     connectors.classed("wd-hidden", true);
                 });
 
                 // Add node drag end event listener
                 itemNodeGroup.on("nodedragend", function(d) {
+                    // Trigger the global node drag end event
+                    onNodeDragEnd(d);
+
                     render();
                 });
 
@@ -163,6 +183,12 @@ define(function (require, exports, module) {
                 backgroundSections.attr(backgroundSection.attributes)
                     .classed(backgroundSection.classes)
                     .on(backgroundSection.events);
+
+                // Attach the node drag start/end event handlers for the background section
+                //svg.on("nodedragstart", function(d) { backgroundSection.nodeDragStart(d); });
+                //svg.on("nodedragend", function(d) { backgroundSection.nodeDragEnd(d); });
+                svg.on("nodedragstart", function(d) { backgroundSection.nodeDragStart(d); });
+                svg.on("nodedragend", function(d) { backgroundSection.nodeDragEnd(d); });
             },
 
             render = function () {
@@ -173,6 +199,7 @@ define(function (require, exports, module) {
                 renderItemConnectors(itemNodes);
             };
 
+        d3.rebind(svg, dispatch, "on")
         d3.select(window).on("keydown", onKeyDown);
 
         return {

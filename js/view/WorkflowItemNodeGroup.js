@@ -27,6 +27,11 @@ define(["WorkflowDesignerConfig"], function (config) {
                 if((nodeGroupData.id !== "intermediate") && (nodeGroupData.id !== "start") &&
                     (nodeGroupData.id !== "end") && (dragStarted === false) &&
                     (Math.abs(d3.event.dx) > dragStartThreshold || Math.abs(d3.event.dy) > dragStartThreshold)) {
+
+                    // Set the pointer events to none to get the mouse events firing on the background section
+                    // while dragging the workflow item node above it
+                    nodeGroup.style("pointer-events", "none");
+
                     dragStarted = true;
                     dispatch.nodedragstart(nodeGroupData);
                 }
@@ -37,11 +42,16 @@ define(["WorkflowDesignerConfig"], function (config) {
             },
 
             dragend = function () {
-                var nodeGroupData = d3.select(this).datum();
+                var nodeGroup = d3.select(this),
+                    nodeGroupData = nodeGroup.datum();
 
                 // Make sure the drag end event is fired only if drag start is initiated
                 if((dragStarted === true) && (nodeGroupData.id !== "intermediate") &&
                     (nodeGroupData.id !== "start") && (nodeGroupData.id !== "end")) {
+
+                    // Reset the pointer events to the original value
+                    nodeGroup.style("pointer-events", "auto");
+
                     dragStarted = false;
                     dispatch.nodedragend(nodeGroupData);
                 }

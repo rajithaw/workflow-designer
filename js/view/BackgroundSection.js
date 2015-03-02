@@ -18,7 +18,6 @@ define(["WorkflowDesignerConfig"], function (config) {
             type: "rect.wd-background-section",
             attributes: {
                 x: function(d) {
-                    debugger;
                     return (d.items[0].x * magnitude) + offsetX - (itemWidth / 2);
                 },
                 y: function() {
@@ -36,24 +35,24 @@ define(["WorkflowDesignerConfig"], function (config) {
                 "transparent" : true
             },
             events: {
-                "mouseenter": function() {
-                    //if(isNodeDragged === true) {
+                "mouseover": function() {
+                    if(isNodeDragged === true) {
                         d3.select(this).classed({
                             "transparent": false
                         });
-                    //}
+                    }
                 },
-                "mouseleave": function() {
+                "mouseout": function() {
                     d3.select(this).classed({
                         "transparent": true
                     });
-                },
-                "nodedragstart": function() {
-                    isNodeDragged = true;
-                },
-                "nodedragend": function() {
-                    isNodeDragged = false;
                 }
+            },
+            nodeDragStart: function(d) {
+                isNodeDragged = true;
+            },
+            nodeDragEnd: function(d) {
+                isNodeDragged = false;
             }
         };
     };
