@@ -1,0 +1,45 @@
+.wd-item {
+    fill: blue;
+}
+
+.wd-intermediate-item {
+    fill: black;
+}
+
+.wd-edge-item {
+    fill: red;
+}
+
+.wd-connector {
+    stroke: black;
+    fill: none;
+}
+
+.wd-item.selected {
+    stroke: red;
+    strile-width: 3px;
+}
+
+.wd-item-text {
+    fill: yellow;
+    font-family: sans-serif;
+    font-size: 10px;
+}
+
+.wd-edge-item-text {
+    fill: white;
+    font-family: sans-serif;
+    font-size: 10px;
+}
+
+.wd-hidden {
+    display: none;
+}
+
+.wd-background-section {
+    fill: rgba(0, 255, 0, 0.2);
+}
+
+.transparent {
+    opacity: 0;
+}
