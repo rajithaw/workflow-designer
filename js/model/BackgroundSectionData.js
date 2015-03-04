@@ -5,13 +5,14 @@
 define([], function () {
     "use strict";
 
-    return function BackgroundSectionData(items) {
-        var firstItem = items[0],
-            level = firstItem.level,
-            sequence = firstItem.sequence;
+    return function BackgroundSectionData(topItem, prevTopItem, nextTopItem) {
+        var level = topItem.level,
+            sequence = topItem.sequence;
 
         return {
-            "items": items,
+            "topItem": topItem,
+            "prevTopItem": prevTopItem,
+            "nextTopItem": nextTopItem,
             "level": level,
             "sequence": sequence,
             "x": 0,

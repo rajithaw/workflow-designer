@@ -18,10 +18,10 @@ define(["WorkflowDesignerConfig"], function (config) {
         return {
             type: "rect",
             attributes: {
-                "width": function(d) {
+                "width": function (d) {
                     var result;
 
-                    switch(d.id) {
+                    switch (d.id) {
                         case "intermediate":
                             result = intermediateSize;
                             break;
@@ -35,10 +35,10 @@ define(["WorkflowDesignerConfig"], function (config) {
 
                     return result;
                 },
-                "height": function(d) {
+                "height": function (d) {
                     var result;
 
-                    switch(d.id) {
+                    switch (d.id) {
                         case "intermediate":
                             result = intermediateSize;
                             break;
@@ -52,10 +52,10 @@ define(["WorkflowDesignerConfig"], function (config) {
 
                     return result;
                 },
-                "rx": function(d) {
+                "rx": function (d) {
                     var result;
 
-                    switch(d.id) {
+                    switch (d.id) {
                         case "intermediate":
                             result = intermediateRadius;
                             break;
@@ -69,10 +69,10 @@ define(["WorkflowDesignerConfig"], function (config) {
 
                     return result;
                 },
-                "ry": function(d) {
+                "ry": function (d) {
                     var result;
 
-                    switch(d.id) {
+                    switch (d.id) {
                         case "intermediate":
                             result = intermediateRadius;
                             break;
@@ -88,22 +88,22 @@ define(["WorkflowDesignerConfig"], function (config) {
                 }
             },
             classes: {
-                "wd-item": function(d) {
+                "wd-item": function (d) {
                     return (d.id !== "start") && (d.id !== "end") && (d.id !== "intermediate");
                 },
-                "wd-intermediate-item": function(d) {
+                "wd-intermediate-item": function (d) {
                     return d.id === "intermediate";
                 },
-                "wd-edge-item": function(d) {
+                "wd-edge-item": function (d) {
                     return (d.id === "start") || (d.id === "end");
                 },
-                "selected": function(d) {
+                "selected": function (d) {
                     return d.selected;
                 }
             },
             events: {
                 "click": function (d) {
-                    if((d.id !== "start") && (d.id !== "end") && (d.id !== "intermediate")) {
+                    if ((d.id !== "start") && (d.id !== "end") && (d.id !== "intermediate")) {
                         d.selected = !d.selected;
                         d3.select(this).classed("selected", d.selected);
                     }

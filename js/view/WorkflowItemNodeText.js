@@ -14,33 +14,33 @@ define(["WorkflowDesignerConfig"], function (config) {
         return {
             type: "text",
             attributes: {
-                "x": function(d) {
+                "x": function (d) {
                     //return (d.id === "start") || (d.id === "end") ? edgeWidth / 2 : itemWidth / 2;
                     return 0;
                 },
-                "y": function(d) {
+                "y": function (d) {
                     return (d.id === "start") || (d.id === "end") ? edgeHeight / 2 : itemHeight / 2;
                 }
             },
             classes: {
-                "wd-item-text": function(d){
+                "wd-item-text": function (d) {
                     return d.id !== "intermediate" || d.id !== "start" || d.id !== "end";
                 },
-                "wd-edge-item-text": function(d){
+                "wd-edge-item-text": function (d) {
                     return d.id === "start" || d.id === "end";
                 },
                 "wd-hidden": function (d) {
                     return d.id === "intermediate";
                 }
             },
-            addText: function(nodeText) {
-                nodeText.each(function(d) {
+            addText: function (nodeText) {
+                nodeText.each(function (d) {
                     var text = d3.select(this),
                         mainText = text.append("tspan").attr({
                             "x": 0
                         });
 
-                    switch(d.id) {
+                    switch (d.id) {
                         case "start":
                             mainText.text("Start");
                             break;

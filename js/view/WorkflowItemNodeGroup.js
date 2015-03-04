@@ -24,9 +24,9 @@ define(["WorkflowDesignerConfig"], function (config) {
                     nodeGroupData = nodeGroup.datum();
 
                 // Make sure the drag start event is fired only once for a set of drag moves
-                if((nodeGroupData.id !== "intermediate") && (nodeGroupData.id !== "start") &&
-                    (nodeGroupData.id !== "end") && (dragStarted === false) &&
-                    (Math.abs(d3.event.dx) > dragStartThreshold || Math.abs(d3.event.dy) > dragStartThreshold)) {
+                if ((nodeGroupData.id !== "intermediate") && (nodeGroupData.id !== "start") &&
+                        (nodeGroupData.id !== "end") && (dragStarted === false) &&
+                        (Math.abs(d3.event.dx) > dragStartThreshold || Math.abs(d3.event.dy) > dragStartThreshold)) {
 
                     // Set the pointer events to none to get the mouse events firing on the background section
                     // while dragging the workflow item node above it
@@ -36,7 +36,7 @@ define(["WorkflowDesignerConfig"], function (config) {
                     dispatch.nodedragstart(nodeGroupData);
                 }
 
-                if(dragStarted === true) {
+                if (dragStarted === true) {
                     nodeGroup.attr("transform", "translate(" + d3.event.x + "," + d3.event.y + ")");
                 }
             },
@@ -46,8 +46,8 @@ define(["WorkflowDesignerConfig"], function (config) {
                     nodeGroupData = nodeGroup.datum();
 
                 // Make sure the drag end event is fired only if drag start is initiated
-                if((dragStarted === true) && (nodeGroupData.id !== "intermediate") &&
-                    (nodeGroupData.id !== "start") && (nodeGroupData.id !== "end")) {
+                if ((dragStarted === true) && (nodeGroupData.id !== "intermediate") &&
+                        (nodeGroupData.id !== "start") && (nodeGroupData.id !== "end")) {
 
                     // Reset the pointer events to the original value
                     nodeGroup.style("pointer-events", "auto");
@@ -60,10 +60,10 @@ define(["WorkflowDesignerConfig"], function (config) {
             workflowItemNodeGroup = {
                 type: "g",
                 attributes: {
-                    "width": function(d) {
+                    "width": function (d) {
                         var result;
 
-                        switch(d.id) {
+                        switch (d.id) {
                             case "intermediate":
                                 result = intermediateSize;
                                 break;
@@ -94,11 +94,11 @@ define(["WorkflowDesignerConfig"], function (config) {
 
                         return result;
                     },
-                    "transform": function(d) {
+                    "transform": function (d) {
                         var widthAdjusment,
                             heightAdjusment;
 
-                        switch(d.id) {
+                        switch (d.id) {
                             case "intermediate":
                                 widthAdjusment = (intermediateSize / 2);
                                 heightAdjusment = (intermediateSize / 2);

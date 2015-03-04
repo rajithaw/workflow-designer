@@ -98,7 +98,7 @@ define(function (require, exports, module) {
                 itemNodeGroups.call(itemNodeGroup.drag.call(this));
 
                 // Add node drag start event listener
-                itemNodeGroup.on("nodedragstart", function(d) {
+                itemNodeGroup.on("nodedragstart", function (d) {
                     var connectors;
 
                     // Trigger the global node drag start event
@@ -110,7 +110,7 @@ define(function (require, exports, module) {
                 });
 
                 // Add node drag end event listener
-                itemNodeGroup.on("nodedragend", function(d) {
+                itemNodeGroup.on("nodedragend", function (d) {
                     // Trigger the global node drag end event
                     onNodeDragEnd(d);
 
@@ -165,15 +165,16 @@ define(function (require, exports, module) {
                     .classed(itemNodeConnector.classes);
             },
 
-            renderBackground = function() {
+            renderBackground = function () {
                 var levelCount = itemsCollection.levelCount(),
                     backgroundData = [],
                     backgroundSections,
                     backgroundSection = new BackgroundSection(),
                     i;
 
-                for(i = 0; i < levelCount; i++) {
-                    backgroundData[i] = new BackgroundSectionData(itemsCollection.level(i));
+                for (i = 0; i < levelCount; i++) {
+                    //backgroundData[i] = new BackgroundSectionData(itemsCollection.get(i, 0), itemsCollection.get(i - 1, 0), itemsCollection.get(i + 1, 0));
+                    backgroundData[i] = new BackgroundSectionData(itemsCollection.get(i, 0));
                 }
 
                 backgroundSections = svg.selectAll(backgroundSection.type).data(backgroundData);
@@ -187,8 +188,8 @@ define(function (require, exports, module) {
                 // Attach the node drag start/end event handlers for the background section
                 //svg.on("nodedragstart", function(d) { backgroundSection.nodeDragStart(d); });
                 //svg.on("nodedragend", function(d) { backgroundSection.nodeDragEnd(d); });
-                svg.on("nodedragstart", function(d) { backgroundSection.nodeDragStart(d); });
-                svg.on("nodedragend", function(d) { backgroundSection.nodeDragEnd(d); });
+                svg.on("nodedragstart", function (d) { backgroundSection.nodeDragStart(d); });
+                svg.on("nodedragend", function (d) { backgroundSection.nodeDragEnd(d); });
             },
 
             render = function () {
@@ -199,7 +200,7 @@ define(function (require, exports, module) {
                 renderItemConnectors(itemNodes);
             };
 
-        d3.rebind(svg, dispatch, "on")
+        d3.rebind(svg, dispatch, "on");
         d3.select(window).on("keydown", onKeyDown);
 
         return {

@@ -13,15 +13,15 @@ define(["d3", "WorkflowDesignerConfig"], function (d3, config) {
 
     return function WorkflowNodeConnector() {
         var diagonal = new d3.svg.diagonal()
-            .source(function(d) {
-                var getSourceX = function() {
+            .source(function (d) {
+                var getSourceX = function () {
                         return (d.source.y * magnitude) + offsetY;
                     },
 
-                    getSourcey = function() {
+                    getSourcey = function () {
                         var result;
 
-                        switch(d.source.id) {
+                        switch (d.source.id) {
                             case "intermediate":
                                 result = (d.source.x * magnitude) + offsetX;
                                 break;
@@ -41,15 +41,15 @@ define(["d3", "WorkflowDesignerConfig"], function (d3, config) {
                     "y": getSourcey()
                 };
             })
-            .target(function(d) {
-                var getTargetX = function() {
+            .target(function (d) {
+                var getTargetX = function () {
                         return (d.target.y * magnitude) + offsetY;
                     },
 
-                    getTargetY = function() {
+                    getTargetY = function () {
                         var result;
 
-                        switch(d.target.id) {
+                        switch (d.target.id) {
                             case "intermediate":
                                 result = (d.target.x * magnitude) + offsetX;
                                 break;
@@ -69,7 +69,7 @@ define(["d3", "WorkflowDesignerConfig"], function (d3, config) {
                     "y": getTargetY()
                 };
             })
-            .projection(function(d) {
+            .projection(function (d) {
                 return [d.y, d.x];
             });
 
