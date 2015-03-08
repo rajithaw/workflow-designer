@@ -170,11 +170,19 @@ define(function (require, exports, module) {
                     backgroundData = [],
                     backgroundSections,
                     backgroundSection = new BackgroundSection(),
+                    topItem,
+                    prevTopItem,
+                    nextTopItem,
                     i;
 
+                // Create the background section data for each level
                 for (i = 0; i < levelCount; i++) {
-                    //backgroundData[i] = new BackgroundSectionData(itemsCollection.get(i, 0), itemsCollection.get(i - 1, 0), itemsCollection.get(i + 1, 0));
-                    backgroundData[i] = new BackgroundSectionData(itemsCollection.get(i, 0));
+                    // Find the top items of the current, previous and next levels
+                    topItem = itemsCollection.get(i, 0);
+                    prevTopItem = i > 0 ? itemsCollection.get(i - 1, 0) : null;
+                    nextTopItem = i < levelCount - 1 ? itemsCollection.get(i + 1, 0) : null;
+
+                    backgroundData[i] = new BackgroundSectionData(topItem, prevTopItem, nextTopItem);
                 }
 
                 backgroundSections = svg.selectAll(backgroundSection.type).data(backgroundData);
@@ -186,8 +194,6 @@ define(function (require, exports, module) {
                     .on(backgroundSection.events);
 
                 // Attach the node drag start/end event handlers for the background section
-                //svg.on("nodedragstart", function(d) { backgroundSection.nodeDragStart(d); });
-                //svg.on("nodedragend", function(d) { backgroundSection.nodeDragEnd(d); });
                 svg.on("nodedragstart", function (d) { backgroundSection.nodeDragStart(d); });
                 svg.on("nodedragend", function (d) { backgroundSection.nodeDragEnd(d); });
             },
