@@ -1,4 +1,5 @@
 /**
+ * The workflow designer main configuration
  * Created by Rajitha on 2/28/2015.
  */
 

@@ -1,4 +1,6 @@
 /**
+ * The background area which gets highlighted when a workflow node is dragged over.
+ * Indicates that the workflow node can be dropped onto the area.
  * Created by Rajitha on 3/1/2015.
  */
 

@@ -1,3 +1,8 @@
+/**
+ * Represents the main designer surface
+ * Created by Rajitha on 11/8/2014.
+ */
+
 define(function (require, exports, module) {
     "use strict";
 

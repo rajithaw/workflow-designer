@@ -1,4 +1,5 @@
 /**
+ * require.js main entry point
  * Created by Rajitha on 2/19/2015.
  */
 

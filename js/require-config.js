@@ -1,4 +1,5 @@
 /**
+ * require.js configuration
  * Created by Rajitha on 2/23/2015.
  */
 

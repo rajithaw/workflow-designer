@@ -1,6 +1,8 @@
 /**
+ * Data model representing the workflow items collection
  * Created by Rajitha on 11/8/2014.
  */
+
 define(function (require, exports, module) {
     "use strict";
 
@@ -255,8 +257,6 @@ define(function (require, exports, module) {
             itemsJson.sort(workflowItemsSequenceIdComparer);
             convertWorkflowItemsFromJson();
         }
-
-        //WorkflowItemCollection.prototype.workflowItemsSequenceIdComparer = workflowItemsSequenceIdComparer;
 
         return {
             get: getItem,

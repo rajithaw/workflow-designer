@@ -1,4 +1,5 @@
 /**
+ * Data model for the end workflow node.
  * Created by Rajitha on 2/28/2015.
  */
 

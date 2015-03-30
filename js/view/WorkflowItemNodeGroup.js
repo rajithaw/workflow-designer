@@ -1,4 +1,5 @@
 ﻿/**
+ * Groups all the elements of a workflow node together.
  * Created by Rajitha on 2/24/2015.
  */
 

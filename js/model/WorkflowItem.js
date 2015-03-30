@@ -1,6 +1,8 @@
 /**
+ * Data model for the workflow nodes which represents an actual workflow item.
  * Created by Rajitha on 11/8/2014.
  */
+
 define([], function () {
     "use strict";
 

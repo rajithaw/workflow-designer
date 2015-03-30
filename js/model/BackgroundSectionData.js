@@ -1,4 +1,5 @@
 /**
+ * Data model for the BackgroundSection view element.
  * Created by Rajitha on 3/1/2015.
  */
 
