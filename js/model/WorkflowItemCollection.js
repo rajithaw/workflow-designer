@@ -65,6 +65,11 @@ define(function (require, exports, module) {
                 for (i = 0, itemsLength = itemsJson.length; i < itemsLength; i++) {
                     itemJson = itemsJson[i];
 
+                    // Id and Sequence has to be defined for a workflow item
+                    if((!itemJson.id && itemJson.id !== 0) || (!itemJson.sequence && itemJson.sequence !== 0)) {
+                        throw new Error("Invalid items json");
+                    }
+
                     // When the level is changed
                     if (itemJson.sequence !== previousSequence) {
                         level++;
@@ -179,8 +184,6 @@ define(function (require, exports, module) {
                 intermediateLevels = 0;
 
                 if (itemsJson.length > 0) {
-                    itemLevels++;
-
                     itemsJson.sort(workflowItemsSequenceIdComparer);
                     convertWorkflowItemsFromJson();
                 }
@@ -251,9 +254,6 @@ define(function (require, exports, module) {
             };
 
         if (itemsJson.length > 0) {
-            // Collection has at least one level of items
-            itemLevels++;
-
             itemsJson.sort(workflowItemsSequenceIdComparer);
             convertWorkflowItemsFromJson();
         }
@@ -266,8 +266,8 @@ define(function (require, exports, module) {
             level: getLevel,
             levelCount: getLevels,
             maxIndex: getMaxIndex,
-            itemLevels: getItemLevels,
-            intermediateLevels: getIntermediateLevels,
+            itemLevelCount: getItemLevels,
+            intermediateLevelCount: getIntermediateLevels,
             reInitialize: reInitialize,
             toArray: toArray,
             toJson: toJson
