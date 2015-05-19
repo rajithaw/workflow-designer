@@ -2,35 +2,25 @@
  * Created by Rajitha on 5/17/2015.
  */
 
-demoApp.controller("WorkflowsController", function($scope, $http) {
+demoApp.controller("WorkflowsController", function($scope, $http, workflowService) {
 
-    var init = function() {
-        initWorkflows();
+    var initialize = function() {
+        workflowService.getWorkflows().then(function(workflows){
+            $scope.workflowList = workflows;
+        });
     };
 
-    var initWorkflows = function() {
-        if(!$scope.workflowList){
-            getWorkflows();
-        }
-    };
-
-    var getWorkflows = function() {
-        $http.get("app/data/sampleWorkflows.json").success(function(data) {
-            $scope.workflowList = data;
+    $scope.getWorkflows = function() {
+        workflowService.getWorkflows().then(function(workflows){
+            $scope.workflowList = workflows;
         });
     };
 
     $scope.deleteWorkflow = function(workflowId){
-        var i;
-
-        for(i = 0; i < $scope.workflowList.length; i++) {
-            if($scope.workflowList[i].id == workflowId) {
-                break;
-            }
-        }
-
-        $scope.workflowList.splice(i, 1);
+        workflowService.deleteWorkflow(workflowId).then(function(){
+            $scope.getWorkflows();
+        })
     };
 
-    init();
+    initialize();
 });
