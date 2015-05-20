@@ -6,7 +6,7 @@ demoApp.factory("workflowService", function($q, $http) {
     var workflowList;
 
     var getWorkflows = function() {
-        var deferred = $q.deferred();
+        var deferred = $q.defer();
 
         if(!workflowList) {
             $http.get("app/data/sampleWorkflows.json")
@@ -19,40 +19,39 @@ demoApp.factory("workflowService", function($q, $http) {
                 });
         }
         else {
-            deferred.resolve(workflowList)
+            deferred.resolve(workflowList);
         }
 
-        return deferred.promise();
+        return deferred.promise;
     };
 
     var getWorkflow = function(workflowId) {
-        var deferred = $q.deferred();
+        var deferred = $q.defer();
 
         if(!workflowList) {
             getWorkflows().then(function() {
-                try {
-                    deferred.resolve(getWorkflowInternal(workflowId));
-                }
-                catch(e) {
-                    deferred.reject(e);
-                }
-            },
-            function(error) {
-                deferred.reject(error);
-            })
+                    try {
+                        deferred.resolve(getWorkflowInternal(workflowId));
+                    } catch (e) {
+                        deferred.reject(e);
+                    }
+                },
+                function(error) {
+                    deferred.reject(error);
+                });
         }
         else{
             deferred.resolve(getWorkflowInternal(workflowId));
         }
 
-        return deferred.promise();
+        return deferred.promise;
     };
 
     var getWorkflowInternal = function(workflowId) {
         var i;
 
         for(i = 0; i < workflowList.length; i++) {
-            if(workflowList[i].id == workflowId) {
+            if(workflowList[i].id === workflowId) {
                 return workflowList[i];
             }
         }
@@ -61,7 +60,7 @@ demoApp.factory("workflowService", function($q, $http) {
     };
 
     var saveWorkflow = function(workflow) {
-        var deferred = $q.deferred();
+        var deferred = $q.defer();
 
         if(!workflowList) {
             getWorkflows().then(
@@ -69,21 +68,20 @@ demoApp.factory("workflowService", function($q, $http) {
                     try {
                         saveWorkflowInternal(workflow);
                         deferred.resolve();
-                    }
-                    catch(e) {
+                    } catch (e) {
                         deferred.reject(e);
                     }
                 },
                 function(error) {
                     deferred.reject(error);
-                })
+                });
         }
         else{
             saveWorkflowInternal(workflow);
             deferred.resolve();
         }
 
-        return deferred.promise();
+        return deferred.promise;
     };
 
     var saveWorkflowInternal = function(workflow) {
@@ -115,7 +113,7 @@ demoApp.factory("workflowService", function($q, $http) {
         var i;
 
         for(i = 0; i < workflowList.length; i++) {
-            if(workflowList[i].id == workflow.Id) {
+            if(workflowList[i].id === workflow.Id) {
                 break;
             }
         }
@@ -124,12 +122,12 @@ demoApp.factory("workflowService", function($q, $http) {
             workflowList[i] = workflow;
         }
         else {
-            throw "Could not find workflow to update. [ID: " + workflow.id + "]"
+            throw "Could not find workflow to update. [ID: " + workflow.id + "]";
         }
     };
 
     var deleteWorkflow = function(workflowId) {
-        var deferred = $q.deferred();
+        var deferred = $q.defer();
 
         if(!workflowList) {
             getWorkflows().then(
@@ -139,21 +137,21 @@ demoApp.factory("workflowService", function($q, $http) {
                 },
                 function(error) {
                     deferred.reject(error);
-                })
+                });
         }
         else{
             deleteWorkflowInternal(workflowId);
             deferred.resolve();
         }
 
-        return deferred.promise();
+        return deferred.promise;
     };
 
     var deleteWorkflowInternal = function(workflowId) {
         var i;
 
         for(i = 0; i < workflowList.length; i++) {
-            if(workflowList[i].id == workflowId) {
+            if(workflowList[i].id === workflowId) {
                 break;
             }
         }
