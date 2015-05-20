@@ -8,12 +8,12 @@ demoApp.config(function ($routeProvider) {
     $routeProvider
         .when('/workflows',
         {
-            controller: 'WorkflowsController',
-            templateUrl: 'app/partials/workflowsList.html'
+            controller: 'WorkflowListController',
+            templateUrl: 'app/partials/workflowList.html'
         })
         .when('/workflows/:workflowId',
         {
-            controller: 'WorkflowsController',
+            controller: 'WorkflowController',
             templateUrl: 'app/partials/editWorkflow.html'
         })
         .otherwise({ redirectTo: '/workflows' });
