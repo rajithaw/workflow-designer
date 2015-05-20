@@ -3,15 +3,18 @@
  * Created by Rajitha on 2/19/2015.
  */
 
-var main;
-
-require(["WorkflowDesigner", "model/WorkflowItemCollection", "data/SampleWorkflows"], function (WorkflowDesigner, WorkflowItemCollection, sampleWorkflows) {
+define(["js/WorkflowDesigner", "js/model/WorkflowItemCollection"], function (WorkflowDesigner, WorkflowItemCollection) {
     "use strict";
 
-    var workflowItems = new WorkflowItemCollection(sampleWorkflows.sampleWorkflow6),
-        workflowDesigner = new WorkflowDesigner(1200, 800, d3.select("#display"), workflowItems);
+    var workflowItems,
+        workflowDesigner;
 
-    workflowDesigner.render();
+    function createWorkflowDesigner(element, workflow) {
+        workflowItems = new WorkflowItemCollection(workflow);
+        workflowDesigner = new WorkflowDesigner(1200, 800, d3.select(element), workflowItems);
+
+        workflowDesigner.render();
+    }
 
     function deleteSelectedNodes() {
         workflowDesigner.delete();
@@ -21,7 +24,9 @@ require(["WorkflowDesigner", "model/WorkflowItemCollection", "data/SampleWorkflo
         workflowDesigner.insert(sequence);
     }
 
-    main = {};
-    main.deleteSelectedNodes = deleteSelectedNodes;
-    main.addNode = addNode;
+    return {
+        deleteSelectedNodes: deleteSelectedNodes,
+        addNode: addNode,
+        createWorkflowDesigner: createWorkflowDesigner
+    };
 });

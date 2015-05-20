@@ -5,8 +5,11 @@
 
 require.config({
     paths: {
-        "d3": "../lib/d3/d3.min",
-        "data": "../data"
+        "d3": "lib/d3/d3.min",
+        "model": "js/model",
+        "util": "js/util",
+        "view": "js/view"
+        //"data": "../data"
     },
     urlArgs: "bust=" + (new Date()).getTime()
 });
