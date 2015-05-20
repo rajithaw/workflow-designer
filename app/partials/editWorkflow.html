@@ -2,4 +2,24 @@
     Edit Workflow
 </h4>
 
+<div>
+    <table class="table">
+        <tr>
+            <td><input type="button" value="Add Node" class="btn btn-sm" ng-click="onAddNodeClicked()"/></td>
+            <td>Sequence: <input id="txtSequence" type="text" value="0" maxlength="2" style="width: 30px"/></td>
+        </tr>
+        <tr>
+            <td><input type="button" value="Insert Node" class="btn btn-sm" ng-click="onInsertNodeClicked()"/></td>
+            <td>Level: <input id="Text1" type="text" value="0" maxlength="2" style="width: 30px"/></td>
+        </tr>
+        <tr>
+            <td><input type="button" value="Delete Selected" class="btn btn-sm btn-danger" ng-click="onDeleteNodeClicked()"/></td>
+            <td></td>
+        </tr>
+    </table>
+</div>
+
+<div id="display" style="overflow: auto;">
+</div>
+
 <a href="#/workflows" class="btn btn-primary">Back</a>
