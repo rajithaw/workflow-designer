@@ -22,7 +22,7 @@ module.exports = function (grunt) {
         requirejs: {
             compile: {
                 options: {
-                    mainConfigFile: "js/require-config.js",
+                    mainConfigFile: "require-config.js",
                     optimize: "uglify2",
                     generateSourceMaps: false,
                     name: "main",

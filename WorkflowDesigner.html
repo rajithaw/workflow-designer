@@ -6,8 +6,8 @@
     <link rel="stylesheet" type="text/css" href="css/styles.css">
     <script type="text/javascript" src="lib/requirejs/require.js"></script>
     <!--<script type="text/javascript" src="lib/requirejs/require.js" data-main="js/main.js"></script>-->
-    <!--<script type="text/javascript" src="lib/requirejs/require.js" data-main="dist/workflow-designer.min.js"></script>-->
-    <script type="text/javascript" src="js/require-config.js"></script>
+    <script type="text/javascript" src="lib/requirejs/require.js" data-main="dist/workflow-designer.min.js"></script>
+    <script type="text/javascript" src="require-config.js"></script>
 </head>
 <body>
     <div>
@@ -40,7 +40,7 @@
             }
         }
 
-        require(["js/main.js", "data/SampleWorkflows"], function(main, sampleWorkflows) {
+        require(["main", "data/SampleWorkflows"], function(main, sampleWorkflows) {
             main.createWorkflowDesigner("#display", sampleWorkflows.sampleWorkflow6);
         });
     </script>

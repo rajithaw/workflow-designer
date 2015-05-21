@@ -3,7 +3,7 @@
  * Created by Rajitha on 2/19/2015.
  */
 
-define(["js/WorkflowDesigner", "js/model/WorkflowItemCollection"], function (WorkflowDesigner, WorkflowItemCollection) {
+define(["WorkflowDesigner", "model/WorkflowItemCollection"], function (WorkflowDesigner, WorkflowItemCollection) {
     "use strict";
 
     var workflowItems,

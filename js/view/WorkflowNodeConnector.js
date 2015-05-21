@@ -3,7 +3,7 @@
  * Created by Rajitha on 2/24/2015.
  */
 
-define(["d3", "js/WorkflowDesignerConfig"], function (d3, config) {
+define(["d3", "WorkflowDesignerConfig"], function (d3, config) {
     "use strict";
 
     var itemWidth = config.itemNodeWidth,
