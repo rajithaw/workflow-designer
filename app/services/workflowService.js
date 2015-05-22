@@ -49,6 +49,7 @@ demoApp.factory("workflowService", function($q, $http) {
 
     var getWorkflowInternal = function(workflowId) {
         var i;
+        workflowId = parseInt(workflowId);
 
         for(i = 0; i < workflowList.length; i++) {
             if(workflowList[i].id === workflowId) {
@@ -149,6 +150,7 @@ demoApp.factory("workflowService", function($q, $http) {
 
     var deleteWorkflowInternal = function(workflowId) {
         var i;
+        workflowId = parseInt(workflowId);
 
         for(i = 0; i < workflowList.length; i++) {
             if(workflowList[i].id === workflowId) {

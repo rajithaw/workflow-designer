@@ -22,23 +22,4 @@
 <div id="display" style="overflow: auto;">
 </div>
 
-<script type="text/javascript">
-    function onDeleteNodeClicked() {
-        if (main) {
-            main.deleteSelectedNodes();
-        }
-    }
-
-    function onAddNodeClicked() {
-        var sequence = parseInt(document.getElementById("txtSequence").value);
-        if (main && sequence > 0) {
-            main.addNode(sequence);
-        }
-    }
-
-    require(["main", "data/SampleWorkflows"], function(main, sampleWorkflows) {
-        main.createWorkflowDesigner("#display", sampleWorkflows.sampleWorkflow6);
-    });
-</script>
-
 <a href="#/workflows" class="btn btn-primary">Back</a>

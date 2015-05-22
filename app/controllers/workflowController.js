@@ -6,9 +6,14 @@ demoApp.controller("WorkflowController", function($scope, $routeParams, workflow
 
     var workflowId = $routeParams.workflowId;
 
-    $scope.getWorkflow = function() {
+    var initialize = function() {
         workflowService.getWorkflow(workflowId).then(function(workflow){
             $scope.workflow = workflow;
+
+            require(["main"], function(main) {
+                $scope.main = main;
+                $scope.main.createWorkflowDesigner("#display", $scope.workflow.data);
+            });
         });
     };
 
@@ -23,4 +28,6 @@ demoApp.controller("WorkflowController", function($scope, $routeParams, workflow
     $scope.onDeleteNodeClicked = function () {
 
     };
+
+    initialize();
 });
