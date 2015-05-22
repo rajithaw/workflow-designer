@@ -19,6 +19,12 @@ module.exports = function (grunt) {
                 curly: true
             }
         },
+        cssmin : {
+            css:{
+                src: 'css/styles.css',
+                dest: 'dist/workflow-designer.min.css'
+            }
+        },
         requirejs: {
             compile: {
                 options: {
@@ -34,7 +40,8 @@ module.exports = function (grunt) {
 
     grunt.loadNpmTasks("grunt-mocha");
     grunt.loadNpmTasks("grunt-contrib-jshint");
+    grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-requirejs');
 
-    grunt.registerTask("default", ["mocha", "jshint", "requirejs"]);
+    grunt.registerTask("default", ["mocha", "jshint", "cssmin", "requirejs"]);
 };
