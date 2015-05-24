@@ -50,8 +50,13 @@ define(function (require, exports, module) {
                 render();
             },
 
-            insert = function (sequence) {
+            add = function (sequence) {
                 itemsCollection.add(new WorkflowItem(0, "", "", sequence));
+                render();
+            },
+
+            insert = function (level) {
+                itemsCollection.insert(new WorkflowItem(0, "", "", "", level));
                 render();
             },
 
@@ -217,6 +222,7 @@ define(function (require, exports, module) {
         return {
             render: render,
             delete: deleteSelected,
+            add: add,
             insert: insert
         };
     };

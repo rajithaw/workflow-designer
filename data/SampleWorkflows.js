@@ -2,8 +2,10 @@
 define([], function () {
     "use strict";
 
-    // Array containing serial workflow items
-    var sampleWorkflow1 = [
+    return [{
+        "id": 1,
+        "description": "Serial workflow items",
+        "data": [
             {
                 "id": 11,
                 "name": "Item11",
@@ -28,10 +30,12 @@ define([], function () {
                 "description": "Description41",
                 "sequence": 4
             }
-        ],
-
-        // Array containing simple parallel workflow items
-        sampleWorkflow2 = [
+        ]
+    },
+    {
+        "id": 2,
+        "description": "Simple parallel workflow items",
+        "data": [
             {
                 "id": 11,
                 "name": "Item11",
@@ -74,10 +78,12 @@ define([], function () {
                 "description": "Description42",
                 "sequence": 4
             }
-        ],
-
-        // Array containing starting parallel workflow items
-        sampleWorkflow3 = [
+        ]
+    },
+    {
+        "id": 3,
+        "description": "Starting parallel workflow items",
+        "data": [
             {
                 "id": 11,
                 "name": "Item11",
@@ -120,10 +126,12 @@ define([], function () {
                 "description": "Description41",
                 "sequence": 4
             }
-        ],
-
-        // Array containing adjacent parallel workflow items
-        sampleWorkflow4 = [
+        ]
+    },
+    {
+        "id": 4,
+        "description": "Adjacent parallel workflow items",
+        "data": [
             {
                 "id": 11,
                 "name": "Item11",
@@ -160,10 +168,12 @@ define([], function () {
                 "description": "Description31",
                 "sequence": 3
             }
-        ],
-
-        // Array containing complex parallel workflow items
-        sampleWorkflow5 = [
+        ]
+    },
+    {
+        "id": 5,
+        "description": "Complex parallel workflow items",
+        "data": [
             {
                 "id": 11,
                 "name": "Item11",
@@ -224,10 +234,12 @@ define([], function () {
                 "description": "Description43",
                 "sequence": 4
             }
-        ],
-
-        // Array containing complex parallel workflow items with unsorted and non continuous sequence
-        sampleWorkflow6 = [
+        ]
+    },
+    {
+        "id": 6,
+        "description": "Complex parallel workflow items with unsorted and non continuous sequence",
+        "data": [
             {
                 "id": 42,
                 "name": "Item42",
@@ -288,24 +300,17 @@ define([], function () {
                 "description": "Description32",
                 "sequence": 6
             }
-        ],
-
-        // Array containing invalid workflow items
-        invalidWorkflow = [
+        ]
+    },
+    {
+        "id": 7,
+        "description": "Invalid workflow items",
+        "data": [
             {
                 "abc": 100,
                 "xyz": "xyz"
             },
             {}
-        ];
-
-    return {
-        sampleWorkflow1: sampleWorkflow1,
-        sampleWorkflow2: sampleWorkflow2,
-        sampleWorkflow3: sampleWorkflow3,
-        sampleWorkflow4: sampleWorkflow4,
-        sampleWorkflow5: sampleWorkflow5,
-        sampleWorkflow6: sampleWorkflow6,
-        invalidWorkflow: invalidWorkflow
-    };
+        ]
+    }];
 });

@@ -31,7 +31,7 @@ module.exports = function (grunt) {
                     mainConfigFile: "require-config.js",
                     optimize: "uglify2",
                     generateSourceMaps: false,
-                    name: "main",
+                    name: "WorkflowDesignerApp",
                     out: "dist/workflow-designer.min.js"
                 }
             }

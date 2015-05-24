@@ -5,20 +5,35 @@
     <title></title>
     <link rel="stylesheet" type="text/css" href="css/styles.css">
     <script type="text/javascript" src="lib/requirejs/require.js"></script>
-    <!--<script type="text/javascript" src="lib/requirejs/require.js" data-main="js/main.js"></script>-->
-    <script type="text/javascript" src="lib/requirejs/require.js" data-main="dist/workflow-designer.min.js"></script>
     <script type="text/javascript" src="require-config.js"></script>
 </head>
 <body>
     <div>
         <table>
             <tr>
-                <td><input type="button" value="Delete" onclick="onDeleteNodeClicked()" /></td>
-                <td></td>
+                <td>Sample Workflow: </td>
+                <td>
+                    <select id="cboSampleWorkflow" onchange="onSampleWorkflowSelected(this)">
+                        <option value="0">1</option>
+                        <option value="1">2</option>
+                        <option value="2">3</option>
+                        <option value="3">4</option>
+                        <option value="4">5</option>
+                        <option value="5" selected>6</option>
+                    </select>
+                </td>
             </tr>
             <tr>
                 <td><input type="button" value="Add" onclick="onAddNodeClicked()" /></td>
                 <td>Sequence: <input id="txtSequence" type="text" value="0" maxlength="2" style="width:30px"/></td>
+            </tr>
+            <tr>
+                <td><input type="button" value="Insert" onclick="onInsertNodeClicked()" /></td>
+                <td>Level: <input id="txtLevel" type="text" value="0" maxlength="2" style="width:30px"/></td>
+            </tr>
+            <tr>
+                <td><input type="button" value="Delete" onclick="onDeleteNodeClicked()" /></td>
+                <td></td>
             </tr>
         </table>
     </div>
@@ -26,22 +41,42 @@
     </div>
 
     <script type="text/javascript">
+        var workflowApp,
+            workflows;
+
         function onDeleteNodeClicked() {
-            if (main) {
-                main.deleteSelectedNodes();
+            if (workflowApp) {
+                workflowApp.deleteSelectedNodes();
             }
         }
 
         function onAddNodeClicked() {
             var sequence = parseInt(document.getElementById("txtSequence").value);
 
-            if (main && sequence > 0) {
-                main.addNode(sequence);
+            if (workflowApp && sequence > 0) {
+                workflowApp.addNode(sequence);
             }
         }
 
-        require(["main", "data/SampleWorkflows"], function(main, sampleWorkflows) {
-            main.createWorkflowDesigner("#display", sampleWorkflows.sampleWorkflow6);
+        function onInsertNodeClicked() {
+            var level = parseInt(document.getElementById("txtLevel").value);
+
+            if (workflowApp && level > 0) {
+                workflowApp.insertNode(level);
+            }
+        }
+
+        function onSampleWorkflowSelected(sender) {
+            if (workflowApp) {
+                workflowApp.loadWorkflow(workflows[sender.value].data);
+            }
+        }
+
+        require(["WorkflowDesignerApp", "data/SampleWorkflows"], function(WorkflowDesignerApp, sampleWorkflows) {
+            workflowApp = WorkflowDesignerApp();
+            workflows = sampleWorkflows;
+
+            workflowApp.createWorkflowDesigner("#display", workflows[5].data);
         });
     </script>
 </body>

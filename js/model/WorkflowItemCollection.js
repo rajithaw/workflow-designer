@@ -10,7 +10,8 @@ define(function (require, exports, module) {
         StartItem = require("model/StartItem"),
         EndItem = require("model/EndItem"),
         IntermediateItem = require("model/IntermediateItem"),
-        workflowItemsSequenceIdComparer = require("util/WorkflowItemsSequenceIdComparer");
+        sequenceIdComparer = require("util/SequenceIdComparer"),
+        levelComparer = require("util/LevelComparer");
 
     return function workflowItemCollection(workflowItemsJson) {
         var itemCollection = [],
@@ -184,7 +185,7 @@ define(function (require, exports, module) {
                 intermediateLevels = 0;
 
                 if (itemsJson.length > 0) {
-                    itemsJson.sort(workflowItemsSequenceIdComparer);
+                    itemsJson.sort(sequenceIdComparer);
                     convertWorkflowItemsFromJson();
                 }
             },
@@ -237,24 +238,89 @@ define(function (require, exports, module) {
                 reInitialize();
             },
 
-            // Adds the provided item/items to the workflow collection
+            // Adds the provided item/items to the workflow collection based on item sequence
             add = function (items) {
-                if (items instanceof Array) {
-                    addItems(items);
-                } else {
-                    addItems([items]);
+                if ((items instanceof Array) === false) {
+                    items = [items];
                 }
+
+                addItems(items);
             },
 
-            // Adds the provided items to the workflow collection
+            // Adds the provided items to the workflow collection based on each item sequence
             addItems = function (items) {
                 itemCollection[itemCollection.length] = items;
 
                 reInitialize();
+            },
+
+            // Inserts the provided item/items to the workflow collection based on item level
+            insert = function (items) {
+                if ((items instanceof Array) === false) {
+                    items = [items];
+                }
+
+                insertItems(items);
+            },
+
+            // Inserts the provided items to the workflow collection based on each item level
+            insertItems = function (items) {
+                var i, j,
+                    newItem,
+                    newLevels = [],
+                    levelsDictionary = {},
+                    collectionLength,
+                    levelLength,
+                    sequenceOffset = 0,
+                    workflowItem;
+
+                // Sort items by level
+                items.sort(levelComparer);
+
+                // Construct the list of unique levels to be added
+                for (i = 0; i < items.length; i++) {
+                    newItem = items[i];
+
+                    if(!levelsDictionary[newItem.level]) {
+                        levelsDictionary[newItem.level] = [];
+                    }
+
+                    // Unique levels
+                    if(newLevels.indexOf(newItem.level) < 0) {
+                        newLevels.push(newItem.level);
+                    }
+
+                    // Levels with items
+                    levelsDictionary[newItem.level].push(newItem);
+                }
+
+                for (i = newLevels[0], collectionLength = itemCollection.length; i < collectionLength; i++) {
+                    if(newLevels.indexOf(i) >= 0) {
+                        sequenceOffset++;
+                    }
+
+                    // Adjust the old item sequences
+                    for (j = 0, levelLength = itemCollection[i].length; j < levelLength; j++) {
+                        workflowItem = itemCollection[i][j];
+                        if(workflowItem.sequence >= 0) {
+                            workflowItem.sequence += sequenceOffset;
+                        }
+                    }
+
+                    // Set the new item sequences
+                    if(levelsDictionary[i]) {
+                        for (j = 0, levelLength = levelsDictionary[i].length; j < levelLength; j++) {
+                            workflowItem = levelsDictionary[i][j];
+                            workflowItem.sequence = previousSequence;
+                        }
+                    }
+                }
+
+                addItems(items);
             };
 
         if (itemsJson.length > 0) {
-            itemsJson.sort(workflowItemsSequenceIdComparer);
+            itemsJson.sort(sequenceIdComparer);
             convertWorkflowItemsFromJson();
         }
 
@@ -262,6 +328,7 @@ define(function (require, exports, module) {
             get: getItem,
             set: setItem,
             add: add,
+            insert: insert,
             remove: remove,
             level: getLevel,
             levelCount: getLevels,
