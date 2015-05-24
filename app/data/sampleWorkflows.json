@@ -297,4 +297,15 @@
       "sequence": 6
     }
   ]
+},
+{
+  "id": 7,
+  "description": "Invalid workflow items",
+  "data": [
+    {
+      "abc": 100,
+      "xyz": "xyz"
+    },
+    {}
+  ]
 }]
