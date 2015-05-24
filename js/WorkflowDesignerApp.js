@@ -48,5 +48,5 @@ define(["WorkflowDesigner", "model/WorkflowItemCollection"], function (WorkflowD
             createWorkflowDesigner: createWorkflowDesigner,
             loadWorkflow: loadWorkflow
         };
-    }
+    };
 });
