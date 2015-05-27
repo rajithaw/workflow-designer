@@ -21,7 +21,7 @@ describe('workflow item collection', function () {
     describe('creating a workflow item collection from json', function () {
         it('should create the start and end workflow items', function () {
             // Create workflow item collection
-            var workflowItems = new WorkflowItemCollection(sampleWorkflows.sampleWorkflow6);
+            var workflowItems = new WorkflowItemCollection(sampleWorkflows[5].data);
 
             // Assert
             expect(workflowItems.levelCount()).to.be.equal(9);
@@ -33,7 +33,7 @@ describe('workflow item collection', function () {
 
         it('should create a workflow item collection from josn representing serial workflow items', function () {
             // Create workflow item collection
-            var workflowItems = new WorkflowItemCollection(sampleWorkflows.sampleWorkflow1);
+            var workflowItems = new WorkflowItemCollection(sampleWorkflows[0].data);
 
             // Assert
             expect(workflowItems.itemLevelCount()).to.be.equal(4);
@@ -50,7 +50,7 @@ describe('workflow item collection', function () {
 
         it('should create a workflow item collection from josn representing simple parallel workflow items', function () {
             // Create workflow item collection
-            var workflowItems = new WorkflowItemCollection(sampleWorkflows.sampleWorkflow2);
+            var workflowItems = new WorkflowItemCollection(sampleWorkflows[1].data);
 
             // Assert
             expect(workflowItems.itemLevelCount()).to.be.equal(4);
@@ -70,7 +70,7 @@ describe('workflow item collection', function () {
 
         it('should create a workflow item collection from josn representing starting parallel workflow items', function () {
             // Create workflow item collection
-            var workflowItems = new WorkflowItemCollection(sampleWorkflows.sampleWorkflow3);
+            var workflowItems = new WorkflowItemCollection(sampleWorkflows[2].data);
 
             // Assert
             expect(workflowItems.itemLevelCount()).to.be.equal(4);
@@ -90,7 +90,7 @@ describe('workflow item collection', function () {
 
         it('should create a workflow item collection from josn representing adjacent parallel workflow items', function () {
             // Create workflow item collection
-            var workflowItems = new WorkflowItemCollection(sampleWorkflows.sampleWorkflow4);
+            var workflowItems = new WorkflowItemCollection(sampleWorkflows[3].data);
 
             // Assert
             expect(workflowItems.itemLevelCount()).to.be.equal(3);
@@ -110,7 +110,7 @@ describe('workflow item collection', function () {
 
         it('should create a workflow item collection from josn representing complex parallel workflow items', function () {
             // Create workflow item collection
-            var workflowItems = new WorkflowItemCollection(sampleWorkflows.sampleWorkflow5);
+            var workflowItems = new WorkflowItemCollection(sampleWorkflows[4].data);
 
             // Assert
             expect(workflowItems.itemLevelCount()).to.be.equal(4);
@@ -139,7 +139,7 @@ describe('workflow item collection', function () {
 
         it('should create a workflow item collection from josn representing complex parallel workflow items with unsorted and non continuous sequence', function () {
             // Create workflow item collection
-            var workflowItems = new WorkflowItemCollection(sampleWorkflows.sampleWorkflow6);
+            var workflowItems = new WorkflowItemCollection(sampleWorkflows[5].data);
 
             // Assert
             expect(workflowItems.itemLevelCount()).to.be.equal(4);
@@ -182,7 +182,7 @@ describe('workflow item collection', function () {
 
         it('should throw an error for an invalid items array', function () {
             expect(function() {
-                var workflowItems = new WorkflowItemCollection(sampleWorkflows.invalidWorkflow);
+                var workflowItems = new WorkflowItemCollection(sampleWorkflows[6].data);
             }).to.throw("Invalid items json");
         });
     });
@@ -190,63 +190,63 @@ describe('workflow item collection', function () {
     describe('converting a workflow item collection to json', function(){
         it('should convert a serial workflow items collection to json', function(){
             // Create workflow item collection
-            var workflowItems = new WorkflowItemCollection(sampleWorkflows.sampleWorkflow1);
+            var workflowItems = new WorkflowItemCollection(sampleWorkflows[0].data);
 
             // Convert to json
             var actualJson = workflowItems.toJson();
 
             // Assert
-            expect(actualJson).to.deep.equal(sampleWorkflows.sampleWorkflow1);
+            expect(actualJson).to.deep.equal(sampleWorkflows[0].data);
         });
 
         it('should convert a simple parallel workflow items collection to json', function(){
             // Create workflow item collection
-            var workflowItems = new WorkflowItemCollection(sampleWorkflows.sampleWorkflow2);
+            var workflowItems = new WorkflowItemCollection(sampleWorkflows[1].data);
 
             // Convert to json
             var actualJson = workflowItems.toJson();
 
             // Assert
-            expect(actualJson).to.deep.equal(sampleWorkflows.sampleWorkflow2);
+            expect(actualJson).to.deep.equal(sampleWorkflows[1].data);
         });
 
         it('should convert a starting parallel workflow items collection to json', function(){
             // Create workflow item collection
-            var workflowItems = new WorkflowItemCollection(sampleWorkflows.sampleWorkflow3);
+            var workflowItems = new WorkflowItemCollection(sampleWorkflows[2].data);
 
             // Convert to json
             var actualJson = workflowItems.toJson();
 
             // Assert
-            expect(actualJson).to.deep.equal(sampleWorkflows.sampleWorkflow3);
+            expect(actualJson).to.deep.equal(sampleWorkflows[2].data);
         });
 
         it('should convert an adjacent parallel workflow items collection to json', function(){
             // Create workflow item collection
-            var workflowItems = new WorkflowItemCollection(sampleWorkflows.sampleWorkflow4);
+            var workflowItems = new WorkflowItemCollection(sampleWorkflows[3].data);
 
             // Convert to json
             var actualJson = workflowItems.toJson();
 
             // Assert
-            expect(actualJson).to.deep.equal(sampleWorkflows.sampleWorkflow4);
+            expect(actualJson).to.deep.equal(sampleWorkflows[3].data);
         });
 
         it('should convert a complex parallel workflow items collection to json', function(){
             // Create workflow item collection
-            var workflowItems = new WorkflowItemCollection(sampleWorkflows.sampleWorkflow5);
+            var workflowItems = new WorkflowItemCollection(sampleWorkflows[4].data);
 
             // Convert to json
             var actualJson = workflowItems.toJson();
 
             // Assert
-            expect(actualJson).to.deep.equal(sampleWorkflows.sampleWorkflow5);
+            expect(actualJson).to.deep.equal(sampleWorkflows[4].data);
         });
 
         it('should convert a complex parallel workflow items collection with non continuous sequence to json', function(){
-            var workflowItems = new WorkflowItemCollection(sampleWorkflows.sampleWorkflow6);
+            var workflowItems = new WorkflowItemCollection(sampleWorkflows[5].data);
 
-            var expectedJson = sampleWorkflows.sampleWorkflow6.sort(WorkflowItemCollection.prototype.workflowItemsSequenceIdComparer);
+            var expectedJson = sampleWorkflows[5].data.sort(WorkflowItemCollection.prototype.workflowItemsSequenceIdComparer);
 
             // Convert to json
             var actualJson = workflowItems.toJson();
@@ -269,7 +269,7 @@ describe('workflow item collection', function () {
     describe('converting workflow item collection to an array', function(){
         it('should convert the start and end workflow items to the first and last elements', function(){
             // Create workflow item collection
-            var workflowItems = new WorkflowItemCollection(sampleWorkflows.sampleWorkflow6);
+            var workflowItems = new WorkflowItemCollection(sampleWorkflows[5].data);
 
             // Convert to array
             var itemsArray = workflowItems.toArray();
@@ -282,7 +282,7 @@ describe('workflow item collection', function () {
 
         it('should convert a serial workflow item collection to array', function(){
             // Create workflow item collection
-            var workflowItems = new WorkflowItemCollection(sampleWorkflows.sampleWorkflow1);
+            var workflowItems = new WorkflowItemCollection(sampleWorkflows[0].data);
 
             // Convert to array
             var itemsArray = workflowItems.toArray();
@@ -297,7 +297,7 @@ describe('workflow item collection', function () {
 
         it('should convert a simple parallel workflow items collection to array', function(){
             // Create workflow item collection
-            var workflowItems = new WorkflowItemCollection(sampleWorkflows.sampleWorkflow2);
+            var workflowItems = new WorkflowItemCollection(sampleWorkflows[1].data);
 
             // Convert to array
             var itemsArray = workflowItems.toArray();
@@ -315,7 +315,7 @@ describe('workflow item collection', function () {
 
         it('should convert a starting parallel workflow items collection to array', function(){
             // Create workflow item collection
-            var workflowItems = new WorkflowItemCollection(sampleWorkflows.sampleWorkflow3);
+            var workflowItems = new WorkflowItemCollection(sampleWorkflows[2].data);
 
             // Convert to array
             var itemsArray = workflowItems.toArray();
@@ -333,7 +333,7 @@ describe('workflow item collection', function () {
 
         it('should convert an adjacent parallel workflow items collection to array', function(){
             // Create workflow item collection
-            var workflowItems = new WorkflowItemCollection(sampleWorkflows.sampleWorkflow4);
+            var workflowItems = new WorkflowItemCollection(sampleWorkflows[3].data);
 
             // Convert to array
             var itemsArray = workflowItems.toArray();
@@ -351,7 +351,7 @@ describe('workflow item collection', function () {
 
         it('should convert a complex parallel workflow items collection to array', function(){
             // Create workflow item collection
-            var workflowItems = new WorkflowItemCollection(sampleWorkflows.sampleWorkflow5);
+            var workflowItems = new WorkflowItemCollection(sampleWorkflows[4].data);
 
             // Convert to array
             var itemsArray = workflowItems.toArray();
@@ -375,7 +375,7 @@ describe('workflow item collection', function () {
 
         it('should convert a complex parallel workflow items collection with non continuous sequence to array', function(){
             // Create workflow item collection
-            var workflowItems = new WorkflowItemCollection(sampleWorkflows.sampleWorkflow6);
+            var workflowItems = new WorkflowItemCollection(sampleWorkflows[5].data);
 
             // Convert to array
             var itemsArray = workflowItems.toArray();
@@ -412,7 +412,7 @@ describe('workflow item collection', function () {
     describe('calculating the position of the workflow items', function(){
         it('should calculate the positions of the start and end workflow items', function(){
             // Create workflow item collection
-            var workflowItems = new WorkflowItemCollection(sampleWorkflows.sampleWorkflow6);
+            var workflowItems = new WorkflowItemCollection(sampleWorkflows[5].data);
 
             // Assert
             expect(workflowItems.get(0, 0)).to.shallowDeepEqual({id:"start", x:0, y:0});
@@ -421,7 +421,7 @@ describe('workflow item collection', function () {
 
         it('should calculate the positions correctly for serial workflow items', function(){
             // Create workflow item collection
-            var workflowItems = new WorkflowItemCollection(sampleWorkflows.sampleWorkflow1);
+            var workflowItems = new WorkflowItemCollection(sampleWorkflows[0].data);
 
             // Assert
             expect(workflowItems.get(1, 0)).to.shallowDeepEqual({x:2, y:0});
@@ -432,7 +432,7 @@ describe('workflow item collection', function () {
 
         it('should calculate the positions correctly for simple parallel workflow items', function(){
             // Create workflow item collection
-            var workflowItems = new WorkflowItemCollection(sampleWorkflows.sampleWorkflow2);
+            var workflowItems = new WorkflowItemCollection(sampleWorkflows[1].data);
 
             // Assert
             expect(workflowItems.get(1, 0)).to.shallowDeepEqual({x:2, y:0});
@@ -446,7 +446,7 @@ describe('workflow item collection', function () {
 
         it('should calculate the positions correctly for starting parallel workflow items', function(){
             // Create workflow item collection
-            var workflowItems = new WorkflowItemCollection(sampleWorkflows.sampleWorkflow3);
+            var workflowItems = new WorkflowItemCollection(sampleWorkflows[2].data);
 
             // Assert
             expect(workflowItems.get(1, 0)).to.shallowDeepEqual({x:2, y:0});
@@ -460,7 +460,7 @@ describe('workflow item collection', function () {
 
         it('should calculate the positions correctly for adjacent parallel workflow items', function(){
             // Create workflow item collection
-            var workflowItems = new WorkflowItemCollection(sampleWorkflows.sampleWorkflow4);
+            var workflowItems = new WorkflowItemCollection(sampleWorkflows[3].data);
 
             // Assert
             expect(workflowItems.get(1, 0)).to.shallowDeepEqual({x:2, y:0});
@@ -474,7 +474,7 @@ describe('workflow item collection', function () {
 
         it('should calculate the positions correctly for complex parallel workflow items', function(){
             // Create workflow item collection
-            var workflowItems = new WorkflowItemCollection(sampleWorkflows.sampleWorkflow5);
+            var workflowItems = new WorkflowItemCollection(sampleWorkflows[4].data);
 
             // Assert
             expect(workflowItems.get(1, 0)).to.shallowDeepEqual({x:2, y:0});
@@ -494,7 +494,7 @@ describe('workflow item collection', function () {
 
         it('should calculate the positions correctly for complex parallel workflow items with unsorted and non continuous sequence', function(){
             // Create workflow item collection
-            var workflowItems = new WorkflowItemCollection(sampleWorkflows.sampleWorkflow6);
+            var workflowItems = new WorkflowItemCollection(sampleWorkflows[5].data);
 
             // Assert
             expect(workflowItems.get(1, 0)).to.shallowDeepEqual({x:2, y:0});
@@ -516,7 +516,7 @@ describe('workflow item collection', function () {
     describe("removing items from the workflow collection", function(){
         it("should re-initialize the collection to a valid state after items are removed", function(){
             // Create workflow item collection
-            var workflowItems = new WorkflowItemCollection(sampleWorkflows.sampleWorkflow6);
+            var workflowItems = new WorkflowItemCollection(sampleWorkflows[5].data);
 
             var itemsToRemove = [workflowItems.get(3, 0), workflowItems.get(3, 2), workflowItems.get(7, 2)];
             workflowItems.remove(itemsToRemove);
@@ -536,7 +536,7 @@ describe('workflow item collection', function () {
     describe("adding items to the workflow collection", function(){
         it("should re-initialize the collection to a valid state after items are added", function(){
             // Create workflow item collection
-            var workflowItems = new WorkflowItemCollection(sampleWorkflows.sampleWorkflow2);
+            var workflowItems = new WorkflowItemCollection(sampleWorkflows[1].data);
 
             var itemsToAdd = [{
                 "id": 12,

@@ -13,6 +13,12 @@ module.exports = function (grunt) {
                 }
             }
         },
+        mocha_phantomjs: {
+            all: ['tests/TestRunner.html'],
+            options: {
+                'reporter': 'dot'
+            }
+        },
         jshint: {
             all: ["js/**/*.js", "tests/js/**/*.js"],
             options: {
@@ -39,9 +45,10 @@ module.exports = function (grunt) {
     });
 
     grunt.loadNpmTasks("grunt-mocha");
+    grunt.loadNpmTasks("grunt-mocha-phantomjs");
     grunt.loadNpmTasks("grunt-contrib-jshint");
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-requirejs');
 
-    grunt.registerTask("default", ["mocha", "jshint", "cssmin", "requirejs"]);
+    grunt.registerTask("default", ["mocha", "mocha_phantomjs", "jshint", "cssmin", "requirejs"]);
 };

@@ -27,9 +27,12 @@
 <script>
     mocha.checkLeaks();
 
-    //if (navigator.userAgent.indexOf("PhantomJS") < 0) {
+    if (window.mochaPhantomJS) {
+        mochaPhantomJS.run();
+    }
+    else {
         mocha.run();
-    //}
+    }
 </script>
 </body>
 
