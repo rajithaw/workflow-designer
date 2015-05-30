@@ -11,7 +11,7 @@ describe('workflow item collection', function () {
         sampleWorkflows;
 
     before(function(done) {
-        require(["model/WorkflowItemCollection", "data/sampleWorkflows"], function(collection, samples) {
+        require(["model/WorkflowItemCollection", "data/SampleWorkflows"], function(collection, samples) {
             WorkflowItemCollection = collection;
             sampleWorkflows = samples;
             done(); // We can launch the tests!
