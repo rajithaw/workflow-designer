@@ -9,7 +9,8 @@
   "scripts": {
     "start": "npm run serve",
     "serve": "lite-server -c=bs-config.js",
-    "test": "grunt mocha_phantomjs"
+    "test": "grunt mocha_phantomjs",
+    "postinstall": "bower install"
   },
   "repository": {
     "type": "git",
