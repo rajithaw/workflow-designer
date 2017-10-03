@@ -1,5 +1,5 @@
 {
-  "name": "WorkflowDesigner",
+  "name": "workflowdesigner",
   "version": "0.1.0",
   "description": "",
   "main": "gruntfile.js",
@@ -7,7 +7,9 @@
     "test": "tests"
   },
   "scripts": {
-    "test": ""
+    "start": "npm run serve",
+    "serve": "lite-server -c=bs-config.js",
+    "test": "grunt mocha_phantomjs"
   },
   "repository": {
     "type": "git",
@@ -30,6 +32,7 @@
     "grunt-contrib-requirejs": "^0.4.4",
     "grunt-mocha": "^0.4.11",
     "grunt-mocha-phantomjs": "^0.6.1",
+    "lite-server": "^2.3.0",
     "requirejs": "^2.1.16"
   }
 }
