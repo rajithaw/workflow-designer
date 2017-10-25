@@ -1,42 +1,49 @@
 {
   "name": "workflowdesigner",
-  "version": "0.1.0",
-  "description": "",
-  "main": "gruntfile.js",
-  "directories": {
-    "test": "tests"
-  },
+  "version": "1.0.0",
+  "description": "Javascript library for disigning workflows",
+  "main": "workflow-designer.js",
   "scripts": {
-    "start": "npm run serve",
-    "serve": "lite-server -c=bs-config.js",
-    "test": "grunt mocha_phantomjs",
-    "postinstall": "bower install"
+    "start": "webpack-dev-server",
+    "build": "webpack --debug",
+    "build:prod": "webpack --config webpack-prod.config.js -p",
+    "build:watch": "webpack --watch",
+    "prepublish": "webpack -p",
+    "test": "karma start karma.config.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/rajithaw/WorkflowDesigner.git"
-  },
-  "keywords": [
-    "workflow",
-    "designer"
-  ],
   "author": "Rajitha Wimalasooriya",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/rajithaw/WorkflowDesigner/issues"
-  },
-  "homepage": "https://github.com/rajithaw/WorkflowDesigner",
   "devDependencies": {
-    "grunt": "^0.4.5",
-    "grunt-contrib-cssmin": "^0.12.3",
-    "grunt-contrib-jshint": "^0.11.0",
-    "grunt-contrib-requirejs": "^0.4.4",
-    "grunt-mocha": "^0.4.11",
-    "grunt-mocha-phantomjs": "^0.6.1",
-    "lite-server": "^2.3.0",
-    "requirejs": "^2.1.16"
+    "@types/chai": "^4.0.4",
+    "@types/d3": "^4.10.0",
+    "@types/d3-selection-multi": "^1.0.6",
+    "@types/mocha": "^2.2.43",
+    "@types/uuid": "^3.4.3",
+    "chai": "^4.1.2",
+    "css-loader": "^0.28.7",
+    "extract-text-webpack-plugin": "^3.0.0",
+    "karma": "^1.7.1",
+    "karma-chai": "^0.1.0",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-mocha": "^1.3.0",
+    "karma-phantomjs-launcher": "^1.0.4",
+    "karma-sourcemap-loader": "^0.3.7",
+    "karma-typescript-preprocessor2": "^1.2.1",
+    "karma-webpack": "^2.0.4",
+    "mocha": "^3.5.3",
+    "node-sass": "^4.5.3",
+    "sass-loader": "^6.0.6",
+    "style-loader": "^0.18.2",
+    "systemjs": "^0.20.19",
+    "ts-loader": "^2.3.7",
+    "tslint": "^5.7.0",
+    "typescript": "^2.5.2",
+    "webpack": "^3.6.0",
+    "webpack-dev-server": "^2.8.2"
   },
   "dependencies": {
-    "bower": "^1.8.2"
+    "d3": "^4.10.2",
+    "d3-selection-multi": "^1.0.1",
+    "uuid": "^3.1.0"
   }
 }

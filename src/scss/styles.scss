@@ -1,0 +1,57 @@
+.wd-workflow-item {
+    fill: blue;
+}
+
+.wd-intermediate-item {
+    fill: black;
+}
+
+.wd-start-item {
+    fill: red;
+}
+
+.wd-end-item {
+    fill: red;
+}
+
+.wd-connector {
+    stroke: black;
+    fill: none;
+}
+
+.wd-item-group.selected {
+    .wd-item {
+        stroke: red;
+        stroke-width: 3px;
+    }
+}
+
+.wd-item-text {
+    fill: yellow;
+    font-family: sans-serif;
+    font-size: 10px;
+}
+
+.wd-start-item-text {
+    fill: white;
+    font-family: sans-serif;
+    font-size: 10px;
+}
+
+.wd-end-item-text {
+    fill: white;
+    font-family: sans-serif;
+    font-size: 10px;
+}
+
+.wd-hidden {
+    display: none;
+}
+
+.wd-background-section {
+    fill: rgba(0, 255, 0, 0.2);
+}
+
+.transparent {
+    opacity: 0;
+}

@@ -2,82 +2,19 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title></title>
-    <link rel="stylesheet" type="text/css" href="../css/styles.css">
-    <script type="text/javascript" src="../lib/requirejs/require.js"></script>
-    <script type="text/javascript" src="../require-config.js"></script>
+    <title>Workflow Designer Demo</title>
+
+    <link rel="stylesheet" type="text/css" href="../dist/workflow-designer.css">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+
+    <script type="text/javascript" src="../node_modules/systemjs/dist/system.js"></script>
+    <script type="text/javascript" src="index.js"></script>
 </head>
 <body>
     <div>
-        <table>
-            <tr>
-                <td>Sample Workflow: </td>
-                <td>
-                    <select id="cboSampleWorkflow" onchange="onSampleWorkflowSelected(this)">
-                        <option value="0">1</option>
-                        <option value="1">2</option>
-                        <option value="2">3</option>
-                        <option value="3">4</option>
-                        <option value="4">5</option>
-                        <option value="5" selected>6</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td><input type="button" value="Add" onclick="onAddNodeClicked()" /></td>
-                <td>Sequence: <input id="txtSequence" type="text" value="0" maxlength="2" style="width:30px"/></td>
-            </tr>
-            <!-- <tr>
-                <td><input type="button" value="Insert" onclick="onInsertNodeClicked()" /></td>
-                <td>Level: <input id="txtLevel" type="text" value="0" maxlength="2" style="width:30px"/></td>
-            </tr> -->
-            <tr>
-                <td><input type="button" value="Delete" onclick="onDeleteNodeClicked()" /></td>
-                <td></td>
-            </tr>
-        </table>
+        <button type="button"></button>
     </div>
     <div id="display" style="overflow:auto;">
     </div>
-
-    <script type="text/javascript">
-        var workflowApp,
-            workflows;
-
-        function onDeleteNodeClicked() {
-            if (workflowApp) {
-                workflowApp.deleteSelectedNodes();
-            }
-        }
-
-        function onAddNodeClicked() {
-            var sequence = parseInt(document.getElementById("txtSequence").value);
-
-            if (workflowApp && sequence > 0) {
-                workflowApp.addNode(sequence);
-            }
-        }
-
-        function onInsertNodeClicked() {
-            var level = parseInt(document.getElementById("txtLevel").value);
-
-            if (workflowApp && level > 0) {
-                workflowApp.insertNode(level);
-            }
-        }
-
-        function onSampleWorkflowSelected(sender) {
-            if (workflowApp) {
-                workflowApp.loadWorkflow(workflows[sender.value].data);
-            }
-        }
-
-        require(["WorkflowDesignerApp", "data/SampleWorkflows"], function(WorkflowDesignerApp, sampleWorkflows) {
-            workflowApp = WorkflowDesignerApp();
-            workflows = sampleWorkflows;
-
-            workflowApp.createWorkflowDesigner("#display", workflows[5].data);
-        });
-    </script>
 </body>
 </html>
