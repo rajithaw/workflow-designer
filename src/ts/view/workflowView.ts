@@ -22,42 +22,42 @@ export class WorkflowView {
             let droppedLevel: Level = eventArgs.data.level;
 
             // If dropped on a different level update the workflow
-            if (droppedItem.GetLevel() !== droppedLevel) {
+            if (droppedItem.level !== droppedLevel) {
                 // Cannot drop on start or end levels
-                if (droppedLevel.GetType() !== LevelType.Start && droppedLevel.GetType() !== LevelType.End) {
-                    workflow.RemoveItemFromLevel(droppedItem.GetLevel(), droppedItem);
+                if (droppedLevel.type !== LevelType.Start && droppedLevel.type !== LevelType.End) {
+                    workflow.removeItemFromLevel(droppedItem.level, droppedItem);
 
-                    if (droppedLevel.GetType() === LevelType.Workflow) {
-                        workflow.AddItemToLevel(droppedLevel, droppedItem);
+                    if (droppedLevel.type === LevelType.Workflow) {
+                        workflow.addItemToLevel(droppedLevel, droppedItem);
                     }
 
-                    if (droppedLevel.GetType() === LevelType.Intermediate) {
-                        let previousLevel = workflow.GetPreviousLevel(droppedLevel);
-                        workflow.InsertItemAfterLevel(previousLevel, droppedItem);
+                    if (droppedLevel.type === LevelType.Intermediate) {
+                        let previousLevel = workflow.getPreviousLevel(droppedLevel);
+                        workflow.insertItemAfterLevel(previousLevel, droppedItem);
                     }
                 }
             }
 
-            this.Render();
+            this.render();
         })
     }
 
-    public Render() {
-        this.levelView.Render();
-        this.connectorView.Render();
-        this.itemView.Render();
+    public render() {
+        this.levelView.render();
+        this.connectorView.render();
+        this.itemView.render();
 
-        this.canvas.attrs(this.GetAttributes());
+        this.canvas.attrs(this.getAttributes());
     }
 
-    public GetAttributes() {
+    public getAttributes() {
         return {
             width: () => {
                 let result = 0;
-                return this.levelView.GetTotalWidth();
+                return this.levelView.getTotalWidth();
             },
             height: () => {
-                return this.levelView.GetMaxLevelHeight();
+                return this.levelView.getMaxLevelHeight();
             }
         }
     }

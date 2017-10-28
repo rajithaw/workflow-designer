@@ -3,35 +3,35 @@ import { Item } from './item';
 import * as v4 from 'uuid/v4';
 
 export abstract class Level {
-    protected items: Item [];
-    protected type: LevelType;
-    protected id: string;
+    protected _items: Item [];
+    protected _type: LevelType;
+    protected _id: string;
 
     constructor() {
-        this.items = [];
-        this.id = v4()
+        this._items = [];
+        this._id = v4()
     }
 
-    public abstract RemoveItem(item: Item): void;
+    public abstract removeItem(item: Item): void;
 
-    public get Id() {
-        return this.id;
+    public get id() {
+        return this._id;
     }
 
-    public AddItem(item: Item): void {
-        item.SetLevel(this);
-        this.items.push(item);
+    public addItem(item: Item): void {
+        item.level = this;
+        this._items.push(item);
     }
 
-    public GetType(): LevelType {
-        return this.type;
+    public get type(): LevelType {
+        return this._type;
     }
 
-    public HasItems(): boolean {
-        return this.items.length > 0;
+    public get hasItems(): boolean {
+        return this._items.length > 0;
     }
 
-    public GetItems(): Item[] {
-        return this.items;
+    public get items(): Item[] {
+        return this._items;
     }
 }

@@ -2,10 +2,10 @@ import { Item } from './item';
 import { ItemType } from './itemType';
 
 export class WorkflowItem extends Item {
-    constructor(id?: number) {
+    constructor(id?: string) {
         super();
 
-        this.id = id;
-        this.type = ItemType.Workflow;
+        this._id = id || this._id;
+        this._type = ItemType.Workflow;
     }
 }

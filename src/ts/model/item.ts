@@ -1,25 +1,38 @@
 import { ItemType } from './itemType';
 import { Level } from './level';
+import * as v4 from 'uuid/v4';
 
 export abstract class Item {
-    public id: number;
-    protected type: ItemType;
-    protected level: Level;
-    protected title: string;
+    protected _id: string;
+    protected _type: ItemType;
+    protected _level: Level;
+    protected _title: string;
 
-    public GetLevel(): Level {
-        return this.level;
+    constructor() {
+        this._id = v4();
     }
 
-    public SetLevel(level: Level) {
-        this.level = level;
+    public get id() {
+        return this._id;
     }
 
-    public GetType(): ItemType {
-        return this.type;
+    public get level(): Level {
+        return this._level;
     }
 
-    public SetTitle(title: string) {
-        this.title = title;
+    public set level(level: Level) {
+        this._level = level;
+    }
+
+    public get type(): ItemType {
+        return this._type;
+    }
+
+    public get title() {
+        return this._title;
+    }
+
+    public set title(title: string) {
+        this._title = title;
     }
 }

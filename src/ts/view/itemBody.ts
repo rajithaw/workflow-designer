@@ -4,37 +4,37 @@ import { ItemView } from './itemView';
 import { WorkflowDesignerConfig as config } from '../workflowDesignerConfig';
 
 export class ItemBody {
-    public GetSelector(): string {
+    public getSelector(): string {
         return 'rect.wd-item';
     }
 
-    public GetAttributes() {
+    public getAttributes() {
         return {
             width: (d: Item): number => {
-                return ItemView.GetItemWidth(d.GetType());
+                return ItemView.getItemWidth(d.type);
             },
             height: (d: Item): number => {
-                return ItemView.GetItemHeight(d.GetType());
+                return ItemView.getItemHeight(d.type);
             },
             rx: (d: Item): number => {
-                return this.GetItemRadius(d.GetType());
+                return this.getItemRadius(d.type);
             },
             ry: (d: Item): number => {
-                return this.GetItemRadius(d.GetType());
+                return this.getItemRadius(d.type);
             },
             class: (d: Item): string => {
-                return this.GetClasses(d);
+                return this.getClasses(d);
             }
         };
     }
 
-    private GetClasses(item: Item) {
-        let result = 'wd-' + ItemType[item.GetType()].toLocaleLowerCase() + '-item wd-item';
+    private getClasses(item: Item) {
+        let result = 'wd-' + ItemType[item.type].toLocaleLowerCase() + '-item wd-item';
 
         return result;
     }
 
-    private GetItemRadius(itemType: ItemType) {
+    private getItemRadius(itemType: ItemType) {
         switch (itemType) {
             case ItemType.Start:
                 return config.startItemRadius;

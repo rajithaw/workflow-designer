@@ -13,7 +13,7 @@ export class WorkflowDesigner {
     private workflowView: WorkflowView;
     private dispatch: any;
 
-    public Init(containerId: string) {
+    public init(containerId: string) {
         let container = d3.select(`#${containerId}`);
 
         this.dispatch = d3.dispatch('workflowitemdragstart', 'workflowitemdrag', 'workflowitemdragend', 'workflowitemdrop');
@@ -22,26 +22,26 @@ export class WorkflowDesigner {
         this.workflow = new Workflow();
         this.workflowView = new WorkflowView(this.workflow, this.dispatch, this.svg);
 
-        this.Render();
+        this.render();
     }
 
-    public InsertItem(level: number, title: string) {
+    public insertItem(level: number, title: string) {
         let item = new WorkflowItem();
-        item.SetTitle(title);
+        item.title = title;
 
-        this.workflow.InsertItemAfter(level, item);
-        this.Render();
+        this.workflow.insertItemAfter(level, item);
+        this.render();
     }
 
-    public AddItem(level: number, title: string) {
+    public addItem(level: number, title: string) {
         let item = new WorkflowItem();
-        item.SetTitle(title);
+        item.title = title;
 
-        this.workflow.AddItem(level, item);
-        this.Render();
+        this.workflow.addItem(level, item);
+        this.render();
     }
 
-    private Render() {
-        this.workflowView.Render();
+    private render() {
+        this.workflowView.render();
     }
 }

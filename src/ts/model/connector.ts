@@ -2,29 +2,29 @@ import { Item } from './item';
 import * as v4 from 'uuid/v4';
 
 export class Connector {
-    private id: string;
+    private _id: string;
 
-    constructor(private source: Item, private target: Item) {
-        this.id = v4()
+    constructor(private _source: Item, private _target: Item) {
+        this._id = v4()
     }
 
-    public get Id() {
-        return this.id;
+    public get id() {
+        return this._id;
     }
 
-    public GetSource(): Item {
-        return this.source;
+    public get source(): Item {
+        return this._source;
     }
 
-    public GetTarget(): Item {
-        return this.target;
+    public set source(source: Item) {
+        this._source = source;
     }
 
-    public SetSource(source: Item) {
-        this.source = source;
+    public get target(): Item {
+        return this._target;
     }
 
-    public SetTarget(target: Item) {
-        this.target = target;
+    public set target(target: Item) {
+        this._target = target;
     }
 }

@@ -11,21 +11,21 @@ export class LevelView {
     constructor(private workflow: Workflow, private dispatch: any, private canvas: any) {
     }
 
-    public Render() {
-        let levels = this.workflow.GetAllLevels();
-        let levelViews = this.canvas.selectAll(this.GetSelector()).data(this.GetLevelData(levels));
+    public render() {
+        let levels = this.workflow.getAllLevels();
+        let levelViews = this.canvas.selectAll(this.getSelector()).data(this.getLevelData(levels));
 
-        levelViews.enter().append('rect').merge(levelViews).attrs(this.GetAttributes())
+        levelViews.enter().append('rect').merge(levelViews).attrs(this.getAttributes())
             .on('mouseenter', function (d: LevelData) {
-                d.IsMouseOver = true;
+                d.isMouseOver = true;
             })
             .on('mouseleave', function (d: LevelData) {
-                d.IsMouseOver = false;
+                d.isMouseOver = false;
             });
         levelViews.exit().remove();
     }
 
-    public GetLevelData(levels: Level[]): LevelData[] {
+    public getLevelData(levels: Level[]): LevelData[] {
         let result = [];
 
         levels.forEach((level) => {
@@ -35,82 +35,82 @@ export class LevelView {
         return result;
     }
 
-    public GetSelector(): string {
+    public getSelector(): string {
         return 'rect.wd-background-section';
     }
 
-    public GetAttributes() {
+    public getAttributes() {
         return {
             id: (d: LevelData) => {
-                return `level-${d.GetLevel().Id}`;
+                return `level-${d.level.id}`;
             },
             x: (d: LevelData): number => {
                 let result = 0
-                let levels = this.workflow.GetAllLevels();
-                let levelIndex = levels.findIndex(l => l === d.GetLevel());
+                let levels = this.workflow.getAllLevels();
+                let levelIndex = levels.findIndex(l => l === d.level);
 
-                return this.GetWidthOfLevels(0, levelIndex - 1);
+                return this.getWidthOfLevels(0, levelIndex - 1);
             },
             y: (d: LevelData): number => {
                 return 0;
             },
             width: (d: LevelData): number => {
-                return this.GetLevelWidth(d.GetLevel());
+                return this.getLevelWidth(d.level);
             },
             height: (d: LevelData): number => {
-                return this.GetMaxLevelHeight();
+                return this.getMaxLevelHeight();
             },
             class: (d: LevelData): string => {
-                return this.GetClasses(d);
+                return this.getClasses(d);
             }
         };
     }
 
-    public GetClasses(d: LevelData): string {
+    public getClasses(d: LevelData): string {
         return 'wd-background-section transparent';
     }
 
-    public GetTotalWidth(): number {
+    public getTotalWidth(): number {
         let result = 0;
-        let levels = this.workflow.GetAllLevels();
+        let levels = this.workflow.getAllLevels();
 
         levels.forEach(level => {
-            result += this.GetLevelWidth(level);
+            result += this.getLevelWidth(level);
         });
 
         return result;
     }
 
-    public GetMaxLevelHeight(): number {
+    public getMaxLevelHeight(): number {
         let result = 0;
-        let maxLevel = this.workflow.GetMaxLevel();
+        let maxLevel = this.workflow.getMaxLevel();
 
-        result = this.GetLevelHeight(maxLevel);
+        result = this.getLevelHeight(maxLevel);
         return result;
     }
 
-    public GetWidthOfLevels (startIndex: number, endIndex: number): number {
+    public getWidthOfLevels (startIndex: number, endIndex: number): number {
         let result = 0;
-        let levels = this.workflow.GetAllLevels();
+        let levels = this.workflow.getAllLevels();
 
         for (let i = startIndex; i <= endIndex; i++) {
-            result += this.GetLevelWidth(levels[i]);
+            result += this.getLevelWidth(levels[i]);
         }
 
         return result;
     }
 
-    private GetLevelWidth (level: Level): number {
+    private getLevelWidth (level: Level): number {
         let result = 0;
-        let items = level.GetItems();
+        let items = level.items;
         let itemWidth = 0;
         let itemSpacingX = 0;
 
         if (items.length > 0) {
-            itemWidth = ItemView.GetItemWidth(items[0].GetType());
+            itemWidth = ItemView.getItemWidth(items[0].type);
         }
 
-        switch (level.GetType()) {
+        switch (level.type) {
             case LevelType.Start:
                 itemSpacingX = config.startLevelItemSpacingX;
                 break;
@@ -129,15 +129,15 @@ export class LevelView {
         return result;
     }
 
-    private GetLevelHeight(level: Level): number {
+    private getLevelHeight(level: Level): number {
         let result = 0;
-        let items = level.GetItems();
+        let items = level.items;
         let itemSpacingY = 0;
         let totalItemHeight = 0;
         let totalItemSpacing = 0;
         let topBottomSpacing = 0;
 
-        switch (level.GetType()) {
+        switch (level.type) {
             case LevelType.Start:
                 itemSpacingY = config.startLevelItemSpacingY;
                 break;
@@ -155,7 +155,7 @@ export class LevelView {
         topBottomSpacing = itemSpacingY * 2;
 
         if (items.length > 0) {
-            totalItemHeight = ItemView.GetItemHeight(items[0].GetType()) * items.length;
+            totalItemHeight = ItemView.getItemHeight(items[0].type) * items.length;
             totalItemSpacing = itemSpacingY * (items.length - 1) * 2;
         }
 

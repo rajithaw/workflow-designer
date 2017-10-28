@@ -24,8 +24,8 @@ export class Workflow {
         let startItem = new StartItem();
         let endItem = new EndItem();
 
-        startLevel.AddItem(startItem);
-        endLevel.AddItem(endItem);
+        startLevel.addItem(startItem);
+        endLevel.addItem(endItem);
 
         this.levels.push(startLevel);
         this.levels.push(new IntermediateLevel());
@@ -34,54 +34,54 @@ export class Workflow {
         this.connectors.push(new Connector(startItem, endItem));
     }
 
-    public AddItem(level: number, item: Item) {
-        this.AddItemToLevel(this.getLevel(level), item);
+    public addItem(level: number, item: Item) {
+        this.addItemToLevel(this.getLevel(level), item);
     }
 
-    public AddItemToLevel(level: Level, item: Item) {
-        this.AddItemInternal(level, item);
+    public addItemToLevel(level: Level, item: Item) {
+        this.addItemInternal(level, item);
         this.AdjustConnectorsAfterItemAdd(level, item);
     }
 
-    public InsertItemAfter(level: number, item: Item) {
-        this.InsertItemAfterLevel(this.getLevel(level), item);
+    public insertItemAfter(level: number, item: Item) {
+        this.insertItemAfterLevel(this.getLevel(level), item);
     }
-    public InsertItemAfterLevel(level: Level, item: Item) {
-        let workflowLevel = this.InsertWrokflowLevelAfter(level);
-        this.AddItemInternal(workflowLevel, item);
+    public insertItemAfterLevel(level: Level, item: Item) {
+        let workflowLevel = this.insertWrokflowLevelAfter(level);
+        this.addItemInternal(workflowLevel, item);
 
-        this.AdjustConnectorsAfterItemInsert(workflowLevel, item);
-    }
-
-    public RemoveItem(level: number, item: Item) {
-        this.RemoveItemFromLevel(this.getLevel(level), item);
+        this.adjustConnectorsAfterItemInsert(workflowLevel, item);
     }
 
-    public RemoveItemFromLevel(level: Level, item: Item) {
+    public removeItem(level: number, item: Item) {
+        this.removeItemFromLevel(this.getLevel(level), item);
+    }
+
+    public removeItemFromLevel(level: Level, item: Item) {
         let levelToRemoveFrom = level;
-        levelToRemoveFrom.RemoveItem(item);
+        levelToRemoveFrom.removeItem(item);
 
-        if (!levelToRemoveFrom.HasItems()) {
+        if (!levelToRemoveFrom.hasItems) {
             // If last item, remove the level as well
-            this.RemoveWorkflowLevel(level);
+            this.removeWorkflowLevel(level);
         } else {
-            this.AdjustWorkflowAfterLevelItemsUpdate(level);
-            this.AdjustConnectorsAfterItemRemove(level, item);
+            this.adjustWorkflowAfterLevelItemsUpdate(level);
+            this.adjustConnectorsAfterItemRemove(level, item);
         }
     }
 
-    public GetLevels(): Level[] {
-        return this.levels.filter(l => l.GetType() !== LevelType.Intermediate);
+    public getLevels(): Level[] {
+        return this.levels.filter(l => l.type !== LevelType.Intermediate);
     }
 
-    public GetAllLevels(): Level[] {
+    public getAllLevels(): Level[] {
         return this.levels;
     }
 
-    public GetMaxLevel(): Level {
+    public getMaxLevel(): Level {
         let sortedLevels = this.levels.slice().sort((a: Level, b: Level) => {
-            let aItemsCount = a.GetItems().length;
-            let bItemsCount = b.GetItems().length;
+            let aItemsCount = a.items.length;
+            let bItemsCount = b.items.length;
 
             return bItemsCount - aItemsCount;   // sort descending
         });
@@ -89,22 +89,22 @@ export class Workflow {
         return sortedLevels[0];
     }
 
-    public GetAllItems(): Item[] {
+    public getAllItems(): Item[] {
         let result: Item[] = [];
 
         this.levels.forEach(level => {
-            result.push(...level.GetItems())
+            result.push(...level.items)
         })
 
         return result;
     }
 
-    public GetConnectors(): Connector[] {
+    public getConnectors(): Connector[] {
         return this.connectors;
     }
 
-    public GetPreviousLevel(level: Level, previousCount = 1): Level {
-        let levelIndex = this.GetLevelIndex(level);
+    public getPreviousLevel(level: Level, previousCount = 1): Level {
+        let levelIndex = this.getLevelIndex(level);
 
         if (levelIndex < 0) {
             throw 'Level does not exist';
@@ -117,8 +117,8 @@ export class Workflow {
         return this.levels[levelIndex - previousCount];
     }
 
-    public GetNextLevel(level: Level, nextCount = 1): Level {
-        let levelIndex = this.GetLevelIndex(level);
+    public getNextLevel(level: Level, nextCount = 1): Level {
+        let levelIndex = this.getLevelIndex(level);
 
         if (levelIndex < 0) {
             throw 'Level does not exist';
@@ -131,115 +131,8 @@ export class Workflow {
         return this.levels[levelIndex + nextCount];
     }
 
-    private GetLevelIndex(level: Level): number {
+    private getLevelIndex(level: Level): number {
         return this.levels.findIndex(l => l === level);
-    }
-
-    private AddItemInternal(level: Level, item: Item) {
-        level.AddItem(item);
-
-        this.AdjustWorkflowAfterLevelItemsUpdate(level);
-    }
-
-    private InsertWrokflowLevelAfter(level: Level) {
-        let levelToInsertAfter = level;
-        let internalLevel = this.GetLevelIndex(level);
-
-        if (levelToInsertAfter.GetType() === LevelType.End) {
-            throw 'Cannot insert level after the end level';
-        }
-
-        if (levelToInsertAfter.GetType() === LevelType.Intermediate) {
-            throw 'Cannot insert level after an intermediate level';
-        }
-
-        let workflowLevel = new WorkflowLevel();
-
-        // Insert intermediate level first because there is an intermediate level between any 2 levels
-        this.levels.splice(internalLevel + 1, 0, new IntermediateLevel());
-        this.levels.splice(internalLevel + 2, 0, workflowLevel);
-
-        return workflowLevel;
-    }
-
-    private RemoveWorkflowLevel(level: Level) {
-        if (level.GetType() === LevelType.Start
-            || level.GetType() === LevelType.End) {
-            throw 'Cannot remove start or end levels';
-        }
-
-        let levelIndex = this.GetLevelIndex(level);
-        this.levels.splice(levelIndex, 2);   // Remove the specified level and the next intermediate level
-
-        this.AdjustWorkflowAfterLevelRemove(levelIndex);
-        this.AdjustConnectorsAfterLevelRemove(levelIndex);
-    }
-
-    private AdjustWorkflowAfterLevelItemsUpdate(updatedLevel: Level) {
-        let levelItemsCount = updatedLevel.GetItems().length;
-        let previousIntermediateLevel = this.GetPreviousLevel(updatedLevel);
-        let nextIntermediateLevel = this.GetNextLevel(updatedLevel);
-
-        if (levelItemsCount > 1) {
-            let previousWorkflowLevel = this.GetPreviousLevel(updatedLevel, 2);
-            let previousWorkflowLevelItemsCount = previousWorkflowLevel.GetItems().length;
-
-            if (previousWorkflowLevelItemsCount > 1) {
-                if (!previousIntermediateLevel.HasItems()) {
-                    // If item added workflow level has more than one item and previous workflow level has more than one item
-                    // then previous intermediate level should have an intermediate item
-                    previousIntermediateLevel.AddItem(new IntermediateItem());
-                }
-            } else {
-                // If previous workflow level has only one item then previous intermediate level should not have an intermediate item
-                previousIntermediateLevel.RemoveItem(null);
-            }
-
-            let nextWorkflowLevel = this.GetNextLevel(updatedLevel, 2);
-            let nextWorkflowLevelItemsCount = nextWorkflowLevel.GetItems().length;
-
-            if (nextWorkflowLevelItemsCount > 1) {
-                if (!nextIntermediateLevel.HasItems()) {
-                    // If item added workflow level has more than one item and next workflow level has more than one item
-                    // then next intermediate level should have an intermediate item
-                    nextIntermediateLevel.AddItem(new IntermediateItem());
-                }
-            } else {
-                // If next workflow level has only one item then next intermediate level should not have an intermediate item
-                nextIntermediateLevel.RemoveItem(null);
-            }
-        } else {
-            // If item added workflow level has only one item then next/previous intermediate levels should not have an intermediate item
-            previousIntermediateLevel.RemoveItem(null);
-            nextIntermediateLevel.RemoveItem(null);
-        }
-    }
-
-    private AdjustWorkflowAfterLevelRemove(removedLevelIndex: number) {
-        let currentLevelAtRemovedIndex = this.levels[removedLevelIndex];
-        let levelItemsCount = currentLevelAtRemovedIndex.GetItems().length;
-        let previousIntermediateLevel = this.GetPreviousLevel(currentLevelAtRemovedIndex);
-
-        if (levelItemsCount > 1) {
-            let previousLevel = this.GetPreviousLevel(currentLevelAtRemovedIndex, 2);
-            let previousLevelItemsCount = previousLevel.GetItems().length;
-
-            if (previousLevelItemsCount > 1) {
-                // If workflow level at removed index and previous workflow level has more than one item
-                // then there should be an intermediate item
-                if (!previousIntermediateLevel.HasItems()) {
-                    previousIntermediateLevel.AddItem(new IntermediateItem());
-                }
-            } else {
-                // If previous workflow level has only one item then previous intermediate leve should not have an intermediate item
-                previousIntermediateLevel.RemoveItem(null);
-            }
-        } else {
-            // If workflow level at removed index has only one item then previous intermediate level should not have an intermediate item
-            previousIntermediateLevel.RemoveItem(null);
-        }
-
-        // NOTE: Level removal does not affect the next next level connections
     }
 
     // There is an intermediate level between any 2 observable levels.
@@ -259,25 +152,128 @@ export class Workflow {
         return this.levels[internalLevel];
     }
 
-    private getLevelById(id: string) {
-        return this.levels.find(l => l.Id === id);
+    private addItemInternal(level: Level, item: Item) {
+        level.addItem(item);
+
+        this.adjustWorkflowAfterLevelItemsUpdate(level);
     }
 
-    private AdjustConnectorsAfterItemInsert(level: Level, item: Item) {
-        let previousLevel = this.GetPreviousLevel(level, 2);
-        let previousLevelItems = previousLevel.GetItems();
-        let previousLevelConnectors = this.connectors.filter(c => c.GetSource().GetLevel() === previousLevel);
-        let nextLevel = this.GetNextLevel(level, 2);
-        let nextLevelItems = nextLevel.GetItems();
-        let nextLevelConnectors = this.connectors.filter(c => c.GetTarget().GetLevel() === nextLevel);
+    private insertWrokflowLevelAfter(level: Level) {
+        let levelToInsertAfter = level;
+        let internalLevel = this.getLevelIndex(level);
+
+        if (levelToInsertAfter.type === LevelType.End) {
+            throw 'Cannot insert level after the end level';
+        }
+
+        if (levelToInsertAfter.type === LevelType.Intermediate) {
+            throw 'Cannot insert level after an intermediate level';
+        }
+
+        let workflowLevel = new WorkflowLevel();
+
+        // Insert intermediate level first because there is an intermediate level between any 2 levels
+        this.levels.splice(internalLevel + 1, 0, new IntermediateLevel());
+        this.levels.splice(internalLevel + 2, 0, workflowLevel);
+
+        return workflowLevel;
+    }
+
+    private removeWorkflowLevel(level: Level) {
+        if (level.type === LevelType.Start
+            || level.type === LevelType.End) {
+            throw 'Cannot remove start or end levels';
+        }
+
+        let levelIndex = this.getLevelIndex(level);
+        this.levels.splice(levelIndex, 2);   // Remove the specified level and the next intermediate level
+
+        this.adjustWorkflowAfterLevelRemove(levelIndex);
+        this.adjustConnectorsAfterLevelRemove(levelIndex);
+    }
+
+    private adjustWorkflowAfterLevelItemsUpdate(updatedLevel: Level) {
+        let levelItemsCount = updatedLevel.items.length;
+        let previousIntermediateLevel = this.getPreviousLevel(updatedLevel);
+        let nextIntermediateLevel = this.getNextLevel(updatedLevel);
+
+        if (levelItemsCount > 1) {
+            let previousWorkflowLevel = this.getPreviousLevel(updatedLevel, 2);
+            let previousWorkflowLevelItemsCount = previousWorkflowLevel.items.length;
+
+            if (previousWorkflowLevelItemsCount > 1) {
+                if (!previousIntermediateLevel.hasItems) {
+                    // If item added workflow level has more than one item and previous workflow level has more than one item
+                    // then previous intermediate level should have an intermediate item
+                    previousIntermediateLevel.addItem(new IntermediateItem());
+                }
+            } else {
+                // If previous workflow level has only one item then previous intermediate level should not have an intermediate item
+                previousIntermediateLevel.removeItem(null);
+            }
+
+            let nextWorkflowLevel = this.getNextLevel(updatedLevel, 2);
+            let nextWorkflowLevelItemsCount = nextWorkflowLevel.items.length;
+
+            if (nextWorkflowLevelItemsCount > 1) {
+                if (!nextIntermediateLevel.hasItems) {
+                    // If item added workflow level has more than one item and next workflow level has more than one item
+                    // then next intermediate level should have an intermediate item
+                    nextIntermediateLevel.addItem(new IntermediateItem());
+                }
+            } else {
+                // If next workflow level has only one item then next intermediate level should not have an intermediate item
+                nextIntermediateLevel.removeItem(null);
+            }
+        } else {
+            // If item added workflow level has only one item then next/previous intermediate levels should not have an intermediate item
+            previousIntermediateLevel.removeItem(null);
+            nextIntermediateLevel.removeItem(null);
+        }
+    }
+
+    private adjustWorkflowAfterLevelRemove(removedLevelIndex: number) {
+        let currentLevelAtRemovedIndex = this.levels[removedLevelIndex];
+        let levelItemsCount = currentLevelAtRemovedIndex.items.length;
+        let previousIntermediateLevel = this.getPreviousLevel(currentLevelAtRemovedIndex);
+
+        if (levelItemsCount > 1) {
+            let previousLevel = this.getPreviousLevel(currentLevelAtRemovedIndex, 2);
+            let previousLevelItemsCount = previousLevel.items.length;
+
+            if (previousLevelItemsCount > 1) {
+                // If workflow level at removed index and previous workflow level has more than one item
+                // then there should be an intermediate item
+                if (!previousIntermediateLevel.hasItems) {
+                    previousIntermediateLevel.addItem(new IntermediateItem());
+                }
+            } else {
+                // If previous workflow level has only one item then previous intermediate leve should not have an intermediate item
+                previousIntermediateLevel.removeItem(null);
+            }
+        } else {
+            // If workflow level at removed index has only one item then previous intermediate level should not have an intermediate item
+            previousIntermediateLevel.removeItem(null);
+        }
+
+        // NOTE: Level removal does not affect the next next level connections
+    }
+
+    private adjustConnectorsAfterItemInsert(level: Level, item: Item) {
+        let previousLevel = this.getPreviousLevel(level, 2);
+        let previousLevelItems = previousLevel.items;
+        let previousLevelConnectors = this.connectors.filter(c => c.source.level === previousLevel);
+        let nextLevel = this.getNextLevel(level, 2);
+        let nextLevelItems = nextLevel.items;
+        let nextLevelConnectors = this.connectors.filter(c => c.target.level === nextLevel);
 
         previousLevelConnectors.forEach(connector => {
-            connector.SetTarget(item);
+            connector.target = item;
         });
 
         if (previousLevelItems.length > 1 && nextLevelItems.length > 1) {
             nextLevelConnectors.forEach(connector => {
-                connector.SetSource(item);
+                connector.source = item;
             });
         } else {
             nextLevelItems.forEach(nextLevelItem => {
@@ -288,82 +284,81 @@ export class Workflow {
     }
 
     private AdjustConnectorsAfterItemAdd(level: Level, item: Item) {
-        let currentLevel = level;
-        let currentLevelItems = currentLevel.GetItems();
-        let previousLevel = this.GetPreviousLevel(level, 2);
-        let previousIntermediateLevel = this.GetPreviousLevel(level);
-        let nextLevel = this.GetNextLevel(level, 2);
-        let nextIntermediateLevel = this.GetNextLevel(level);
+        let levelItems = level.items;
+        let previousLevel = this.getPreviousLevel(level, 2);
+        let previousIntermediateLevel = this.getPreviousLevel(level);
+        let nextLevel = this.getNextLevel(level, 2);
+        let nextIntermediateLevel = this.getNextLevel(level);
 
-        if (previousIntermediateLevel.HasItems()) {
-            let intermediateItem = previousIntermediateLevel.GetItems()[0];     // Intermediate levels only have one item
-            let previousLevelItems = previousLevel.GetItems();
-            let previousLevelConnectors = this.connectors.filter(c => c.GetSource().GetLevel() === previousLevel);
+        if (previousIntermediateLevel.hasItems) {
+            let intermediateItem = previousIntermediateLevel.items[0];     // Intermediate levels only have one item
+            let previousLevelItems = previousLevel.items;
+            let previousLevelConnectors = this.connectors.filter(c => c.source.level === previousLevel);
 
-            if (currentLevelItems.length === 2) {   // Previous intermediate level has been newly added
+            if (levelItems.length === 2) {   // Previous intermediate level has been newly added
                 previousLevelConnectors.forEach(previousLevelConnector => {
-                    previousLevelConnector.SetTarget(intermediateItem);
+                    previousLevelConnector.target = intermediateItem;
                 });
 
-                currentLevelItems.forEach(currentLevelItem => {
+                levelItems.forEach(currentLevelItem => {
                     this.connectors.push(new Connector(intermediateItem, currentLevelItem));
                 });
             }
 
-            if (currentLevelItems.length > 2) {   // Previous intermediate level already exists
+            if (levelItems.length > 2) {   // Previous intermediate level already exists
                 this.connectors.push(new Connector(intermediateItem, item));
             }
         } else {
             // Current level has multiple items
             // If there is no intermediate level then the previous level has only one item
-            let previousLevelItem = previousLevel.GetItems()[0];
+            let previousLevelItem = previousLevel.items[0];
             this.connectors.push(new Connector(previousLevelItem, item));
         }
 
-        if (nextIntermediateLevel.HasItems()) {
-            let intermediateItem = nextIntermediateLevel.GetItems()[0];     // Intermediate levels only have one item
-            let nextLevelItems = nextLevel.GetItems();
-            let nextLevelConnectors = this.connectors.filter(c => c.GetTarget().GetLevel() === nextLevel);
+        if (nextIntermediateLevel.hasItems) {
+            let intermediateItem = nextIntermediateLevel.items[0];     // Intermediate levels only have one item
+            let nextLevelItems = nextLevel.items;
+            let nextLevelConnectors = this.connectors.filter(c => c.target.level === nextLevel);
 
-            if (currentLevelItems.length === 2) {   // Next intermediate level has been newly added
+            if (levelItems.length === 2) {   // Next intermediate level has been newly added
                 nextLevelConnectors.forEach(nextLevelConnector => {
-                    nextLevelConnector.SetSource(intermediateItem);
+                    nextLevelConnector.source = intermediateItem;
                 });
 
-                currentLevelItems.forEach(currentLevelItem => {
+                levelItems.forEach(currentLevelItem => {
                     this.connectors.push(new Connector(currentLevelItem, intermediateItem));
                 });
             }
 
-            if (currentLevelItems.length > 2) {   // Next intermediate level already exists
+            if (levelItems.length > 2) {   // Next intermediate level already exists
                 this.connectors.push(new Connector(item, intermediateItem));
             }
         } else {
             // Current level has multiple item
             // If there is no intermediate level then the next level has only one item
-            let nextLevelItem = nextLevel.GetItems()[0];
+            let nextLevelItem = nextLevel.items[0];
             this.connectors.push(new Connector(item, nextLevelItem));
         }
     }
 
-    private AdjustConnectorsAfterLevelRemove(removedLevelIndex: number) {
+    private adjustConnectorsAfterLevelRemove(removedLevelIndex: number) {
         let currentLevelAtRemovedIndex = this.levels[removedLevelIndex];
-        let currentLevelItems = currentLevelAtRemovedIndex.GetItems();
-        let currentLevelConnectors = this.connectors.filter(c => c.GetTarget().GetLevel() === currentLevelAtRemovedIndex);
-        let previousIntermediateLevel = this.GetPreviousLevel(currentLevelAtRemovedIndex);
-        let previousLevel = this.GetPreviousLevel(currentLevelAtRemovedIndex, 2);
-        let previousLevelItems = previousLevel.GetItems();
-        let previousLevelConnectors = this.connectors.filter(c => c.GetSource().GetLevel() === previousLevel);
+        let currentLevelItems = currentLevelAtRemovedIndex.items;
+        let currentLevelConnectors = this.connectors.filter(c => c.target.level === currentLevelAtRemovedIndex);
+        let previousIntermediateLevel = this.getPreviousLevel(currentLevelAtRemovedIndex);
+        let previousLevel = this.getPreviousLevel(currentLevelAtRemovedIndex, 2);
+        let previousLevelItems = previousLevel.items;
+        let previousLevelConnectors = this.connectors.filter(c => c.source.level === previousLevel);
 
-        if (previousIntermediateLevel.HasItems()) {
-            let intermediateItem = previousIntermediateLevel.GetItems()[0];
+        if (previousIntermediateLevel.hasItems) {
+            let intermediateItem = previousIntermediateLevel.items[0];
 
             previousLevelConnectors.forEach(previousLevelConnector => {
-                previousLevelConnector.SetTarget(intermediateItem);
+                previousLevelConnector.target = intermediateItem;
             });
 
             currentLevelConnectors.forEach(currentLevelConnector => {
-                currentLevelConnector.SetSource(intermediateItem);
+                currentLevelConnector.source = intermediateItem;
             });
         } else {
             // At least one level has only one item. remove the connector attachted to that item
@@ -371,46 +366,45 @@ export class Workflow {
 
             if (currentLevelItems.length === 1) {
                 let currentLevelItem = currentLevelItems[0];
-                let levelItemConnectorIndex = this.connectors.findIndex(c => c.GetTarget() === currentLevelItem);
+                let levelItemConnectorIndex = this.connectors.findIndex(c => c.target === currentLevelItem);
                 this.connectors.splice(levelItemConnectorIndex, 1);
 
                 previousLevelConnectors.forEach(previousLevelConnector => {
-                    previousLevelConnector.SetTarget(currentLevelItem);
+                    previousLevelConnector.target = currentLevelItem;
                 });
             } else {
                 let previousLevelItem = previousLevelItems[0];
-                let levelItemConnectorIndex = this.connectors.findIndex(c => c.GetSource() === previousLevelItem);
+                let levelItemConnectorIndex = this.connectors.findIndex(c => c.source === previousLevelItem);
                 this.connectors.splice(levelItemConnectorIndex, 1);
 
                 currentLevelConnectors.forEach(currentLevelConnector => {
-                    currentLevelConnector.SetSource(previousLevelItem);
+                    currentLevelConnector.source = previousLevelItem;
                 });
             }
         }
     }
 
-    private AdjustConnectorsAfterItemRemove(level: Level, item: Item) {
-        let currentLevel = level;
-        let levelItems = currentLevel.GetItems();
+    private adjustConnectorsAfterItemRemove(level: Level, item: Item) {
+        let levelItems = level.items;
 
         if (levelItems.length === 1) {
             // Remove all current level connectors
             this.connectors = this.connectors.filter(c =>
-                (c.GetSource().GetLevel() !== currentLevel && c.GetTarget().GetLevel() !== currentLevel));
+                (c.source.level !== level && c.target.level !== level));
 
             let levelItem = levelItems[0];
-            let previousLevel = this.GetPreviousLevel(level, 2);
-            let previousLevelConnectors = this.connectors.filter(c => c.GetSource().GetLevel() === previousLevel);
-            let nextLevel = this.GetNextLevel(level, 2);
-            let nextLevelConnectors = this.connectors.filter(c => c.GetTarget().GetLevel() === nextLevel);
+            let previousLevel = this.getPreviousLevel(level, 2);
+            let previousLevelConnectors = this.connectors.filter(c => c.source.level === previousLevel);
+            let nextLevel = this.getNextLevel(level, 2);
+            let nextLevelConnectors = this.connectors.filter(c => c.target.level === nextLevel);
 
             if (previousLevelConnectors.length > 0) {
                 // Intermediate levels might have been removed. re-adjust all previous level connectors
                 previousLevelConnectors.forEach(previousLevelConnector => {
-                    previousLevelConnector.SetTarget(levelItem);
+                    previousLevelConnector.target = levelItem;
                 });
             } else {
-                let previousLevelItems = previousLevel.GetItems();
+                let previousLevelItems = previousLevel.items;
 
                 previousLevelItems.forEach(i => {
                     this.connectors.push(new Connector(i, levelItem));
@@ -420,20 +414,20 @@ export class Workflow {
             if (nextLevelConnectors.length > 0) {
                 // Intermediate levels might have been removed. re-adjust all next level connectors
                 nextLevelConnectors.forEach(nextLevelConnector => {
-                    nextLevelConnector.SetSource(levelItem);
+                    nextLevelConnector.source = levelItem;
                 });
             } else {
-                let nextLevelItems = nextLevel.GetItems();
+                let nextLevelItems = nextLevel.items;
 
                 nextLevelItems.forEach(i => {
                     this.connectors.push(new Connector(levelItem, i));
                 })
             }
         } else {
-            let sourceConnectorIndex = this.connectors.findIndex(c => c.GetSource() === item);
+            let sourceConnectorIndex = this.connectors.findIndex(c => c.source === item);
             this.connectors.splice(sourceConnectorIndex, 1);
 
-            let targetConnectorIndex = this.connectors.findIndex(c => c.GetTarget() === item);
+            let targetConnectorIndex = this.connectors.findIndex(c => c.target === item);
             this.connectors.splice(targetConnectorIndex, 1);
         }
     }

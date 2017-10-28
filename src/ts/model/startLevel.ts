@@ -7,22 +7,22 @@ export class StartLevel extends Level {
 
     constructor() {
         super();
-        this.type = LevelType.Start;
+        this._type = LevelType.Start;
     }
 
-    public AddItem(item: Item): void {
-        if (item.GetType() !== ItemType.Start) {
+    public addItem(item: Item): void {
+        if (item.type !== ItemType.Start) {
             throw 'Cannot add items other than start items';
         }
 
-        if (this.items.length > 0) {
+        if (this._items.length > 0) {
             throw 'Cannot contain more than one start item';
         }
 
-        super.AddItem(item);
+        super.addItem(item);
     }
 
-    public RemoveItem(item: Item): void {
+    public removeItem(item: Item): void {
         throw 'Cannot remove items from the start level';
     }
 }

@@ -15,48 +15,51 @@ export class ItemView {
         this.levelView = new LevelView(workflow, dispatch, canvas);
     }
 
-    public Render() {
-        let items = this.workflow.GetAllItems();
+    public render() {
+        let items = this.workflow.getAllItems();
         let itemBody = new ItemBody();
 
-        let itemViews = this.canvas.selectAll(this.GetSelector()).data(items);
-        itemViews = itemViews.enter().append('g').merge(itemViews).attrs(this.GetAttributes())
-            .call(this.SetupDrag());
+        let itemViews = this.canvas.selectAll(this.getSelector()).data(items);
+        let updated = itemViews.enter().append('g').merge(itemViews).attrs(this.getAttributes())
+            .call(this.setupDrag());
         itemViews.exit().remove();
 
-        itemViews.select(itemBody.GetSelector()).remove();
-        itemViews.append('rect').attrs(itemBody.GetAttributes());
+        updated.select(itemBody.getSelector()).remove();
+        updated.append('rect').attrs(itemBody.getAttributes());
     }
 
-    public GetSelector(): string {
+    public getSelector(): string {
         return 'g.wd-item-group';
     }
 
-    public GetAttributes() {
+    public getAttributes() {
         return {
+            id: (d: Item) => {
+                return `item-${d.id}`;
+            },
             transform: (d: Item) => {
-                let translateX = this.GetTranslateX(d);
-                let translateY = this.GetTranslateY(d);
+                let translateX = this.getTranslateX(d);
+                let translateY = this.getTranslateY(d);
 
                 return 'translate(' + translateX + ',' + translateY + ')';
             },
             width: (d: Item): number => {
-                return ItemView.GetItemWidth(d.GetType());
+                return ItemView.getItemWidth(d.type);
             },
             height: (d: Item): number => {
-                return ItemView.GetItemHeight(d.GetType());
+                return ItemView.getItemHeight(d.type);
             },
             class: (d: Item): string => {
-                return this.GetClasses();
+                return this.getClasses();
             }
         };
     }
 
-    public GetClasses(): string {
+    public getClasses(): string {
         return 'wd-item-group';
     }
 
-    public static GetItemWidth(itemType: ItemType) {
+    public static getItemWidth(itemType: ItemType) {
         switch (itemType) {
             case ItemType.Start:
                 return config.startItemWidth;
@@ -71,7 +74,7 @@ export class ItemView {
         }
     }
 
-    public static GetItemHeight(itemType: ItemType) {
+    public static getItemHeight(itemType: ItemType) {
         switch (itemType) {
             case ItemType.Start:
                 return config.startItemHeight;
@@ -86,14 +89,14 @@ export class ItemView {
         }
     }
 
-    public GetTranslateX(item: Item): number {
+    public getTranslateX(item: Item): number {
         let result = 0
-        let itemLevel = item.GetLevel();
-        let levels = this.workflow.GetAllLevels();
+        let itemLevel = item.level;
+        let levels = this.workflow.getAllLevels();
         let levelIndex = levels.findIndex(l => l === itemLevel);
         let itemSpacingX = 0;
 
-        switch (item.GetType()) {
+        switch (item.type) {
             case ItemType.Start:
                 itemSpacingX = config.startLevelItemSpacingX;
                 break;
@@ -108,19 +111,19 @@ export class ItemView {
                 break;
         }
 
-        result = this.levelView.GetWidthOfLevels(0, levelIndex - 1) + itemSpacingX;
+        result = this.levelView.getWidthOfLevels(0, levelIndex - 1) + itemSpacingX;
         return result;
     }
 
-    public GetTranslateY(item: Item): number {
+    public getTranslateY(item: Item): number {
         let result = 0
-        let itemLevel = item.GetLevel();
-        let items = itemLevel.GetItems();
+        let itemLevel = item.level;
+        let items = itemLevel.items;
         let itemIndex = items.findIndex(i => i === item);
-        let itemHeight = ItemView.GetItemHeight(item.GetType());
+        let itemHeight = ItemView.getItemHeight(item.type);
         let itemSpacingY = 0;
 
-        switch (item.GetType()) {
+        switch (item.type) {
             case ItemType.Start:
                 itemSpacingY = config.startLevelItemSpacingY;
                 break;
@@ -139,15 +142,12 @@ export class ItemView {
         return result;
     }
 
-    public SetupDrag() {
+    public setupDrag() {
         let _self = this;
 
         return d3.drag()
-            // .on('start', this.DragStarted)
-            // .on('drag', this.Dragged)
-            // .on('end', this.DragEnded);
             .on('start', function (d: Item) {
-                if (d.GetType() === ItemType.Workflow ) {
+                if (d.type === ItemType.Workflow ) {
                     let itemGroup = d3.select(<any>this).classed('selected', true);
 
                     // Set the pointer events to none to get the mouse events firing on the background section
@@ -158,11 +158,11 @@ export class ItemView {
                 }
             })
             .on('drag', function (d: Item) {
-                if (d.GetType() === ItemType.Workflow ) {
+                if (d.type === ItemType.Workflow ) {
                     d3.select(<any>this).attrs({
                         transform: (i: Item) => {
-                            let translateX = _self.GetTranslateX(i) + currentEvent.x;
-                            let translateY = _self.GetTranslateY(i) + currentEvent.y;
+                            let translateX = _self.getTranslateX(i) + currentEvent.x;
+                            let translateY = _self.getTranslateY(i) + currentEvent.y;
 
                             return 'translate(' + currentEvent.x + ',' + currentEvent.y + ')';
                         }
@@ -172,7 +172,7 @@ export class ItemView {
                 }
             })
             .on('end', function (d: Item) {
-                if (d.GetType() === ItemType.Workflow ) {
+                if (d.type === ItemType.Workflow ) {
                     let itemGroup = d3.select(<any>this).classed('selected', false);
 
                     // Reset the pointer events to the original value

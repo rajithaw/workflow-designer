@@ -7,22 +7,22 @@ export class IntermediateLevel extends Level {
 
     constructor() {
         super();
-        this.type = LevelType.Intermediate;
+        this._type = LevelType.Intermediate;
     }
 
-    public AddItem(item: Item): void {
-        if (item.GetType() !== ItemType.Intermediate) {
+    public addItem(item: Item): void {
+        if (item.type !== ItemType.Intermediate) {
             throw 'Cannot add items other than intermediate items';
         }
 
-        if (this.items.length > 0) {
+        if (this._items.length > 0) {
             throw 'Cannot contain more than one intermediate item';
         }
 
-        super.AddItem(item);
+        super.addItem(item);
     }
 
-    public RemoveItem(item: Item): void {
-        this.items.pop();
+    public removeItem(item: Item): void {
+        this._items.pop();
     }
 }

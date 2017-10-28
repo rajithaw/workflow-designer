@@ -3,31 +3,31 @@ import { Connector } from '../model/connector';
 
 export class ConnectorData {
 
-    constructor(private connector: Connector, private dispatch: any) {
+    constructor(private _connector: Connector, private dispatch: any) {
         let _self = this;
 
-        this.dispatch.on(`workflowitemdragstart.${this.connector.Id}`, function(eventArgs) {
+        this.dispatch.on(`workflowitemdragstart.${this._connector.id}`, function(eventArgs) {
             let item = eventArgs.data;
-            let sourceItem = _self.connector.GetSource();
-            let targetItem = _self.connector.GetTarget();
+            let sourceItem = _self._connector.source;
+            let targetItem = _self._connector.target;
 
             if (item === sourceItem || item === targetItem) {
-                d3.select(`#connector-${_self.connector.Id}`).classed('transparent', true);
+                d3.select(`#connector-${_self._connector.id}`).classed('transparent', true);
             }
         });
 
-        this.dispatch.on(`workflowitemdragend.${this.connector.Id}`, function(eventArgs) {
+        this.dispatch.on(`workflowitemdragend.${this._connector.id}`, function(eventArgs) {
             let item = eventArgs.data;
-            let sourceItem = _self.connector.GetSource();
-            let targetItem = _self.connector.GetTarget();
+            let sourceItem = _self._connector.source;
+            let targetItem = _self._connector.target;
 
             if (item === sourceItem || item === targetItem) {
-                d3.select(`#connector-${_self.connector.Id}`).classed('transparent', false);
+                d3.select(`#connector-${_self._connector.id}`).classed('transparent', false);
             }
         });
     }
 
-    public GetConnector(): Connector {
-        return this.connector;
+    public get connector(): Connector {
+        return this._connector;
     }
 }
