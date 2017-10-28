@@ -22,7 +22,7 @@ export class IntermediateLevel extends Level {
         super.AddItem(item);
     }
 
-    public RemoveItem(itemId: number): void {
+    public RemoveItem(item: Item): void {
         this.items.pop();
     }
 }

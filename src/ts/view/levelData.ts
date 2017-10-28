@@ -14,7 +14,9 @@ export class LevelData {
         this.dispatch.on(`workflowitemdragend.${this.level.Id}`, function(eventArgs) {
             d3.select(`#level-${_self.level.Id}`).classed('transparent', true);
 
-            this.dispatch.call('workflowitemdrop', _self, { data: { level: _self.level, item: eventArgs.data }})
+            if (_self.IsMouseOver) {
+                this.dispatch.call('workflowitemdrop', _self, { data: { level: _self.level, item: eventArgs.data }});
+            }
         });
     }
 

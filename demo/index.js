@@ -10,6 +10,9 @@
 
         wd.InsertItem(1, 'item21');
         wd.AddItem(2, 'item22');
+
+        wd.InsertItem(2, 'item31');
+        wd.AddItem(3, 'item32');
     }).catch(function(err){ 
         console.error(err); 
     });

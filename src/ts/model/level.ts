@@ -12,7 +12,7 @@ export abstract class Level {
         this.id = v4()
     }
 
-    public abstract RemoveItem(itemId: number): void;
+    public abstract RemoveItem(item: Item): void;
 
     public get Id() {
         return this.id;

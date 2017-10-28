@@ -9,7 +9,12 @@ export class WorkflowLevel extends Level {
         this.type = LevelType.Workflow;
     }
 
-    public RemoveItem(itemId: number): void {
+    public RemoveItem(item: Item): void {
+        let itemIndex = this.items.findIndex(x => x === item);
+        this.items.splice(itemIndex, 1);
+    }
+
+    public RemoveItemById(itemId: number): void {
         let itemIndex = this.items.findIndex(x => x.id === itemId);
         this.items.splice(itemIndex, 1);
     }

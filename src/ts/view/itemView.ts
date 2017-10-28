@@ -24,7 +24,7 @@ export class ItemView {
             .call(this.SetupDrag());
         itemViews.exit().remove();
 
-        itemViews.select('rect').remove();
+        itemViews.select(itemBody.GetSelector()).remove();
         itemViews.append('rect').attrs(itemBody.GetAttributes());
     }
 

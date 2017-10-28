@@ -22,7 +22,7 @@ export class StartLevel extends Level {
         super.AddItem(item);
     }
 
-    public RemoveItem(itemId: number): void {
+    public RemoveItem(item: Item): void {
         throw 'Cannot remove items from the start level';
     }
 }
