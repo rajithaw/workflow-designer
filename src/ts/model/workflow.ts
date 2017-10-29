@@ -58,15 +58,14 @@ export class Workflow {
     }
 
     public removeItemFromLevel(level: Level, item: Item) {
-        let levelToRemoveFrom = level;
-        levelToRemoveFrom.removeItem(item);
+        level.removeItem(item);
 
-        if (!levelToRemoveFrom.hasItems) {
-            // If last item, remove the level as well
-            this.removeWorkflowLevel(level);
-        } else {
+        if (level.hasItems) {
             this.adjustWorkflowAfterLevelItemsUpdate(level);
             this.adjustConnectorsAfterItemRemove(level, item);
+        } else {
+            // If last item, remove the level as well
+            this.removeWorkflowLevel(level);
         }
     }
 
@@ -159,14 +158,13 @@ export class Workflow {
     }
 
     private insertWrokflowLevelAfter(level: Level) {
-        let levelToInsertAfter = level;
         let internalLevel = this.getLevelIndex(level);
 
-        if (levelToInsertAfter.type === LevelType.End) {
+        if (level.type === LevelType.End) {
             throw 'Cannot insert level after the end level';
         }
 
-        if (levelToInsertAfter.type === LevelType.Intermediate) {
+        if (level.type === LevelType.Intermediate) {
             throw 'Cannot insert level after an intermediate level';
         }
 

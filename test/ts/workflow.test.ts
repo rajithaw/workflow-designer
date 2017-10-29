@@ -72,7 +72,7 @@ describe('Workflow', () => {
             let level1Items = levels[1].items;
 
             expect(levels.length).to.equal(3);
-            expect(level1Items.length).equal(2);
+            expect(level1Items.length).to.equal(2);
         });
 
         it('should not be able to add an item to start level', () => {
@@ -147,7 +147,7 @@ describe('Workflow', () => {
             let level1Items = levels[1].items;
 
             expect(levels.length).to.equal(3);
-            expect(level1Items.length).equal(2);
+            expect(level1Items.length).to.equal(2);
         });
 
         it('should remove the level when the last item is removed form the level', () => {
@@ -163,7 +163,7 @@ describe('Workflow', () => {
             let levels = workflow.getLevels();
             let level1Items = levels[1].items;
             expect(levels.length).to.equal(3);
-            expect(level1Items.length).equal(2);
+            expect(level1Items.length).to.equal(2);
 
             workflow.removeItem(1, item1);
             workflow.removeItem(1, item2);

@@ -24,7 +24,8 @@ export class ItemView {
             .call(this.setupDrag());
         itemViews.exit().remove();
 
-        updated.select(itemBody.getSelector()).remove();
+        // Remove all contents of the item groups
+        updated.selectAll('*').remove();
         updated.append('rect').attrs(itemBody.getAttributes());
     }
 
