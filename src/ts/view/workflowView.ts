@@ -39,6 +39,11 @@ export class WorkflowView {
             }
 
             this.render();
+        });
+
+        this.dispatch.on('workflowitemremoveclicked.workflow', eventArgs => {
+            this.workflow.removeItemFromLevel(eventArgs.data.level, eventArgs.data);
+            this.render();
         })
     }
 

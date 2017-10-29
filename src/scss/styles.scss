@@ -27,21 +27,20 @@
 }
 
 .wd-item-text {
-    fill: yellow;
     font-family: sans-serif;
     font-size: 10px;
+}
+
+.wd-workflow-item-text {
+    fill: yellow;
 }
 
 .wd-start-item-text {
     fill: white;
-    font-family: sans-serif;
-    font-size: 10px;
 }
 
 .wd-end-item-text {
     fill: white;
-    font-family: sans-serif;
-    font-size: 10px;
 }
 
 .wd-hidden {
@@ -52,6 +51,10 @@
     fill: rgba(0, 255, 0, 0.2);
 }
 
-.transparent {
+.wd-transparent {
     opacity: 0;
+}
+
+.wd-workflow-item-remove {
+    fill: red;
 }

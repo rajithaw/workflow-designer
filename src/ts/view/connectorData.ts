@@ -12,7 +12,7 @@ export class ConnectorData {
             let targetItem = _self._connector.target;
 
             if (item === sourceItem || item === targetItem) {
-                d3.select(`#connector-${_self._connector.id}`).classed('transparent', true);
+                d3.select(`#connector-${_self._connector.id}`).classed('wd-transparent', true);
             }
         });
 
@@ -22,7 +22,7 @@ export class ConnectorData {
             let targetItem = _self._connector.target;
 
             if (item === sourceItem || item === targetItem) {
-                d3.select(`#connector-${_self._connector.id}`).classed('transparent', false);
+                d3.select(`#connector-${_self._connector.id}`).classed('wd-transparent', false);
             }
         });
     }

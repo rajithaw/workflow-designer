@@ -40,7 +40,7 @@ export class Workflow {
 
     public addItemToLevel(level: Level, item: Item) {
         this.addItemInternal(level, item);
-        this.AdjustConnectorsAfterItemAdd(level, item);
+        this.adjustConnectorsAfterItemAdd(level, item);
     }
 
     public insertItemAfter(level: number, item: Item) {
@@ -281,7 +281,7 @@ export class Workflow {
         }
     }
 
-    private AdjustConnectorsAfterItemAdd(level: Level, item: Item) {
+    private adjustConnectorsAfterItemAdd(level: Level, item: Item) {
         let levelItems = level.items;
         let previousLevel = this.getPreviousLevel(level, 2);
         let previousIntermediateLevel = this.getPreviousLevel(level);

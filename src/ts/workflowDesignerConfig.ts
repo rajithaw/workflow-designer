@@ -19,4 +19,7 @@ export class WorkflowDesignerConfig {
     public static workflowLevelItemSpacingY = 60;
     public static intermediateLevelItemSpacingY = 60;
     public static endLevelItemSpacingY = 60;
+    public static workflowItemRemoveWidth = 10;
+    public static workflowItemRemoveHeight = 10;
+    public static workflowItemRemoveRadius = 5;
 }

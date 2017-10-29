@@ -16,10 +16,10 @@ export class LevelView {
         let levelViews = this.canvas.selectAll(this.getSelector()).data(this.getLevelData(levels));
 
         levelViews.enter().append('rect').merge(levelViews).attrs(this.getAttributes())
-            .on('mouseenter', function (d: LevelData) {
+            .on('mouseenter', (d: LevelData) => {
                 d.isMouseOver = true;
             })
-            .on('mouseleave', function (d: LevelData) {
+            .on('mouseleave', (d: LevelData) => {
                 d.isMouseOver = false;
             });
         levelViews.exit().remove();
@@ -67,7 +67,7 @@ export class LevelView {
     }
 
     public getClasses(d: LevelData): string {
-        return 'wd-background-section transparent';
+        return 'wd-background-section wd-transparent';
     }
 
     public getTotalWidth(): number {

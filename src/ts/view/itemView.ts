@@ -5,6 +5,8 @@ import { Item } from '../model/item';
 import { ItemType } from '../model/itemType';
 import { LevelView } from './levelView';
 import { ItemBody } from './itemBody';
+import { ItemText } from './itemText';
+import { WorkflowItemRemove } from './workflowItemRemove';
 import { WorkflowDesignerConfig as config } from '../workflowDesignerConfig';
 
 export class ItemView {
@@ -18,6 +20,8 @@ export class ItemView {
     public render() {
         let items = this.workflow.getAllItems();
         let itemBody = new ItemBody();
+        let itemText = new ItemText();
+        let itemRemove = new WorkflowItemRemove();
 
         let itemViews = this.canvas.selectAll(this.getSelector()).data(items);
         let updated = itemViews.enter().append('g').merge(itemViews).attrs(this.getAttributes())
@@ -27,6 +31,12 @@ export class ItemView {
         // Remove all contents of the item groups
         updated.selectAll('*').remove();
         updated.append('rect').attrs(itemBody.getAttributes());
+        updated.append('text').attrs(itemText.getAttributes()).text(itemText.setText);
+
+        updated.append('rect').attrs(itemRemove.getAttributes()).on('mousedown', (d: Item) => {
+            event.stopPropagation();
+            this.dispatch.call('workflowitemremoveclicked', this, { data: d });
+        });
     }
 
     public getSelector(): string {

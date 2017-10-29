@@ -11,7 +11,7 @@ describe('Workflow', () => {
         expect(levels.length).to.equal(2);
     });
 
-    describe('InsertItem', () => {
+    describe('insertItem', () => {
         it('should be able to insert a workflow item after a given level', () => {
             let workflow = new Workflow();
 
@@ -60,7 +60,7 @@ describe('Workflow', () => {
         });
     });
 
-    describe('AddItem', () => {
+    describe('addItem', () => {
         it('should be able to add a workflow item to a given level', () => {
             let workflow = new Workflow();
 
@@ -129,7 +129,7 @@ describe('Workflow', () => {
         });
     });
 
-    describe('RemoveItem', () => {
+    describe('removeItem', () => {
         it('should be able to remove a workflow item from a given level', () => {
             let workflow = new Workflow();
 
@@ -235,7 +235,7 @@ describe('Workflow', () => {
         });
     });
 
-    describe('GetLevels', () => {
+    describe('getLevels', () => {
         it('should retrieve non intermediate levels', () => {
             let workflow = new Workflow();
 
@@ -245,6 +245,88 @@ describe('Workflow', () => {
             let levels = workflow.getLevels();
 
             expect(levels.length).to.equal(4);
+        });
+    });
+
+    describe('move items - scenario 1 - 2 workflow levels with 2 items in each level', () => {
+        it('should be able to remove item from first level', () => {
+            let workflow = new Workflow();
+            let item11 = new WorkflowItem();
+            let item12 = new WorkflowItem();
+            let item21 = new WorkflowItem();
+            let item22 = new WorkflowItem();
+
+            workflow.insertItemAfter(0, item11);
+            workflow.addItem(1, item12);
+            workflow.insertItemAfter(1, item21);
+            workflow.addItem(2, item22);
+
+            workflow.removeItem(1, item12);
+
+            expect(workflow.getAllLevels().length).to.equal(7);
+            expect(workflow.getAllItems().length).to.equal(5);
+            expect(workflow.getConnectors().length).to.equal(5);
+        });
+
+        it('should be able to move item from first level to next level', () => {
+            let workflow = new Workflow();
+            let item11 = new WorkflowItem();
+            let item12 = new WorkflowItem();
+            let item21 = new WorkflowItem();
+            let item22 = new WorkflowItem();
+
+            workflow.insertItemAfter(0, item11);
+            workflow.addItem(1, item12);
+            workflow.insertItemAfter(1, item21);
+            workflow.addItem(2, item22);
+
+            workflow.removeItem(1, item12);
+            workflow.addItem(2, item12);
+
+            expect(workflow.getAllLevels().length).to.equal(7);
+            expect(workflow.getAllItems().length).to.equal(6);
+            expect(workflow.getConnectors().length).to.equal(7);
+        });
+
+        it('should be able to move item from first level to before next level', () => {
+            let workflow = new Workflow();
+            let item11 = new WorkflowItem();
+            let item12 = new WorkflowItem();
+            let item21 = new WorkflowItem();
+            let item22 = new WorkflowItem();
+
+            workflow.insertItemAfter(0, item11);
+            workflow.addItem(1, item12);
+            workflow.insertItemAfter(1, item21);
+            workflow.addItem(2, item22);
+
+            workflow.removeItem(1, item12);
+            debugger;
+            workflow.insertItemAfter(1, item12);
+
+            expect(workflow.getAllLevels().length).to.equal(9);
+            expect(workflow.getAllItems().length).to.equal(6);
+            expect(workflow.getConnectors().length).to.equal(6);
+        });
+
+        it('should be able to move item from first level to after next level', () => {
+            let workflow = new Workflow();
+            let item11 = new WorkflowItem();
+            let item12 = new WorkflowItem();
+            let item21 = new WorkflowItem();
+            let item22 = new WorkflowItem();
+
+            workflow.insertItemAfter(0, item11);
+            workflow.addItem(1, item12);
+            workflow.insertItemAfter(1, item21);
+            workflow.addItem(2, item22);
+
+            workflow.removeItem(1, item12);
+            workflow.insertItemAfter(2, item12);
+
+            expect(workflow.getAllLevels().length).to.equal(9);
+            expect(workflow.getAllItems().length).to.equal(6);
+            expect(workflow.getConnectors().length).to.equal(6);
         });
     });
 });
