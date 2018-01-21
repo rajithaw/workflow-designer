@@ -5,7 +5,7 @@ export class Connector {
     private _id: string;
 
     constructor(private _source: Item, private _target: Item) {
-        this._id = v4()
+        this._id = v4();
     }
 
     public get id() {

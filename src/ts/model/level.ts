@@ -9,7 +9,7 @@ export abstract class Level {
 
     constructor() {
         this._items = [];
-        this._id = v4()
+        this._id = v4();
     }
 
     public abstract removeItem(item: Item): void;

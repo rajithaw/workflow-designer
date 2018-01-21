@@ -44,7 +44,7 @@ export class WorkflowView {
         this.dispatch.on('workflowitemremoveclicked.workflow', eventArgs => {
             this.workflow.removeItemFromLevel(eventArgs.data.level, eventArgs.data);
             this.render();
-        })
+        });
     }
 
     public render() {
@@ -64,6 +64,6 @@ export class WorkflowView {
             height: () => {
                 return this.levelView.getMaxLevelHeight();
             }
-        }
+        };
     }
 }

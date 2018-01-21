@@ -6,7 +6,7 @@ import { WorkflowDesignerConfig as config } from '../workflowDesignerConfig';
 
 export class WorkflowItemRemove {
     public getSelector(): string {
-        return 'rect.wd-workflow-item-remove'
+        return 'rect.wd-workflow-item-remove';
     }
 
     public getAttributes() {

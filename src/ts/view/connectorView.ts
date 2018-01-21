@@ -49,7 +49,7 @@ export class ConnectorView {
             class: (d: ConnectorData): string => {
                 return this.getClasses(d);
             }
-        }
+        };
     }
 
     private getClasses(d: ConnectorData) {

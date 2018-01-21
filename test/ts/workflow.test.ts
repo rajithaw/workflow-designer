@@ -91,7 +91,7 @@ describe('Workflow', () => {
             let workflow = new Workflow();
 
             expect(() => workflow.addItem(2, new WorkflowItem())).to.throw();
-        })
+        });
 
         it('should adjust connectors when item is added to a level with a single item', () => {
             let workflow = new Workflow();

@@ -92,8 +92,8 @@ export class Workflow {
         let result: Item[] = [];
 
         this.levels.forEach(level => {
-            result.push(...level.items)
-        })
+            result.push(...level.items);
+        });
 
         return result;
     }
@@ -406,7 +406,7 @@ export class Workflow {
 
                 previousLevelItems.forEach(i => {
                     this.connectors.push(new Connector(i, levelItem));
-                })
+                });
             }
 
             if (nextLevelConnectors.length > 0) {
@@ -419,7 +419,7 @@ export class Workflow {
 
                 nextLevelItems.forEach(i => {
                     this.connectors.push(new Connector(levelItem, i));
-                })
+                });
             }
         } else {
             let sourceConnectorIndex = this.connectors.findIndex(c => c.source === item);

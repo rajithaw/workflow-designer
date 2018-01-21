@@ -17,6 +17,36 @@ export class ItemView {
         this.levelView = new LevelView(workflow, dispatch, canvas);
     }
 
+    public static getItemWidth(itemType: ItemType) {
+        switch (itemType) {
+            case ItemType.Start:
+                return config.startItemWidth;
+            case ItemType.Workflow:
+                return config.workflowItemWidth;
+            case ItemType.Intermediate:
+                return config.intermediateItemWidth;
+            case ItemType.End:
+                return config.endItemWidth;
+            default:
+                return 0;
+        }
+    }
+
+    public static getItemHeight(itemType: ItemType) {
+        switch (itemType) {
+            case ItemType.Start:
+                return config.startItemHeight;
+            case ItemType.Workflow:
+                return config.workflowItemHeight;
+            case ItemType.Intermediate:
+                return config.intermediateItemHeight;
+            case ItemType.End:
+                return config.endItemHeight;
+            default:
+                return 0;
+        }
+    }
+
     public render() {
         let items = this.workflow.getAllItems();
         let itemBody = new ItemBody();
@@ -70,38 +100,8 @@ export class ItemView {
         return 'wd-item-group';
     }
 
-    public static getItemWidth(itemType: ItemType) {
-        switch (itemType) {
-            case ItemType.Start:
-                return config.startItemWidth;
-            case ItemType.Workflow:
-                return config.workflowItemWidth;
-            case ItemType.Intermediate:
-                return config.intermediateItemWidth;
-            case ItemType.End:
-                return config.endItemWidth;
-            default:
-                return 0;
-        }
-    }
-
-    public static getItemHeight(itemType: ItemType) {
-        switch (itemType) {
-            case ItemType.Start:
-                return config.startItemHeight;
-            case ItemType.Workflow:
-                return config.workflowItemHeight;
-            case ItemType.Intermediate:
-                return config.intermediateItemHeight;
-            case ItemType.End:
-                return config.endItemHeight;
-            default:
-                return 0;
-        }
-    }
-
     public getTranslateX(item: Item): number {
-        let result = 0
+        let result = 0;
         let itemLevel = item.level;
         let levels = this.workflow.getAllLevels();
         let levelIndex = levels.findIndex(l => l === itemLevel);
@@ -127,7 +127,7 @@ export class ItemView {
     }
 
     public getTranslateY(item: Item): number {
-        let result = 0
+        let result = 0;
         let itemLevel = item.level;
         let items = itemLevel.items;
         let itemIndex = items.findIndex(i => i === item);

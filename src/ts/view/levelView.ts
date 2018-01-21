@@ -45,7 +45,7 @@ export class LevelView {
                 return `level-${d.level.id}`;
             },
             x: (d: LevelData): number => {
-                let result = 0
+                let result = 0;
                 let levels = this.workflow.getAllLevels();
                 let levelIndex = levels.findIndex(l => l === d.level);
 

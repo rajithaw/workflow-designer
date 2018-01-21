@@ -89,7 +89,7 @@ describe('WorkflowLevel', () => {
 
             level.addItem(new WorkflowItem());
 
-            expect(level.hasItems).to.be.true
+            expect(level.hasItems).to.be.true;
         });
 
         it('should return false when level does not have items', () => {
@@ -97,5 +97,5 @@ describe('WorkflowLevel', () => {
 
             expect(level.hasItems).to.be.false;
         });
-    })
+    });
 });

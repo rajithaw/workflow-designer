@@ -9,7 +9,7 @@
     "build:prod": "webpack --config webpack-prod.config.js -p",
     "build:watch": "webpack --watch",
     "prepublish": "npm run build:prod",
-    "lint": "tslint ./src/**/*.ts",
+    "lint": "tslint ./src/**/*.ts ./test/**/*.test.ts",
     "test": "karma start karma.config.js"
   },
   "author": "Rajitha Wimalasooriya",
