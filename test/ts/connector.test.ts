@@ -1,7 +1,7 @@
 /* tslint:disable:no-unused-expression */
 
 import { Connector } from '../../src/ts/model/connector';
-import { WorkflowItem } from '../../src/ts/model/workflowitem';
+import { WorkflowItem } from '../../src/ts/model/workflowItem';
 import { expect } from 'chai';
 
 describe('Connector', () => {
