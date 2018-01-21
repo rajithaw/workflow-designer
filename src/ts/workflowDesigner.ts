@@ -16,7 +16,7 @@ export class WorkflowDesigner {
     public init(containerId: string) {
         let container = d3.select(`#${containerId}`);
 
-        this.dispatch = d3.dispatch('workflowitemdragstart', 'workflowitemdrag', 'workflowitemdragend', 
+        this.dispatch = d3.dispatch('workflowitemdragstart', 'workflowitemdrag', 'workflowitemdragend',
             'workflowitemdrop', 'workflowitemremoveclicked');
         this.svg = container.append('svg');
 

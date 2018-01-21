@@ -1,7 +1,7 @@
 (function(){
     'use strict';
 
-    System.import('../dist/workflow-designer.js').then(function(m) {
+    System.import('workflow-designer.js').then(function(m) {
         var wd = new m.WorkflowDesigner();
         wd.init('display');
 

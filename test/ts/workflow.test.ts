@@ -301,7 +301,6 @@ describe('Workflow', () => {
             workflow.addItem(2, item22);
 
             workflow.removeItem(1, item12);
-            debugger;
             workflow.insertItemAfter(1, item12);
 
             expect(workflow.getAllLevels().length).to.equal(9);

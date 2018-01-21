@@ -5,19 +5,19 @@ let path = require('path');
 module.exports = {
     context: path.resolve('src'),
     devtool: 'inline-source-map',
-    // devServer: {
-    //     contentBase: 'demo'
-    // },
+    devServer: {
+        contentBase: ['./', './demo']
+    },
     entry: [
         './scss/styles.scss',
         './ts/workflowDesigner.ts'
     ],
     output: {
-        //path: path.resolve('/dist/'),
-        //publicPath: '/demo/',
-        filename: './dist/workflow-designer.js',
-        library: 'WorkflowDesigner',
-        libraryTarget: 'amd',
+        path: path.resolve(__dirname, "dist"),
+        publicPath: '/',
+        filename: 'workflow-designer.js',
+        library: 'workflow-designer',
+        libraryTarget: 'umd',
         umdNamedDefine: true
     },
     resolve: {
@@ -28,19 +28,6 @@ module.exports = {
             {
                 test: /\.scss$/,
                 exclude: /node_modules/,
-                // use: [{
-                //     loader: "style-loader"
-                // }, {
-                //     loader: "css-loader",
-                //     options: {
-                //         sourceMap: true
-                //     }
-                // }, {
-                //     loader: "sass-loader",
-                //     options: {
-                //         sourceMap: true
-                //     }
-                // }]
                 use: ExtractTextPlugin.extract({
                     fallback: "style-loader",
                     use: [{
@@ -64,6 +51,6 @@ module.exports = {
         ]
     },
     plugins: [
-        new ExtractTextPlugin("./dist/workflow-designer.css")
+        new ExtractTextPlugin("workflow-designer.css")
     ]
   }
