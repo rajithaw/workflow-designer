@@ -4,11 +4,8 @@
   "description": "Javascript library for disigning workflows",
   "main": "./dist/index.js",
   "scripts": {
-    "start": "webpack-dev-server",
-    "build": "webpack --debug",
-    "build:prod": "webpack --config webpack-prod.config.js -p",
-    "build:watch": "webpack --watch",
-    "prepublish": "npm run build:prod",
+    "start": "webpack-dev-server --mode development --devtool inline-source-map --hot",
+    "build": "webpack --mode production",
     "lint": "tslint ./src/**/*.ts ./test/**/*.test.ts",
     "test": "karma start karma.config.js"
   },
