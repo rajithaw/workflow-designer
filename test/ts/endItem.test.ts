@@ -6,13 +6,13 @@ import { expect } from 'chai';
 
 describe('EndItem', () => {
     it('should generate id automatically', () => {
-        let item = new EndItem();
+        const item = new EndItem();
 
         expect(item.id).to.exist;
     });
 
     it('should be type of end item', () => {
-        let item = new EndItem();
+        const item = new EndItem();
 
         expect(item.type).to.equal(ItemType.End);
     });

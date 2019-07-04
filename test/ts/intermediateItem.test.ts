@@ -6,13 +6,13 @@ import { expect } from 'chai';
 
 describe('EndItem', () => {
     it('should generate id automatically', () => {
-        let item = new IntermediateItem();
+        const item = new IntermediateItem();
 
         expect(item.id).to.exist;
     });
 
     it('should be type of intermediate item', () => {
-        let item = new IntermediateItem();
+        const item = new IntermediateItem();
 
         expect(item.type).to.equal(ItemType.Intermediate);
     });

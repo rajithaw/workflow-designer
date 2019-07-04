@@ -12,6 +12,7 @@ on:
 deploy:
   provider: surge
   project: ./dist/
+  skip_cleanup: true,
   domain: workflow-designer.surge.sh
   on:
     all_branches: true

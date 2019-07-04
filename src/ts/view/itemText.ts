@@ -25,7 +25,7 @@ export class ItemText {
     }
 
     private getClasses(item: Item) {
-        let result = 'wd-' + ItemType[item.type].toLocaleLowerCase() + '-item-text wd-item-text';
+        const result = 'wd-' + ItemType[item.type].toLocaleLowerCase() + '-item-text wd-item-text';
 
         return result;
     }

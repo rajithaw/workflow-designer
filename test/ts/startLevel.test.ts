@@ -9,21 +9,21 @@ import { expect } from 'chai';
 describe('StartLevel', () => {
 
     it('should generate id automatically', () => {
-        let level = new StartLevel();
+        const level = new StartLevel();
 
         expect(level.id).to.exist;
     });
 
     it('should be type of start level', () => {
-        let level = new StartLevel();
+        const level = new StartLevel();
 
         expect(level.type).to.equal(LevelType.Start);
     });
 
     describe('addItem', () => {
         it('should be able to add a start item', () => {
-            let item = new StartItem();
-            let level = new StartLevel();
+            const item = new StartItem();
+            const level = new StartLevel();
 
             level.addItem(item);
 
@@ -32,7 +32,7 @@ describe('StartLevel', () => {
         });
 
         it('should not be able to add more than one item', () => {
-            let level = new StartLevel();
+            const level = new StartLevel();
 
             level.addItem(new StartItem());
 
@@ -40,8 +40,8 @@ describe('StartLevel', () => {
         });
 
         it('should not be able to add anything other than start items', () => {
-            let workflowItem = new WorkflowItem();
-            let level = new StartLevel();
+            const workflowItem = new WorkflowItem();
+            const level = new StartLevel();
 
             expect(() => level.addItem(workflowItem)).to.throw();
         });
@@ -49,7 +49,7 @@ describe('StartLevel', () => {
 
     describe('removeItem', () => {
         it('shoud not be able to remove items', () => {
-            let level = new StartLevel();
+            const level = new StartLevel();
 
             expect(() => level.removeItem(new StartItem())).to.throw();
         });

@@ -12,8 +12,8 @@ export class LevelView {
     }
 
     public render() {
-        let levels = this.workflow.getAllLevels();
-        let levelViews = this.canvas.selectAll(this.getSelector()).data(this.getLevelData(levels));
+        const levels = this.workflow.getAllLevels();
+        const levelViews = this.canvas.selectAll(this.getSelector()).data(this.getLevelData(levels));
 
         levelViews.enter().append('rect').merge(levelViews).attrs(this.getAttributes())
             .on('mouseenter', (d: LevelData) => {
@@ -26,7 +26,7 @@ export class LevelView {
     }
 
     public getLevelData(levels: Level[]): LevelData[] {
-        let result = [];
+        const result = [];
 
         levels.forEach((level) => {
             result.push(new LevelData(level, this.dispatch));
@@ -45,9 +45,8 @@ export class LevelView {
                 return `level-${d.level.id}`;
             },
             x: (d: LevelData): number => {
-                let result = 0;
-                let levels = this.workflow.getAllLevels();
-                let levelIndex = levels.findIndex(l => l === d.level);
+                const levels = this.workflow.getAllLevels();
+                const levelIndex = levels.findIndex(l => l === d.level);
 
                 return this.getWidthOfLevels(0, levelIndex - 1);
             },
@@ -72,7 +71,7 @@ export class LevelView {
 
     public getTotalWidth(): number {
         let result = 0;
-        let levels = this.workflow.getAllLevels();
+        const levels = this.workflow.getAllLevels();
 
         levels.forEach(level => {
             result += this.getLevelWidth(level);
@@ -83,7 +82,7 @@ export class LevelView {
 
     public getMaxLevelHeight(): number {
         let result = 0;
-        let maxLevel = this.workflow.getMaxLevel();
+        const maxLevel = this.workflow.getMaxLevel();
 
         result = this.getLevelHeight(maxLevel);
         return result;
@@ -91,7 +90,7 @@ export class LevelView {
 
     public getWidthOfLevels (startIndex: number, endIndex: number): number {
         let result = 0;
-        let levels = this.workflow.getAllLevels();
+        const levels = this.workflow.getAllLevels();
 
         for (let i = startIndex; i <= endIndex; i++) {
             result += this.getLevelWidth(levels[i]);
@@ -102,7 +101,7 @@ export class LevelView {
 
     private getLevelWidth (level: Level): number {
         let result = 0;
-        let items = level.items;
+        const items = level.items;
         let itemWidth = 0;
         let itemSpacingX = 0;
 
@@ -131,7 +130,7 @@ export class LevelView {
 
     private getLevelHeight(level: Level): number {
         let result = 0;
-        let items = level.items;
+        const items = level.items;
         let itemSpacingY = 0;
         let totalItemHeight = 0;
         let totalItemSpacing = 0;

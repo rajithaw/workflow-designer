@@ -6,20 +6,20 @@ import { expect } from 'chai';
 
 describe('EndItem', () => {
     it('should generate id automatically', () => {
-        let item = new WorkflowItem();
+        const item = new WorkflowItem();
 
         expect(item.id).to.exist;
     });
 
     it('should override auto generated if id is provided', () => {
-        let itemId = '1234';
-        let item = new WorkflowItem(itemId);
+        const itemId = '1234';
+        const item = new WorkflowItem(itemId);
 
         expect(item.id).to.equal(itemId);
     });
 
     it('should be type of workflow item', () => {
-        let item = new WorkflowItem();
+        const item = new WorkflowItem();
 
         expect(item.type).to.equal(ItemType.Workflow);
     });
