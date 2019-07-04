@@ -288,7 +288,7 @@ describe('Workflow', () => {
             expect(workflow.getConnectors().length).to.equal(7);
         });
 
-        xit('should be able to move item from first level to before next level', () => {
+        it('should be able to move item from first level to before next level', () => {
             let workflow = new Workflow();
             let item11 = new WorkflowItem();
             let item12 = new WorkflowItem();
