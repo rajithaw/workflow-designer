@@ -4,44 +4,44 @@ import { expect } from 'chai';
 
 describe('Workflow', () => {
     it('should initially have a start and end level', () => {
-        let workflow = new Workflow();
+        const workflow = new Workflow();
 
-        let levels = workflow.getLevels();
+        const levels = workflow.getLevels();
 
         expect(levels.length).to.equal(2);
     });
 
     describe('insertItem', () => {
         it('should be able to insert a workflow item after a given level', () => {
-            let workflow = new Workflow();
+            const workflow = new Workflow();
 
             workflow.insertItemAfter(0, new WorkflowItem());
 
-            let levels = workflow.getLevels();
-            let level1Items = levels[1].items;
+            const levels = workflow.getLevels();
+            const level1Items = levels[1].items;
 
             expect(levels.length).to.equal(3);
             expect(level1Items.length).to.equal(1);
         });
 
         it('should not be able to insert item after end level', () => {
-            let workflow = new Workflow();
+            const workflow = new Workflow();
 
             expect(() => workflow.insertItemAfter(1, new WorkflowItem())).to.throw();
         });
 
         it('should adjust connectors when no previous intermediate connection', () => {
-            let workflow = new Workflow();
+            const workflow = new Workflow();
 
             workflow.insertItemAfter(0, new WorkflowItem());
 
-            let connectors = workflow.getConnectors();
+            const connectors = workflow.getConnectors();
 
             expect(connectors.length).to.equal(2);
         });
 
         it('should adjust connectors when previous intermediate connection existed', () => {
-            let workflow = new Workflow();
+            const workflow = new Workflow();
 
             workflow.insertItemAfter(0, new WorkflowItem());
             workflow.addItem(1, new WorkflowItem());
@@ -50,7 +50,7 @@ describe('Workflow', () => {
             workflow.insertItemAfter(1, new WorkflowItem());
             workflow.addItem(2, new WorkflowItem());
 
-            let connectors = workflow.getConnectors();
+            const connectors = workflow.getConnectors();
 
             expect(connectors.length).to.equal(10);
 
@@ -62,43 +62,43 @@ describe('Workflow', () => {
 
     describe('addItem', () => {
         it('should be able to add a workflow item to a given level', () => {
-            let workflow = new Workflow();
+            const workflow = new Workflow();
 
             workflow.insertItemAfter(0, new WorkflowItem());
 
             workflow.addItem(1, new WorkflowItem());
 
-            let levels = workflow.getLevels();
-            let level1Items = levels[1].items;
+            const levels = workflow.getLevels();
+            const level1Items = levels[1].items;
 
             expect(levels.length).to.equal(3);
             expect(level1Items.length).to.equal(2);
         });
 
         it('should not be able to add an item to start level', () => {
-            let workflow = new Workflow();
+            const workflow = new Workflow();
 
             expect(() => workflow.addItem(0, new WorkflowItem())).to.throw();
         });
 
         it('should not be able to add an item to end level', () => {
-            let workflow = new Workflow();
+            const workflow = new Workflow();
 
             expect(() => workflow.addItem(1, new WorkflowItem())).to.throw();
         });
 
         it('should not be able to add an item to a non existing level', () => {
-            let workflow = new Workflow();
+            const workflow = new Workflow();
 
             expect(() => workflow.addItem(2, new WorkflowItem())).to.throw();
         });
 
         it('should adjust connectors when item is added to a level with a single item', () => {
-            let workflow = new Workflow();
+            const workflow = new Workflow();
 
             workflow.insertItemAfter(0, new WorkflowItem());
 
-            let connectors = workflow.getConnectors();
+            const connectors = workflow.getConnectors();
 
             expect(connectors.length).to.equal(2);
 
@@ -108,7 +108,7 @@ describe('Workflow', () => {
         });
 
         it('should adjust connectors when item is added to a level with a multiple items', () => {
-            let workflow = new Workflow();
+            const workflow = new Workflow();
 
             workflow.insertItemAfter(0, new WorkflowItem());
             workflow.addItem(1, new WorkflowItem());
@@ -119,7 +119,7 @@ describe('Workflow', () => {
             workflow.insertItemAfter(2, new WorkflowItem());
             workflow.addItem(3, new WorkflowItem());
 
-            let connectors = workflow.getConnectors();
+            const connectors = workflow.getConnectors();
 
             expect(connectors.length).to.equal(12);
 
@@ -131,11 +131,11 @@ describe('Workflow', () => {
 
     describe('removeItem', () => {
         it('should be able to remove a workflow item from a given level', () => {
-            let workflow = new Workflow();
+            const workflow = new Workflow();
 
-            let item1 = new WorkflowItem();
-            let item2 = new WorkflowItem();
-            let item3 = new WorkflowItem();
+            const item1 = new WorkflowItem();
+            const item2 = new WorkflowItem();
+            const item3 = new WorkflowItem();
 
             workflow.insertItemAfter(0, item1);
             workflow.addItem(1, item2);
@@ -143,25 +143,25 @@ describe('Workflow', () => {
 
             workflow.removeItem(1, item3);
 
-            let levels = workflow.getLevels();
-            let level1Items = levels[1].items;
+            const levels = workflow.getLevels();
+            const level1Items = levels[1].items;
 
             expect(levels.length).to.equal(3);
             expect(level1Items.length).to.equal(2);
         });
 
         it('should remove the level when the last item is removed form the level', () => {
-            let workflow = new Workflow();
+            const workflow = new Workflow();
 
-            let item1 = new WorkflowItem();
-            let item2 = new WorkflowItem();
-            let item3 = new WorkflowItem();
+            const item1 = new WorkflowItem();
+            const item2 = new WorkflowItem();
+            const item3 = new WorkflowItem();
 
             workflow.insertItemAfter(0, item1);
             workflow.addItem(1, item2);
 
             let levels = workflow.getLevels();
-            let level1Items = levels[1].items;
+            const level1Items = levels[1].items;
             expect(levels.length).to.equal(3);
             expect(level1Items.length).to.equal(2);
 
@@ -174,32 +174,32 @@ describe('Workflow', () => {
         });
 
         it('should not be able to remove items from start level', () => {
-            let workflow = new Workflow();
+            const workflow = new Workflow();
 
-            let startLevel = workflow.getLevels()[0];
-            let startItem = startLevel.items[0];
+            const startLevel = workflow.getLevels()[0];
+            const startItem = startLevel.items[0];
 
             expect(() => workflow.removeItem(0, startItem)).to.throw();
         });
 
         it('should not be able to remove items from end level', () => {
-            let workflow = new Workflow();
+            const workflow = new Workflow();
 
-            let endLevel = workflow.getLevels()[1];
-            let endItem = endLevel.items[0];
+            const endLevel = workflow.getLevels()[1];
+            const endItem = endLevel.items[0];
 
             expect(() => workflow.removeItem(0, endItem)).to.throw();
         });
 
         it('should adjust connectors when item is removed', () => {
-            let workflow = new Workflow();
-            let removedItem = new WorkflowItem();
+            const workflow = new Workflow();
+            const removedItem = new WorkflowItem();
 
             workflow.insertItemAfter(0, new WorkflowItem());
             workflow.addItem(1, new WorkflowItem());
             workflow.addItem(1, removedItem);
 
-            let connectors = workflow.getConnectors();
+            const connectors = workflow.getConnectors();
 
             expect(connectors.length).to.equal(6);
 
@@ -209,9 +209,9 @@ describe('Workflow', () => {
         });
 
         it('should adjust connectors when level is removed', () => {
-            let workflow = new Workflow();
-            let removedItem1 = new WorkflowItem();
-            let removedItem2 = new WorkflowItem();
+            const workflow = new Workflow();
+            const removedItem1 = new WorkflowItem();
+            const removedItem2 = new WorkflowItem();
 
             workflow.insertItemAfter(0, new WorkflowItem());
             workflow.addItem(1, new WorkflowItem());
@@ -237,12 +237,12 @@ describe('Workflow', () => {
 
     describe('getLevels', () => {
         it('should retrieve non intermediate levels', () => {
-            let workflow = new Workflow();
+            const workflow = new Workflow();
 
             workflow.insertItemAfter(0, new WorkflowItem());
             workflow.insertItemAfter(1, new WorkflowItem());
 
-            let levels = workflow.getLevels();
+            const levels = workflow.getLevels();
 
             expect(levels.length).to.equal(4);
         });
@@ -250,11 +250,11 @@ describe('Workflow', () => {
 
     describe('move items - scenario 1 - 2 workflow levels with 2 items in each level', () => {
         it('should be able to remove item from first level', () => {
-            let workflow = new Workflow();
-            let item11 = new WorkflowItem();
-            let item12 = new WorkflowItem();
-            let item21 = new WorkflowItem();
-            let item22 = new WorkflowItem();
+            const workflow = new Workflow();
+            const item11 = new WorkflowItem();
+            const item12 = new WorkflowItem();
+            const item21 = new WorkflowItem();
+            const item22 = new WorkflowItem();
 
             workflow.insertItemAfter(0, item11);
             workflow.addItem(1, item12);
@@ -269,11 +269,11 @@ describe('Workflow', () => {
         });
 
         it('should be able to move item from first level to next level', () => {
-            let workflow = new Workflow();
-            let item11 = new WorkflowItem();
-            let item12 = new WorkflowItem();
-            let item21 = new WorkflowItem();
-            let item22 = new WorkflowItem();
+            const workflow = new Workflow();
+            const item11 = new WorkflowItem();
+            const item12 = new WorkflowItem();
+            const item21 = new WorkflowItem();
+            const item22 = new WorkflowItem();
 
             workflow.insertItemAfter(0, item11);
             workflow.addItem(1, item12);
@@ -289,11 +289,11 @@ describe('Workflow', () => {
         });
 
         it('should be able to move item from first level to before next level', () => {
-            let workflow = new Workflow();
-            let item11 = new WorkflowItem();
-            let item12 = new WorkflowItem();
-            let item21 = new WorkflowItem();
-            let item22 = new WorkflowItem();
+            const workflow = new Workflow();
+            const item11 = new WorkflowItem();
+            const item12 = new WorkflowItem();
+            const item21 = new WorkflowItem();
+            const item22 = new WorkflowItem();
 
             workflow.insertItemAfter(0, item11);
             workflow.addItem(1, item12);
@@ -309,11 +309,11 @@ describe('Workflow', () => {
         });
 
         it('should be able to move item from first level to after next level', () => {
-            let workflow = new Workflow();
-            let item11 = new WorkflowItem();
-            let item12 = new WorkflowItem();
-            let item21 = new WorkflowItem();
-            let item22 = new WorkflowItem();
+            const workflow = new Workflow();
+            const item11 = new WorkflowItem();
+            const item12 = new WorkflowItem();
+            const item21 = new WorkflowItem();
+            const item22 = new WorkflowItem();
 
             workflow.insertItemAfter(0, item11);
             workflow.addItem(1, item12);

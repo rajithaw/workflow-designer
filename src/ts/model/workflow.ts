@@ -19,10 +19,10 @@ export class Workflow {
         this.connectors = [];
 
         // Initially workflow consists of a start level and an end level with an empty intermediate level in between
-        let startLevel = new StartLevel();
-        let endLevel = new EndLevel();
-        let startItem = new StartItem();
-        let endItem = new EndItem();
+        const startLevel = new StartLevel();
+        const endLevel = new EndLevel();
+        const startItem = new StartItem();
+        const endItem = new EndItem();
 
         startLevel.addItem(startItem);
         endLevel.addItem(endItem);
@@ -48,7 +48,7 @@ export class Workflow {
     }
 
     public insertItemAfterLevel(level: Level, item: Item) {
-        let workflowLevel = this.insertWrokflowLevelAfter(level);
+        const workflowLevel = this.insertWrokflowLevelAfter(level);
         this.addItemInternal(workflowLevel, item);
 
         this.adjustConnectorsAfterItemInsert(workflowLevel, item);
@@ -79,9 +79,9 @@ export class Workflow {
     }
 
     public getMaxLevel(): Level {
-        let sortedLevels = this.levels.slice().sort((a: Level, b: Level) => {
-            let aItemsCount = a.items.length;
-            let bItemsCount = b.items.length;
+        const sortedLevels = this.levels.slice().sort((a: Level, b: Level) => {
+            const aItemsCount = a.items.length;
+            const bItemsCount = b.items.length;
 
             return bItemsCount - aItemsCount;   // sort descending
         });
@@ -90,9 +90,9 @@ export class Workflow {
     }
 
     public getAllItems(): Item[] {
-        let result: Item[] = [];
+        const result: Item[] = [];
 
-        this.levels.forEach(level => {
+        this.levels.forEach((level) => {
             result.push(...level.items);
         });
 
@@ -104,7 +104,7 @@ export class Workflow {
     }
 
     public getPreviousLevel(level: Level, previousCount = 1): Level {
-        let levelIndex = this.getLevelIndex(level);
+        const levelIndex = this.getLevelIndex(level);
 
         if (levelIndex < 0) {
             throw 'Level does not exist';
@@ -118,7 +118,7 @@ export class Workflow {
     }
 
     public getNextLevel(level: Level, nextCount = 1): Level {
-        let levelIndex = this.getLevelIndex(level);
+        const levelIndex = this.getLevelIndex(level);
 
         if (levelIndex < 0) {
             throw 'Level does not exist';
@@ -143,7 +143,7 @@ export class Workflow {
 
     // Gets the observable level
     private getLevel(level: number) {
-        let internalLevel = this.getInternalLevelValue(level);
+        const internalLevel = this.getInternalLevelValue(level);
 
         if (this.levels.length < internalLevel) {
             throw 'Level does not exist';
@@ -159,7 +159,7 @@ export class Workflow {
     }
 
     private insertWrokflowLevelAfter(level: Level) {
-        let internalLevel = this.getLevelIndex(level);
+        const internalLevel = this.getLevelIndex(level);
 
         if (level.type === LevelType.End) {
             throw 'Cannot insert level after the end level';
@@ -169,7 +169,7 @@ export class Workflow {
             throw 'Cannot insert level after an intermediate level';
         }
 
-        let workflowLevel = new WorkflowLevel();
+        const workflowLevel = new WorkflowLevel();
 
         // Insert intermediate level first because there is an intermediate level between any 2 levels
         this.levels.splice(internalLevel + 1, 0, new IntermediateLevel());
@@ -184,7 +184,7 @@ export class Workflow {
             throw 'Cannot remove start or end levels';
         }
 
-        let levelIndex = this.getLevelIndex(level);
+        const levelIndex = this.getLevelIndex(level);
         this.levels.splice(levelIndex, 2);   // Remove the specified level and the next intermediate level
 
         this.adjustWorkflowAfterLevelRemove(levelIndex);
@@ -192,13 +192,13 @@ export class Workflow {
     }
 
     private adjustWorkflowAfterLevelItemsUpdate(updatedLevel: Level) {
-        let levelItemsCount = updatedLevel.items.length;
-        let previousIntermediateLevel = this.getPreviousLevel(updatedLevel);
-        let nextIntermediateLevel = this.getNextLevel(updatedLevel);
+        const levelItemsCount = updatedLevel.items.length;
+        const previousIntermediateLevel = this.getPreviousLevel(updatedLevel);
+        const nextIntermediateLevel = this.getNextLevel(updatedLevel);
 
         if (levelItemsCount > 1) {
-            let previousWorkflowLevel = this.getPreviousLevel(updatedLevel, 2);
-            let previousWorkflowLevelItemsCount = previousWorkflowLevel.items.length;
+            const previousWorkflowLevel = this.getPreviousLevel(updatedLevel, 2);
+            const previousWorkflowLevelItemsCount = previousWorkflowLevel.items.length;
 
             if (previousWorkflowLevelItemsCount > 1) {
                 if (!previousIntermediateLevel.hasItems) {
@@ -211,8 +211,8 @@ export class Workflow {
                 previousIntermediateLevel.removeItem(null);
             }
 
-            let nextWorkflowLevel = this.getNextLevel(updatedLevel, 2);
-            let nextWorkflowLevelItemsCount = nextWorkflowLevel.items.length;
+            const nextWorkflowLevel = this.getNextLevel(updatedLevel, 2);
+            const nextWorkflowLevelItemsCount = nextWorkflowLevel.items.length;
 
             if (nextWorkflowLevelItemsCount > 1) {
                 if (!nextIntermediateLevel.hasItems) {
@@ -232,13 +232,13 @@ export class Workflow {
     }
 
     private adjustWorkflowAfterLevelRemove(removedLevelIndex: number) {
-        let currentLevelAtRemovedIndex = this.levels[removedLevelIndex];
-        let levelItemsCount = currentLevelAtRemovedIndex.items.length;
-        let previousIntermediateLevel = this.getPreviousLevel(currentLevelAtRemovedIndex);
+        const currentLevelAtRemovedIndex = this.levels[removedLevelIndex];
+        const levelItemsCount = currentLevelAtRemovedIndex.items.length;
+        const previousIntermediateLevel = this.getPreviousLevel(currentLevelAtRemovedIndex);
 
         if (levelItemsCount > 1) {
-            let previousLevel = this.getPreviousLevel(currentLevelAtRemovedIndex, 2);
-            let previousLevelItemsCount = previousLevel.items.length;
+            const previousLevel = this.getPreviousLevel(currentLevelAtRemovedIndex, 2);
+            const previousLevelItemsCount = previousLevel.items.length;
 
             if (previousLevelItemsCount > 1) {
                 // If workflow level at removed index and previous workflow level has more than one item
@@ -259,10 +259,10 @@ export class Workflow {
     }
 
     private adjustConnectorsAfterItemInsert(level: Level, item: Item) {
-        let previousLevel = this.getPreviousLevel(level, 2);
-        let previousLevelItems = previousLevel.items;
-        let nextLevel = this.getNextLevel(level, 2);
-        let nextLevelItems = nextLevel.items;
+        const previousLevel = this.getPreviousLevel(level, 2);
+        const previousLevelItems = previousLevel.items;
+        const nextLevel = this.getNextLevel(level, 2);
+        const nextLevelItems = nextLevel.items;
 
         // Remove all item connectors
         this.connectors = this.connectors.filter(c => c.source !== item && c.target !== item);
@@ -272,7 +272,7 @@ export class Workflow {
             this.connectors = this.connectors.filter(c => c.source !== prevLevelItem);
 
             // Add new connector to the inserted item
-            let connector = new Connector(prevLevelItem, item);
+            const connector = new Connector(prevLevelItem, item);
             this.connectors.push(connector);
         });
 
@@ -281,21 +281,21 @@ export class Workflow {
             this.connectors = this.connectors.filter(c => c.target !== nextLevelItem);
 
             // Add new connector to the inserted item
-            let connector = new Connector(item, nextLevelItem);
+            const connector = new Connector(item, nextLevelItem);
             this.connectors.push(connector);
         });
     }
 
     private adjustConnectorsAfterItemAdd(level: Level, item: Item) {
-        let levelItems = level.items;
-        let previousLevel = this.getPreviousLevel(level, 2);
-        let previousIntermediateLevel = this.getPreviousLevel(level);
-        let nextLevel = this.getNextLevel(level, 2);
-        let nextIntermediateLevel = this.getNextLevel(level);
+        const levelItems = level.items;
+        const previousLevel = this.getPreviousLevel(level, 2);
+        const previousIntermediateLevel = this.getPreviousLevel(level);
+        const nextLevel = this.getNextLevel(level, 2);
+        const nextIntermediateLevel = this.getNextLevel(level);
 
         if (previousIntermediateLevel.hasItems) {
-            let intermediateItem = previousIntermediateLevel.items[0];     // Intermediate levels only have one item
-            let previousLevelConnectors = this.connectors.filter(c => c.source.level === previousLevel);
+            const intermediateItem = previousIntermediateLevel.items[0];     // Intermediate levels only have one item
+            const previousLevelConnectors = this.connectors.filter(c => c.source.level === previousLevel);
 
             if (levelItems.length === 2) {   // Previous intermediate level has been newly added
                 previousLevelConnectors.forEach(previousLevelConnector => {
@@ -313,14 +313,13 @@ export class Workflow {
         } else {
             // Current level has multiple items
             // If there is no intermediate level then the previous level has only one item
-            let previousLevelItem = previousLevel.items[0];
+            const previousLevelItem = previousLevel.items[0];
             this.connectors.push(new Connector(previousLevelItem, item));
         }
 
         if (nextIntermediateLevel.hasItems) {
-            let intermediateItem = nextIntermediateLevel.items[0];     // Intermediate levels only have one item
-            let nextLevelItems = nextLevel.items;
-            let nextLevelConnectors = this.connectors.filter(c => c.target.level === nextLevel);
+            const intermediateItem = nextIntermediateLevel.items[0];     // Intermediate levels only have one item
+            const nextLevelConnectors = this.connectors.filter(c => c.target.level === nextLevel);
 
             if (levelItems.length === 2) {   // Next intermediate level has been newly added
                 nextLevelConnectors.forEach(nextLevelConnector => {
@@ -338,22 +337,22 @@ export class Workflow {
         } else {
             // Current level has multiple item
             // If there is no intermediate level then the next level has only one item
-            let nextLevelItem = nextLevel.items[0];
+            const nextLevelItem = nextLevel.items[0];
             this.connectors.push(new Connector(item, nextLevelItem));
         }
     }
 
     private adjustConnectorsAfterLevelRemove(removedLevelIndex: number) {
-        let currentLevelAtRemovedIndex = this.levels[removedLevelIndex];
-        let currentLevelItems = currentLevelAtRemovedIndex.items;
-        let currentLevelConnectors = this.connectors.filter(c => c.target.level === currentLevelAtRemovedIndex);
-        let previousIntermediateLevel = this.getPreviousLevel(currentLevelAtRemovedIndex);
-        let previousLevel = this.getPreviousLevel(currentLevelAtRemovedIndex, 2);
-        let previousLevelItems = previousLevel.items;
-        let previousLevelConnectors = this.connectors.filter(c => c.source.level === previousLevel);
+        const currentLevelAtRemovedIndex = this.levels[removedLevelIndex];
+        const currentLevelItems = currentLevelAtRemovedIndex.items;
+        const currentLevelConnectors = this.connectors.filter(c => c.target.level === currentLevelAtRemovedIndex);
+        const previousIntermediateLevel = this.getPreviousLevel(currentLevelAtRemovedIndex);
+        const previousLevel = this.getPreviousLevel(currentLevelAtRemovedIndex, 2);
+        const previousLevelItems = previousLevel.items;
+        const previousLevelConnectors = this.connectors.filter(c => c.source.level === previousLevel);
 
         if (previousIntermediateLevel.hasItems) {
-            let intermediateItem = previousIntermediateLevel.items[0];
+            const intermediateItem = previousIntermediateLevel.items[0];
 
             previousLevelConnectors.forEach(previousLevelConnector => {
                 previousLevelConnector.target = intermediateItem;
@@ -367,16 +366,16 @@ export class Workflow {
             // and adjust the connectors of the other level items
 
             if (currentLevelItems.length === 1) {
-                let currentLevelItem = currentLevelItems[0];
-                let levelItemConnectorIndex = this.connectors.findIndex(c => c.target === currentLevelItem);
+                const currentLevelItem = currentLevelItems[0];
+                const levelItemConnectorIndex = this.connectors.findIndex(c => c.target === currentLevelItem);
                 this.connectors.splice(levelItemConnectorIndex, 1);
 
                 previousLevelConnectors.forEach(previousLevelConnector => {
                     previousLevelConnector.target = currentLevelItem;
                 });
             } else {
-                let previousLevelItem = previousLevelItems[0];
-                let levelItemConnectorIndex = this.connectors.findIndex(c => c.source === previousLevelItem);
+                const previousLevelItem = previousLevelItems[0];
+                const levelItemConnectorIndex = this.connectors.findIndex(c => c.source === previousLevelItem);
                 this.connectors.splice(levelItemConnectorIndex, 1);
 
                 currentLevelConnectors.forEach(currentLevelConnector => {
@@ -387,18 +386,18 @@ export class Workflow {
     }
 
     private adjustConnectorsAfterItemRemove(level: Level, item: Item) {
-        let levelItems = level.items;
+        const levelItems = level.items;
 
         if (levelItems.length === 1) {
             // Remove all current level connectors
             this.connectors = this.connectors.filter(c =>
                 (c.source.level !== level && c.target.level !== level));
 
-            let levelItem = levelItems[0];
-            let previousLevel = this.getPreviousLevel(level, 2);
-            let previousLevelConnectors = this.connectors.filter(c => c.source.level === previousLevel);
-            let nextLevel = this.getNextLevel(level, 2);
-            let nextLevelConnectors = this.connectors.filter(c => c.target.level === nextLevel);
+            const levelItem = levelItems[0];
+            const previousLevel = this.getPreviousLevel(level, 2);
+            const previousLevelConnectors = this.connectors.filter(c => c.source.level === previousLevel);
+            const nextLevel = this.getNextLevel(level, 2);
+            const nextLevelConnectors = this.connectors.filter(c => c.target.level === nextLevel);
 
             if (previousLevelConnectors.length > 0) {
                 // Intermediate levels might have been removed. re-adjust all previous level connectors
@@ -406,7 +405,7 @@ export class Workflow {
                     previousLevelConnector.target = levelItem;
                 });
             } else {
-                let previousLevelItems = previousLevel.items;
+                const previousLevelItems = previousLevel.items;
 
                 previousLevelItems.forEach(i => {
                     this.connectors.push(new Connector(i, levelItem));
@@ -419,17 +418,17 @@ export class Workflow {
                     nextLevelConnector.source = levelItem;
                 });
             } else {
-                let nextLevelItems = nextLevel.items;
+                const nextLevelItems = nextLevel.items;
 
                 nextLevelItems.forEach(i => {
                     this.connectors.push(new Connector(levelItem, i));
                 });
             }
         } else {
-            let sourceConnectorIndex = this.connectors.findIndex(c => c.source === item);
+            const sourceConnectorIndex = this.connectors.findIndex(c => c.source === item);
             this.connectors.splice(sourceConnectorIndex, 1);
 
-            let targetConnectorIndex = this.connectors.findIndex(c => c.target === item);
+            const targetConnectorIndex = this.connectors.findIndex(c => c.target === item);
             this.connectors.splice(targetConnectorIndex, 1);
         }
     }

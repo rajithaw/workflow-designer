@@ -9,21 +9,21 @@ import { expect } from 'chai';
 describe('StartLevel', () => {
 
     it('should generate id automatically', () => {
-        let level = new IntermediateLevel();
+        const level = new IntermediateLevel();
 
         expect(level.id).to.exist;
     });
 
     it('should be type of intermediate level', () => {
-        let level = new IntermediateLevel();
+        const level = new IntermediateLevel();
 
         expect(level.type).to.equal(LevelType.Intermediate);
     });
 
     describe('addItem', () => {
         it('should be able to add an intermediate item', () => {
-            let item = new IntermediateItem();
-            let level = new IntermediateLevel();
+            const item = new IntermediateItem();
+            const level = new IntermediateLevel();
 
             level.addItem(item);
 
@@ -32,7 +32,7 @@ describe('StartLevel', () => {
         });
 
         it('should not be able to add more than one item', () => {
-            let level = new IntermediateLevel();
+            const level = new IntermediateLevel();
 
             level.addItem(new IntermediateItem());
 
@@ -40,8 +40,8 @@ describe('StartLevel', () => {
         });
 
         it('should not be able to add anything other than intermediate items', () => {
-            let workflowItem = new WorkflowItem();
-            let level = new IntermediateLevel();
+            const workflowItem = new WorkflowItem();
+            const level = new IntermediateLevel();
 
             expect(() => level.addItem(workflowItem)).to.throw();
         });
@@ -49,7 +49,7 @@ describe('StartLevel', () => {
 
     describe('removeItem', () => {
         it('shoud be able to remove items', () => {
-            let level = new IntermediateLevel();
+            const level = new IntermediateLevel();
 
             level.addItem(new IntermediateItem());
 

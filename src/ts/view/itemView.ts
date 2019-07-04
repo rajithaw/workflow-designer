@@ -48,13 +48,13 @@ export class ItemView {
     }
 
     public render() {
-        let items = this.workflow.getAllItems();
-        let itemBody = new ItemBody();
-        let itemText = new ItemText();
-        let itemRemove = new WorkflowItemRemove();
+        const items = this.workflow.getAllItems();
+        const itemBody = new ItemBody();
+        const itemText = new ItemText();
+        const itemRemove = new WorkflowItemRemove();
 
-        let itemViews = this.canvas.selectAll(this.getSelector()).data(items);
-        let updated = itemViews.enter().append('g').merge(itemViews).attrs(this.getAttributes())
+        const itemViews = this.canvas.selectAll(this.getSelector()).data(items);
+        const updated = itemViews.enter().append('g').merge(itemViews).attrs(this.getAttributes())
             .call(this.setupDrag());
         itemViews.exit().remove();
 
@@ -79,8 +79,8 @@ export class ItemView {
                 return `item-${d.id}`;
             },
             transform: (d: Item) => {
-                let translateX = this.getTranslateX(d);
-                let translateY = this.getTranslateY(d);
+                const translateX = this.getTranslateX(d);
+                const translateY = this.getTranslateY(d);
 
                 return 'translate(' + translateX + ',' + translateY + ')';
             },

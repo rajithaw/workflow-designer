@@ -18,8 +18,8 @@ export class WorkflowView {
         this.itemView = new ItemView(this.workflow, this.dispatch, this.canvas);
 
         this.dispatch.on('workflowitemdrop.workflow', eventArgs => {
-            let droppedItem: Item = eventArgs.data.item;
-            let droppedLevel: Level = eventArgs.data.level;
+            const droppedItem: Item = eventArgs.data.item;
+            const droppedLevel: Level = eventArgs.data.level;
 
             // If dropped on a different level update the workflow
             if (droppedItem.level !== droppedLevel) {
@@ -32,7 +32,7 @@ export class WorkflowView {
                     }
 
                     if (droppedLevel.type === LevelType.Intermediate) {
-                        let previousLevel = workflow.getPreviousLevel(droppedLevel);
+                        const previousLevel = workflow.getPreviousLevel(droppedLevel);
                         workflow.insertItemAfterLevel(previousLevel, droppedItem);
                     }
                 }
@@ -58,7 +58,6 @@ export class WorkflowView {
     public getAttributes() {
         return {
             width: () => {
-                let result = 0;
                 return this.levelView.getTotalWidth();
             },
             height: () => {
