@@ -1,7 +1,7 @@
-import { Level } from './level';
-import { LevelType } from './levelType';
 import { Item } from './item';
 import { ItemType } from './itemType';
+import { Level } from './level';
+import { LevelType } from './levelType';
 
 export class IntermediateLevel extends Level {
 
@@ -12,11 +12,11 @@ export class IntermediateLevel extends Level {
 
     public addItem(item: Item): void {
         if (item.type !== ItemType.Intermediate) {
-            throw 'Cannot add items other than intermediate items';
+            throw Error('Cannot add items other than intermediate items');
         }
 
         if (this._items.length > 0) {
-            throw 'Cannot contain more than one intermediate item';
+            throw Error('Cannot contain more than one intermediate item');
         }
 
         super.addItem(item);

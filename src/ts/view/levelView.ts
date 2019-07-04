@@ -1,9 +1,8 @@
-import * as d3 from '../d3/d3.bundle';
-import { Workflow } from '../model/workflow';
+import { ItemView } from './itemView';
 import { Level } from '../model/level';
 import { LevelData } from './levelData';
 import { LevelType } from '../model/levelType';
-import { ItemView } from './itemView';
+import { Workflow } from '../model/workflow';
 import { WorkflowDesignerConfig as config } from '../workflowDesignerConfig';
 
 export class LevelView {
@@ -88,7 +87,7 @@ export class LevelView {
         return result;
     }
 
-    public getWidthOfLevels (startIndex: number, endIndex: number): number {
+    public getWidthOfLevels(startIndex: number, endIndex: number): number {
         let result = 0;
         const levels = this.workflow.getAllLevels();
 
@@ -99,7 +98,7 @@ export class LevelView {
         return result;
     }
 
-    private getLevelWidth (level: Level): number {
+    private getLevelWidth(level: Level): number {
         let result = 0;
         const items = level.items;
         let itemWidth = 0;

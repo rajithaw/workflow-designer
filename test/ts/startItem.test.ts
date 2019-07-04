@@ -1,7 +1,8 @@
 /* tslint:disable:no-unused-expression */
 
-import { StartItem } from '../../src/ts/model/startItem';
 import { ItemType } from '../../src/ts/model/itemType';
+import { StartItem } from '../../src/ts/model/startItem';
+
 import { expect } from 'chai';
 
 describe('EndItem', () => {

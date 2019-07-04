@@ -1,9 +1,10 @@
 /* tslint:disable:no-unused-expression */
 
-import { StartLevel } from '../../src/ts/model/startLevel';
 import { LevelType } from '../../src/ts/model/levelType';
 import { StartItem } from '../../src/ts/model/startItem';
+import { StartLevel } from '../../src/ts/model/startLevel';
 import { WorkflowItem } from '../../src/ts/model/workflowItem';
+
 import { expect } from 'chai';
 
 describe('StartLevel', () => {

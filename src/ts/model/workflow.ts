@@ -1,14 +1,14 @@
-import { Level } from './level';
-import { StartLevel } from './startLevel';
-import { EndLevel } from './endLevel';
-import { IntermediateLevel } from './intermediateLevel';
-import { WorkflowLevel } from './workflowLevel';
-import { LevelType } from './levelType';
-import { Item } from './item';
-import { StartItem } from './startItem';
-import { EndItem } from './endItem';
-import { IntermediateItem } from './intermediateItem';
 import { Connector } from './connector';
+import { EndItem } from './endItem';
+import { EndLevel } from './endLevel';
+import { IntermediateItem } from './intermediateItem';
+import { IntermediateLevel } from './intermediateLevel';
+import { Item } from './item';
+import { Level } from './level';
+import { LevelType } from './levelType';
+import { StartItem } from './startItem';
+import { StartLevel } from './startLevel';
+import { WorkflowLevel } from './workflowLevel';
 
 export class Workflow {
     private levels: Level [];
@@ -107,11 +107,11 @@ export class Workflow {
         const levelIndex = this.getLevelIndex(level);
 
         if (levelIndex < 0) {
-            throw 'Level does not exist';
+            throw Error('Level does not exist');
         }
 
         if (levelIndex - previousCount < 0) {
-            throw 'Previous level does not exist';
+            throw Error('Previous level does not exist');
         }
 
         return this.levels[levelIndex - previousCount];
@@ -121,11 +121,11 @@ export class Workflow {
         const levelIndex = this.getLevelIndex(level);
 
         if (levelIndex < 0) {
-            throw 'Level does not exist';
+            throw Error('Level does not exist');
         }
 
         if (levelIndex + nextCount > this.levels.length - 1) {
-            throw 'Next level does not exist';
+            throw Error('Next level does not exist');
         }
 
         return this.levels[levelIndex + nextCount];
@@ -146,7 +146,7 @@ export class Workflow {
         const internalLevel = this.getInternalLevelValue(level);
 
         if (this.levels.length < internalLevel) {
-            throw 'Level does not exist';
+            throw Error('Level does not exist');
         }
 
         return this.levels[internalLevel];
@@ -162,11 +162,11 @@ export class Workflow {
         const internalLevel = this.getLevelIndex(level);
 
         if (level.type === LevelType.End) {
-            throw 'Cannot insert level after the end level';
+            throw Error('Cannot insert level after the end level');
         }
 
         if (level.type === LevelType.Intermediate) {
-            throw 'Cannot insert level after an intermediate level';
+            throw Error('Cannot insert level after an intermediate level');
         }
 
         const workflowLevel = new WorkflowLevel();
@@ -181,7 +181,7 @@ export class Workflow {
     private removeWorkflowLevel(level: Level) {
         if (level.type === LevelType.Start
             || level.type === LevelType.End) {
-            throw 'Cannot remove start or end levels';
+            throw Error('Cannot remove start or end levels');
         }
 
         const levelIndex = this.getLevelIndex(level);
@@ -202,12 +202,14 @@ export class Workflow {
 
             if (previousWorkflowLevelItemsCount > 1) {
                 if (!previousIntermediateLevel.hasItems) {
-                    // If item added workflow level has more than one item and previous workflow level has more than one item
-                    // then previous intermediate level should have an intermediate item
+                    // If item added workflow level has more than one item and previous
+                    // workflow level has more than one item then previous intermediate level
+                    // should have an intermediate item
                     previousIntermediateLevel.addItem(new IntermediateItem());
                 }
             } else {
-                // If previous workflow level has only one item then previous intermediate level should not have an intermediate item
+                // If previous workflow level has only one item then previous intermediate level
+                // should not have an intermediate item
                 previousIntermediateLevel.removeItem(null);
             }
 
@@ -216,16 +218,18 @@ export class Workflow {
 
             if (nextWorkflowLevelItemsCount > 1) {
                 if (!nextIntermediateLevel.hasItems) {
-                    // If item added workflow level has more than one item and next workflow level has more than one item
-                    // then next intermediate level should have an intermediate item
+                    // If item added workflow level has more than one item and next workflow level has
+                    // more than one item then next intermediate level should have an intermediate item
                     nextIntermediateLevel.addItem(new IntermediateItem());
                 }
             } else {
-                // If next workflow level has only one item then next intermediate level should not have an intermediate item
+                // If next workflow level has only one item then next intermediate level
+                // should not have an intermediate item
                 nextIntermediateLevel.removeItem(null);
             }
         } else {
-            // If item added workflow level has only one item then next/previous intermediate levels should not have an intermediate item
+            // If item added workflow level has only one item then next/previous intermediate levels
+            // should not have an intermediate item
             previousIntermediateLevel.removeItem(null);
             nextIntermediateLevel.removeItem(null);
         }
@@ -247,11 +251,13 @@ export class Workflow {
                     previousIntermediateLevel.addItem(new IntermediateItem());
                 }
             } else {
-                // If previous workflow level has only one item then previous intermediate leve should not have an intermediate item
+                // If previous workflow level has only one item then previous intermediate leve
+                // should not have an intermediate item
                 previousIntermediateLevel.removeItem(null);
             }
         } else {
-            // If workflow level at removed index has only one item then previous intermediate level should not have an intermediate item
+            // If workflow level at removed index has only one item then previous intermediate level
+            // should not have an intermediate item
             previousIntermediateLevel.removeItem(null);
         }
 

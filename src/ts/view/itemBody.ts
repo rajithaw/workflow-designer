@@ -29,7 +29,7 @@ export class ItemBody {
     }
 
     private getClasses(item: Item) {
-        let result = 'wd-' + ItemType[item.type].toLocaleLowerCase() + '-item wd-item';
+        const result = 'wd-' + ItemType[item.type].toLocaleLowerCase() + '-item wd-item';
 
         return result;
     }

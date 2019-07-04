@@ -2,6 +2,7 @@
 
 import { Connector } from '../../src/ts/model/connector';
 import { WorkflowItem } from '../../src/ts/model/workflowItem';
+
 import { expect } from 'chai';
 
 describe('Connector', () => {

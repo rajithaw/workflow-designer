@@ -1,6 +1,6 @@
-import { LevelType } from './levelType';
-import { Item } from './item';
 import * as v4 from 'uuid/v4';
+import { Item } from './item';
+import { LevelType } from './levelType';
 
 export abstract class Level {
     protected _items: Item [];

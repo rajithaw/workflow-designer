@@ -1,13 +1,13 @@
 import * as d3 from '../d3/d3.bundle';
 import { event as currentEvent } from 'd3-selection';
-import { Workflow } from '../model/workflow';
 import { Item } from '../model/item';
-import { ItemType } from '../model/itemType';
-import { LevelView } from './levelView';
 import { ItemBody } from './itemBody';
 import { ItemText } from './itemText';
-import { WorkflowItemRemove } from './workflowItemRemove';
+import { ItemType } from '../model/itemType';
+import { LevelView } from './levelView';
+import { Workflow } from '../model/workflow';
 import { WorkflowDesignerConfig as config } from '../workflowDesignerConfig';
+import { WorkflowItemRemove } from './workflowItemRemove';
 
 export class ItemView {
 
@@ -102,9 +102,9 @@ export class ItemView {
 
     public getTranslateX(item: Item): number {
         let result = 0;
-        let itemLevel = item.level;
-        let levels = this.workflow.getAllLevels();
-        let levelIndex = levels.findIndex(l => l === itemLevel);
+        const itemLevel = item.level;
+        const levels = this.workflow.getAllLevels();
+        const levelIndex = levels.findIndex(l => l === itemLevel);
         let itemSpacingX = 0;
 
         switch (item.type) {
@@ -128,10 +128,10 @@ export class ItemView {
 
     public getTranslateY(item: Item): number {
         let result = 0;
-        let itemLevel = item.level;
-        let items = itemLevel.items;
-        let itemIndex = items.findIndex(i => i === item);
-        let itemHeight = ItemView.getItemHeight(item.type);
+        const itemLevel = item.level;
+        const items = itemLevel.items;
+        const itemIndex = items.findIndex(i => i === item);
+        const itemHeight = ItemView.getItemHeight(item.type);
         let itemSpacingY = 0;
 
         switch (item.type) {
@@ -154,12 +154,12 @@ export class ItemView {
     }
 
     public setupDrag() {
-        let _self = this;
+        const _self = this;
 
         return d3.drag()
-            .on('start', function (d: Item) {
+            .on('start', function(d: Item) {
                 if (d.type === ItemType.Workflow ) {
-                    let itemGroup = d3.select(<any>this).classed('selected', true);
+                    const itemGroup = d3.select(this as any).classed('selected', true);
 
                     // Set the pointer events to none to get the mouse events firing on the background section
                     // while dragging the workflow item node above it
@@ -168,13 +168,10 @@ export class ItemView {
                     _self.dispatch.call('workflowitemdragstart', _self, { data: d, element: this });
                 }
             })
-            .on('drag', function (d: Item) {
+            .on('drag', function(d: Item) {
                 if (d.type === ItemType.Workflow ) {
-                    d3.select(<any>this).attrs({
+                    d3.select(this as any).attrs({
                         transform: (i: Item) => {
-                            let translateX = _self.getTranslateX(i) + currentEvent.x;
-                            let translateY = _self.getTranslateY(i) + currentEvent.y;
-
                             return 'translate(' + currentEvent.x + ',' + currentEvent.y + ')';
                         }
                     });
@@ -182,9 +179,9 @@ export class ItemView {
                     _self.dispatch.call('workflowitemdrag', _self, { data: d, element: this });
                 }
             })
-            .on('end', function (d: Item) {
+            .on('end', function(d: Item) {
                 if (d.type === ItemType.Workflow ) {
-                    let itemGroup = d3.select(<any>this).classed('selected', false);
+                    const itemGroup = d3.select(this as any).classed('selected', false);
 
                     // Reset the pointer events to the original value
                     itemGroup.style('pointer-events', 'auto');

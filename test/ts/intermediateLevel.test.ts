@@ -1,9 +1,10 @@
 /* tslint:disable:no-unused-expression */
 
+import { IntermediateItem } from '../../src/ts/model/intermediateItem';
 import { IntermediateLevel } from '../../src/ts/model/intermediateLevel';
 import { LevelType } from '../../src/ts/model/levelType';
-import { IntermediateItem } from '../../src/ts/model/intermediateItem';
 import { WorkflowItem } from '../../src/ts/model/workflowItem';
+
 import { expect } from 'chai';
 
 describe('StartLevel', () => {

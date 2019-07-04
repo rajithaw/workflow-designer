@@ -1,9 +1,9 @@
 import * as d3 from '../d3/d3.bundle';
-import { Workflow } from '../model/workflow';
-import { Item } from '../model/item';
-import { ItemView } from './itemView';
 import { Connector } from '../model/connector';
 import { ConnectorData } from './connectorData';
+import { Item } from '../model/item';
+import { ItemView } from './itemView';
+import { Workflow } from '../model/workflow';
 
 export class ConnectorView {
     private itemView: ItemView;
@@ -13,15 +13,15 @@ export class ConnectorView {
     }
 
     public render() {
-        let connectors = this.workflow.getConnectors();
-        let connectorViews = this.canvas.selectAll(this.getSelector()).data(this.getConnectorData(connectors));
+        const connectors = this.workflow.getConnectors();
+        const connectorViews = this.canvas.selectAll(this.getSelector()).data(this.getConnectorData(connectors));
 
         connectorViews.enter().append('path').merge(connectorViews).attrs(this.getAttributes());
         connectorViews.exit().remove();
     }
 
     public getConnectorData(connectors: Connector[]): ConnectorData[] {
-        let result = [];
+        const result = [];
 
         connectors.forEach((connector) => {
             result.push(new ConnectorData(connector, this.dispatch));
@@ -40,11 +40,11 @@ export class ConnectorView {
                 return `connector-${d.connector.id}`;
             },
             d: d3.linkHorizontal().source((d: any) => {
-                    return [this.getSourceX((<ConnectorData>d).connector.source),
-                        this.getConnectorY((<ConnectorData>d).connector.source)];
+                    return [this.getSourceX((d as ConnectorData).connector.source),
+                        this.getConnectorY((d as ConnectorData).connector.source)];
                 }).target((d: any) => {
-                    return [this.getTargetX((<ConnectorData>d).connector.target),
-                        this.getConnectorY((<ConnectorData>d).connector.target)];
+                    return [this.getTargetX((d as ConnectorData).connector.target),
+                        this.getConnectorY((d as ConnectorData).connector.target)];
                 }),
             class: (d: ConnectorData): string => {
                 return this.getClasses(d);
@@ -57,22 +57,21 @@ export class ConnectorView {
     }
 
     private getSourceX(source: Item) {
-        let itemX = this.itemView.getTranslateX(source);
-        let itemWidth = ItemView.getItemWidth(source.type);
+        const itemX = this.itemView.getTranslateX(source);
+        const itemWidth = ItemView.getItemWidth(source.type);
 
         return itemX + itemWidth;
     }
 
     private getTargetX(target: Item) {
-        let itemX = this.itemView.getTranslateX(target);
-        let itemWidth = ItemView.getItemWidth(target.type);
+        const itemX = this.itemView.getTranslateX(target);
 
         return itemX;
     }
 
     private getConnectorY(item: Item) {
-        let itemY = this.itemView.getTranslateY(item);
-        let itemHeight = ItemView.getItemHeight(item.type);
+        const itemY = this.itemView.getTranslateY(item);
+        const itemHeight = ItemView.getItemHeight(item.type);
 
         return itemY + (itemHeight / 2);
     }

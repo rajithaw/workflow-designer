@@ -1,6 +1,6 @@
+import * as v4 from 'uuid/v4';
 import { ItemType } from './itemType';
 import { Level } from './level';
-import * as v4 from 'uuid/v4';
 
 export abstract class Item {
     protected _id: string;

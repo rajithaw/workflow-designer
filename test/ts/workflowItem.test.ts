@@ -1,7 +1,8 @@
 /* tslint:disable:no-unused-expression */
 
-import { WorkflowItem } from '../../src/ts/model/workflowItem';
 import { ItemType } from '../../src/ts/model/itemType';
+import { WorkflowItem } from '../../src/ts/model/workflowItem';
+
 import { expect } from 'chai';
 
 describe('EndItem', () => {

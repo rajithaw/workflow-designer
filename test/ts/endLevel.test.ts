@@ -4,6 +4,7 @@ import { EndItem } from '../../src/ts/model/endItem';
 import { EndLevel } from '../../src/ts/model/endLevel';
 import { LevelType } from '../../src/ts/model/levelType';
 import { WorkflowItem } from '../../src/ts/model/workflowItem';
+
 import { expect } from 'chai';
 
 describe('EndLevel', () => {

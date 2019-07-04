@@ -1,7 +1,7 @@
-import { Level } from './level';
-import { LevelType } from './levelType';
 import { Item } from './item';
 import { ItemType } from './itemType';
+import { Level } from './level';
+import { LevelType } from './levelType';
 
 export class WorkflowLevel extends Level {
 
@@ -12,19 +12,19 @@ export class WorkflowLevel extends Level {
 
     public addItem(item: Item): void {
         if (item.type !== ItemType.Workflow) {
-            throw 'Cannot add items other than workflow items';
+            throw Error('Cannot add items other than workflow items');
         }
 
         super.addItem(item);
     }
 
     public removeItem(item: Item): void {
-        let itemIndex = this._items.findIndex(x => x === item);
+        const itemIndex = this._items.findIndex(x => x === item);
         this.removeItemAtIndex(itemIndex);
     }
 
     public removeItemById(itemId: string): void {
-        let itemIndex = this._items.findIndex(x => x.id === itemId);
+        const itemIndex = this._items.findIndex(x => x.id === itemId);
         this.removeItemAtIndex(itemIndex);
     }
 

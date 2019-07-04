@@ -1,9 +1,10 @@
 /* tslint:disable:no-unused-expression */
 
-import { WorkflowLevel } from '../../src/ts/model/workflowLevel';
+import { IntermediateItem } from '../../src/ts/model/intermediateItem';
 import { LevelType } from '../../src/ts/model/levelType';
 import { WorkflowItem } from '../../src/ts/model/workflowItem';
-import { IntermediateItem } from '../../src/ts/model/intermediateItem';
+import { WorkflowLevel } from '../../src/ts/model/workflowLevel';
+
 import { expect } from 'chai';
 
 describe('WorkflowLevel', () => {

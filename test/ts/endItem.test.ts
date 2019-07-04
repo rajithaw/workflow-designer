@@ -2,6 +2,7 @@
 
 import { EndItem } from '../../src/ts/model/endItem';
 import { ItemType } from '../../src/ts/model/itemType';
+
 import { expect } from 'chai';
 
 describe('EndItem', () => {

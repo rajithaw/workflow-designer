@@ -1,5 +1,6 @@
 import { Workflow } from '../../src/ts/model/workflow';
 import { WorkflowItem } from '../../src/ts/model/workflowItem';
+
 import { expect } from 'chai';
 
 describe('Workflow', () => {

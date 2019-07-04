@@ -1,7 +1,7 @@
-import { Level } from './level';
-import { LevelType } from './levelType';
 import { Item } from './item';
 import { ItemType } from './itemType';
+import { Level } from './level';
+import { LevelType } from './levelType';
 
 export class StartLevel extends Level {
 
@@ -12,17 +12,17 @@ export class StartLevel extends Level {
 
     public addItem(item: Item): void {
         if (item.type !== ItemType.Start) {
-            throw 'Cannot add items other than start items';
+            throw Error('Cannot add items other than start items');
         }
 
         if (this._items.length > 0) {
-            throw 'Cannot contain more than one start item';
+            throw Error('Cannot contain more than one start item');
         }
 
         super.addItem(item);
     }
 
     public removeItem(item: Item): void {
-        throw 'Cannot remove items from the start level';
+        throw Error('Cannot remove items from the start level');
     }
 }
