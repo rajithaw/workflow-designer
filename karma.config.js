@@ -4,7 +4,7 @@ module.exports = function (config) {
     config.set({
         basePath: '',
         frameworks: ['mocha', 'chai'],
-        browsers: ['Chrome'],
+        browsers: ['ChromeHeadless'],
         files: [
             'test/**/*.ts'
         ],
@@ -26,7 +26,7 @@ module.exports = function (config) {
         colors: true,
         logLevel: config.LOG_INFO,
         autoWatch: true,
-        singleRun: false,
+        singleRun: true,
         concurrency: Infinity
     })
 }

@@ -1,21 +1,17 @@
+const path = require('path');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
-let path = require('path');
-
 module.exports = {
-    context: path.resolve('src'),
-    devtool: 'inline-source-map',
     devServer: {
-        contentBase: ['./', './demo']
+        contentBase: ['./dist']
     },
     entry: [
-        './scss/styles.scss',
-        './ts/workflowDesigner.ts'
+        './src/scss/styles.scss',
+        './src/ts/workflowDesigner.ts'
     ],
     output: {
-        path: path.resolve(__dirname, "dist"),
-        publicPath: '/',
-        filename: 'workflow-designer.js',
+        path: path.join(__dirname, 'dist'),
+        filename: 'index.js',
         library: 'workflow-designer',
         libraryTarget: 'umd',
         umdNamedDefine: true
@@ -51,6 +47,6 @@ module.exports = {
         ]
     },
     plugins: [
-        new ExtractTextPlugin("workflow-designer.css")
+        new ExtractTextPlugin("index.css")
     ]
   }

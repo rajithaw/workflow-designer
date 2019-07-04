@@ -1,8 +1,8 @@
 (function(){
     'use strict';
 
-    System.import('workflow-designer.js').then(function(m) {
-        var wd = new m.WorkflowDesigner();
+    System.import('../index.js').then(function(m) {
+        var wd = new m.default.WorkflowDesigner();
         wd.init('display');
 
         wd.insertItem(0, 'item11');
