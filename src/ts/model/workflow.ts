@@ -46,6 +46,7 @@ export class Workflow {
     public insertItemAfter(level: number, item: Item) {
         this.insertItemAfterLevel(this.getLevel(level), item);
     }
+
     public insertItemAfterLevel(level: Level, item: Item) {
         let workflowLevel = this.insertWrokflowLevelAfter(level);
         this.addItemInternal(workflowLevel, item);
@@ -260,25 +261,29 @@ export class Workflow {
     private adjustConnectorsAfterItemInsert(level: Level, item: Item) {
         let previousLevel = this.getPreviousLevel(level, 2);
         let previousLevelItems = previousLevel.items;
-        let previousLevelConnectors = this.connectors.filter(c => c.source.level === previousLevel);
         let nextLevel = this.getNextLevel(level, 2);
         let nextLevelItems = nextLevel.items;
-        let nextLevelConnectors = this.connectors.filter(c => c.target.level === nextLevel);
 
-        previousLevelConnectors.forEach(connector => {
-            connector.target = item;
+        // Remove all item connectors
+        this.connectors = this.connectors.filter(c => c.source !== item && c.target !== item);
+
+        previousLevelItems.forEach(prevLevelItem => {
+            // Remove previous level item connector if exists
+            this.connectors = this.connectors.filter(c => c.source !== prevLevelItem);
+
+            // Add new connector to the inserted item
+            let connector = new Connector(prevLevelItem, item);
+            this.connectors.push(connector);
         });
 
-        if (previousLevelItems.length > 1 && nextLevelItems.length > 1) {
-            nextLevelConnectors.forEach(connector => {
-                connector.source = item;
-            });
-        } else {
-            nextLevelItems.forEach(nextLevelItem => {
-                let connector = new Connector(item, nextLevelItem);
-                this.connectors.push(connector);
-            });
-        }
+        nextLevelItems.forEach(nextLevelItem => {
+            // Remove next level item connector if exists
+            this.connectors = this.connectors.filter(c => c.target !== nextLevelItem);
+
+            // Add new connector to the inserted item
+            let connector = new Connector(item, nextLevelItem);
+            this.connectors.push(connector);
+        });
     }
 
     private adjustConnectorsAfterItemAdd(level: Level, item: Item) {
@@ -290,7 +295,6 @@ export class Workflow {
 
         if (previousIntermediateLevel.hasItems) {
             let intermediateItem = previousIntermediateLevel.items[0];     // Intermediate levels only have one item
-            let previousLevelItems = previousLevel.items;
             let previousLevelConnectors = this.connectors.filter(c => c.source.level === previousLevel);
 
             if (levelItems.length === 2) {   // Previous intermediate level has been newly added
