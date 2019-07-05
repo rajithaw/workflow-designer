@@ -1,8 +1,9 @@
 import * as d3 from '../d3/d3.bundle';
-import { Connector } from '../model/connector';
 import { ConnectorData } from './connectorData';
-import { Item } from '../model/item';
 import { ItemView } from './itemView';
+
+import { Connector } from '../model/connector';
+import { Item } from '../model/item';
 import { Workflow } from '../model/workflow';
 
 export class ConnectorView {
@@ -23,7 +24,7 @@ export class ConnectorView {
     public getConnectorData(connectors: Connector[]): ConnectorData[] {
         const result = [];
 
-        connectors.forEach((connector) => {
+        connectors.forEach(connector => {
             result.push(new ConnectorData(connector, this.dispatch));
         });
 

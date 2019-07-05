@@ -1,6 +1,7 @@
+import { ItemView } from './itemView';
+
 import { Item } from '../model/item';
 import { ItemType } from '../model/itemType';
-import { ItemView } from './itemView';
 import { WorkflowDesignerConfig as config } from '../workflowDesignerConfig';
 
 export class ItemBody {

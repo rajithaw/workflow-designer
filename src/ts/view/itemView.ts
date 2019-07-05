@@ -1,21 +1,17 @@
 import * as d3 from '../d3/d3.bundle';
-import { event as currentEvent } from 'd3-selection';
-import { Item } from '../model/item';
 import { ItemBody } from './itemBody';
 import { ItemText } from './itemText';
-import { ItemType } from '../model/itemType';
 import { LevelView } from './levelView';
-import { Workflow } from '../model/workflow';
-import { WorkflowDesignerConfig as config } from '../workflowDesignerConfig';
 import { WorkflowItemRemove } from './workflowItemRemove';
 
+import { Item } from '../model/item';
+import { ItemType } from '../model/itemType';
+import { Workflow } from '../model/workflow';
+import { WorkflowDesignerConfig as config } from '../workflowDesignerConfig';
+
+import { event as currentEvent } from 'd3-selection';
+
 export class ItemView {
-
-    private levelView: LevelView;
-
-    constructor(private workflow: Workflow, private dispatch: any, private canvas: any) {
-        this.levelView = new LevelView(workflow, dispatch, canvas);
-    }
 
     public static getItemWidth(itemType: ItemType) {
         switch (itemType) {
@@ -45,6 +41,12 @@ export class ItemView {
             default:
                 return 0;
         }
+    }
+
+    private levelView: LevelView;
+
+    constructor(private workflow: Workflow, private dispatch: any, private canvas: any) {
+        this.levelView = new LevelView(workflow, dispatch, canvas);
     }
 
     public render() {

@@ -4,6 +4,24 @@
         "quotemark": [
             true,
             "single"
-        ]
+        ],
+        "arrow-parens": [
+            true, 
+            "ban-single-arg-parens"
+        ],
+        "trailing-comma": false,
+        "variable-name": {
+            "options": [
+              "allow-leading-underscore"
+            ]
+        },
+        "ordered-imports": [
+            true,
+            {
+              "import-sources-order": "case-insensitive",
+              "named-imports-order": "case-insensitive"
+            }
+        ],
+        "object-literal-sort-keys": false
     }
 }

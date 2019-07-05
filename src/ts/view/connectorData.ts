@@ -6,7 +6,7 @@ export class ConnectorData {
     constructor(private _connector: Connector, private dispatch: any) {
         const _self = this;
 
-        this.dispatch.on(`workflowitemdragstart.${this._connector.id}`, (eventArgs) => {
+        this.dispatch.on(`workflowitemdragstart.${this._connector.id}`, eventArgs => {
             const item = eventArgs.data;
             const sourceItem = _self._connector.source;
             const targetItem = _self._connector.target;
@@ -16,7 +16,7 @@ export class ConnectorData {
             }
         });
 
-        this.dispatch.on(`workflowitemdragend.${this._connector.id}`, (eventArgs) => {
+        this.dispatch.on(`workflowitemdragend.${this._connector.id}`, eventArgs => {
             const item = eventArgs.data;
             const sourceItem = _self._connector.source;
             const targetItem = _self._connector.target;

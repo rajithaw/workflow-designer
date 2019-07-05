@@ -1,6 +1,7 @@
 import { ItemView } from './itemView';
-import { Level } from '../model/level';
 import { LevelData } from './levelData';
+
+import { Level } from '../model/level';
 import { LevelType } from '../model/levelType';
 import { Workflow } from '../model/workflow';
 import { WorkflowDesignerConfig as config } from '../workflowDesignerConfig';
@@ -27,7 +28,7 @@ export class LevelView {
     public getLevelData(levels: Level[]): LevelData[] {
         const result = [];
 
-        levels.forEach((level) => {
+        levels.forEach(level => {
             result.push(new LevelData(level, this.dispatch));
         });
 

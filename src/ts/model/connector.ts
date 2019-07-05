@@ -1,5 +1,5 @@
-import { Item } from './item';
 import * as v4 from 'uuid/v4';
+import { Item } from './item';
 
 export class Connector {
     private _id: string;

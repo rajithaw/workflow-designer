@@ -92,7 +92,7 @@ export class Workflow {
     public getAllItems(): Item[] {
         const result: Item[] = [];
 
-        this.levels.forEach((level) => {
+        this.levels.forEach(level => {
             result.push(...level.items);
         });
 

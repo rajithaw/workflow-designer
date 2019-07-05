@@ -1,9 +1,10 @@
 import { ConnectorView } from './connectorView';
-import { Item } from '../model/item';
 import { ItemView } from './itemView';
+import { LevelView } from './levelView';
+
+import { Item } from '../model/item';
 import { Level } from '../model/level';
 import { LevelType } from '../model/levelType';
-import { LevelView } from './levelView';
 import { Workflow } from '../model/workflow';
 
 export class WorkflowView {
